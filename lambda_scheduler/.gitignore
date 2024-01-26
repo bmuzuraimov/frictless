@@ -1,0 +1,10 @@
+venv/*
+db_samples/*
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+logs/*
+deployment.zip
+.env
+users.json

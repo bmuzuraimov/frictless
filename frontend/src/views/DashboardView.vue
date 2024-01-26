@@ -1,0 +1,167 @@
+<template>
+  <div class="flex flex-col md:flex-row h-screen">
+    <SidebarComponent />
+    <main class="md:w-5/6 md:m-10 w-full">
+      <v-stepper :items="['Step 1', 'Step 2', 'Step 3']">
+        <template v-slot:item.1>
+          <v-card title="Connect your calendar" flat>
+            <p>
+              Connect your calendar to automatically check for busy times and new events as they’re
+              scheduled.
+            </p>
+            <div class="border border-black rounded-lg p-5">
+              <ul class="border border-black rounded-lg p-5">
+                <li class="flex flex-row justify-between my-2">
+                  <span class="flex items-center"
+                    ><img src="@/assets/images/google_cal.svg" class="h-6 w-6 mr-1" />Google
+                    Calendar</span
+                  >
+                  <v-btn variant="outlined"> Connect </v-btn>
+                </li>
+                <li class="flex flex-row justify-between my-2">
+                  <span class="flex items-center"
+                    ><img src="@/assets/images/outlook_cal.svg" class="h-6 w-6 mr-1" />Outlook
+                    Calendar</span
+                  >
+                  <v-btn variant="outlined"> Connect </v-btn>
+                </li>
+                <li class="flex flex-row justify-between my-2">
+                  <span class="flex items-center"
+                    ><img src="@/assets/images/apple_cal.svg" class="h-6 w-6 mr-1" />Apple
+                    Calendar</span
+                  >
+                  <v-btn variant="outlined"> Connect </v-btn>
+                </li>
+                <li class="flex flex-row justify-between my-2">
+                  <span class="flex items-center"
+                    ><img src="@/assets/images/caldav.svg" class="h-6 w-6 mr-1" />CalDav
+                    (Beta)</span
+                  >
+                  <v-btn variant="outlined"> Connect </v-btn>
+                </li>
+              </ul>
+            </div>
+          </v-card>
+        </template>
+
+        <template v-slot:item.2>
+          <v-card title="Step Two" flat>
+            <div class="flex flex-col justify-center items-center">
+              <!-- Error message -->
+              <p class="text-red-500 text-sm font-mont my-1" v-if="error">
+                {{ error }}
+              </p>
+              <a
+                disabled
+                @click="handleNotionOauth2($event)"
+                :class="[
+                  'flex',
+                  'flex-row',
+                  'items-center',
+                  'justify-center',
+                  'p-5',
+                  'rounded-lg',
+                  'border',
+                  'hover:bg-gray-50'
+                ]"
+              >
+                <img src="@/assets/images/notion.png" class="w-8 h-8 mr-2" />
+                <span class="text-lg fonr-mont">{{
+                  is_linked ? 'Linked Notion' : 'Get Notion Template'
+                }}</span>
+              </a>
+            </div>
+          </v-card>
+        </template>
+        <template v-slot:item.3>
+          <v-card title="Step Three" flat>
+            <div class="flex flex-col justify-center items-center">
+              <a
+                @click="schedule"
+                :class="[
+                  'flex',
+                  'flex-row',
+                  'items-center',
+                  'justify-center',
+                  'p-5',
+                  'rounded-lg',
+                  'border',
+                  'hover:bg-gray-50'
+                ]"
+              >
+                <span class="text-lg fonr-mont">Schedule plan</span>
+              </a>
+            </div>
+          </v-card>
+        </template>
+      </v-stepper>
+    </main>
+  </div>
+</template>
+<!-- setup meeting platforms: Zoom, Google meets, Discord, Jitsi Video, Whereby, Around, Huddle01, Riverside, Webex, 8x8, Tandem Video, Ping.gg -->
+<script lang="ts">
+import SidebarComponent from '../components/dashboard/SidebarComponent.vue'
+import axios from 'axios'
+
+export default {
+  components: {
+    SidebarComponent
+  },
+  data() {
+    return {
+      error: '',
+      is_linked: false
+    }
+  },
+  methods: {
+    async schedule() {
+      const response = await axios.post('/api/schedule', {
+        userId: localStorage.getItem('userId')
+      })
+      console.log(response.data)
+    },
+    async handleNotionOauth2(event) {
+      if (this.is_linked) return
+      // open a new tab to get notion auth code
+      this.error = ''
+      // TODO: convert to Pinia later
+      localStorage.setItem('userId', this.$auth0.user._rawValue.sub)
+      window.open(
+        'https://api.notion.com/v1/oauth/authorize?client_id=d932585f-9e76-4fd5-b3d7-816b521cfe98&response_type=code&owner=user&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fnotion_callback',
+        '_blank'
+      )
+      const start = new Date().getTime()
+      while (
+        localStorage.getItem('notionAuthTab') == 'true' ||
+        localStorage.getItem('notionAuthStatus') == 'pending'
+      ) {
+        await new Promise((r) => setTimeout(r, 1000))
+        if (new Date().getTime() - start > 30000) {
+          localStorage.setItem('notionAuthStatus', 'failed')
+          localStorage.setItem('notionAuthTab', 'false')
+          this.is_linked = false
+          break
+        }
+      }
+      if (localStorage.getItem('notionAuthStatus') == 'success') {
+        const access_token = localStorage.getItem('notionAccessToken')
+        const parent_id = localStorage.getItem('notionParentId')
+        const userId = localStorage.getItem('userId')
+        const response = await axios.post('/api/update_notion_dbids', {
+          userId: userId,
+          access_token: access_token,
+          parent_id: parent_id
+        })
+        this.is_linked = true
+        console.log(response.data)
+      } else {
+        localStorage.removeItem('notionAuthStatus')
+        this.error = 'Something went wrong. Please try again.'
+      }
+    }
+  }
+}
+</script>
+
+<style>
+</style>
