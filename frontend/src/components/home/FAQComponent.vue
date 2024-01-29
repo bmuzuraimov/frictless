@@ -63,7 +63,7 @@
 export default {
   data(){
     return{
-            selectedFaq: null,
+      selectedFaq: -1,
       faqs: [
         {
           q: 'What are some random questions to ask?',
@@ -89,8 +89,8 @@ export default {
     }
   },
   methods:{
-    toggleFaq(index) {
-      this.selectedFaq = this.selectedFaq === index ? null : index
+    toggleFaq(index: number) {
+      this.selectedFaq = this.selectedFaq === index ? -1 : index
     }
   }
 }

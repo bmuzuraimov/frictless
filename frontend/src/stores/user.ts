@@ -6,7 +6,7 @@ export const useUserStore = defineStore('user', {
     isAuthenticated: false // To track authentication status
   }),
   actions: {
-    setUser(userData) {
+    setUser(userData: any) {
       this.user = userData;
       this.isAuthenticated = !!userData;
     },

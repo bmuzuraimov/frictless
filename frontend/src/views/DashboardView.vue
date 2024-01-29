@@ -53,7 +53,7 @@
               </p>
               <a
                 disabled
-                @click="handleNotionOauth2($event)"
+                @click="handleNotionOauth2()"
                 :class="[
                   'flex',
                   'flex-row',
@@ -110,7 +110,8 @@ export default {
   data() {
     return {
       error: '',
-      is_linked: false
+      is_linked: false,
+      user: this.$auth0.user,
     }
   },
   methods: {
@@ -120,12 +121,12 @@ export default {
       })
       console.log(response.data)
     },
-    async handleNotionOauth2(event) {
+    async handleNotionOauth2() {
       if (this.is_linked) return
       // open a new tab to get notion auth code
       this.error = ''
       // TODO: convert to Pinia later
-      localStorage.setItem('userId', this.$auth0.user._rawValue.sub)
+      localStorage.setItem('userId', this.user?._rawValue?.sub)
       window.open(
         'https://api.notion.com/v1/oauth/authorize?client_id=d932585f-9e76-4fd5-b3d7-816b521cfe98&response_type=code&owner=user&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fnotion_callback',
         '_blank'
