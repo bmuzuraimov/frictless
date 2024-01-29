@@ -14,7 +14,7 @@ class LectureNotesDatabase(Database):
             'to_do': self.__get_attr__('To do', 'checkbox'),
             'course': self.__get_attr__('Course', 'relation'),
             'duration': self.__get_attr__('Duration', 'number'),
-            'file_url': self.__get_attr__('Document', 'files_url'),
+            'file_url': self.__get_attr__('Document', 'url'),
             'min_page': self.__get_attr__('Min. per page', 'number'),
             'week_no': self.__get_attr__('Week #', 'number'),
             'read_count': self.__get_attr__('Read times', 'number'),
@@ -37,24 +37,19 @@ class LectureNotesDatabase(Database):
 
     def evaluate_tasks(self, file_url: str, min_page: int) -> int:
         min_page = min_page if min_page else 1.2
-        if not isinstance(file_url, str) or not file_url.startswith("http"):
-            print(f"Invalid URL: {file_url}")
-            return os.environ.get('DEFAULT_TASK_DURATION', 30)
         try:
             response = requests.get(file_url)
             pdf_reader = PyPDF2.PdfReader(io.BytesIO(response.content))
             num_pages = len(pdf_reader.pages)
             duration = int(num_pages) * float(min_page)
             duration = round(duration)
-            if duration % 5 != 0:
-                duration += (5 - duration % 5)
+            if duration % 5 != 0: duration += (5 - duration % 5)
             return duration
         except(requests.exceptions.RequestException) as e:
             print(f"Error processing task {file_url}: {e}")
-            return os.environ.get('DEFAULT_TASK_DURATION', 30)
         except PyPDF2.errors.PdfReadError as e:
             print(f"Unsupported file type: {file_url}: {e}")
-            return os.environ.get('DEFAULT_TASK_DURATION', 30)
+            return 50
 
     def update_task_duration(self, page_id: str, duration: int):
         """

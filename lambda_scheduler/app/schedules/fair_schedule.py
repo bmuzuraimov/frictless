@@ -52,13 +52,13 @@ class FairSchedule(Schedule):
         #     self.phone_add_event(row['name'], dtstart, dtend)
         self.schedule = [
             {
-                'id': task['id'],
-                'name': task['name'],
-                'detail': task['detail'],
+                'id': task.get('id', None),
+                'name': task.get('name', None),
+                'detail': task.get('detail', None),
                 'start': task['start'].strftime('%Y-%m-%dT%H:%M:%S.000+08:00'),
                 'end': task['end'].strftime('%Y-%m-%dT%H:%M:%S.000+08:00'),
-                'progress': task['progress'],
-                'display': task['display'],
+                'progress': task.get('progress', '0%'),
+                'display': task.get('display', True),
             }
             for task in self.schedule
         ]
