@@ -1,12 +1,12 @@
 <template>
-  <ToastSuccess
-    :visible="showToast"
-    :message="toastMessage"
-    :toastType="toastType"
-    @close="showToast = false"
-  >
-  </ToastSuccess>
   <nav class="bg-white w-full md:static">
+    <ToastSuccess
+      :visible="showToast"
+      :message="toastMessage"
+      :toastType="toastType"
+      @close="showToast = false"
+    >
+    </ToastSuccess>
     <div class="items-center justify-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
       <div class="flex items-center justify-between py-3 md:py-5 md:block">
         <a href="javascript:void(0)">
@@ -48,9 +48,9 @@
         :class="[open ? 'block' : 'hidden']"
       >
         <ul class="justify-center items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-          <li v-for="link in navigation" :key="link.id" class="text-gray-600 hover:text-indigo-600">
+            <li v-for="link in navigation" :key="link.router" class="text-gray-600 hover:text-indigo-600">
             <a :href="link.router">
-              {{ link.title }}
+                {{ link?.title }}
             </a>
           </li>
         </ul>
@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios';
+import axios from 'axios'
 import ToastSuccess from '@/components/home/ToastSuccess.vue'
 export default {
   components: {
@@ -105,7 +105,7 @@ export default {
       toastType: '',
       showToast: false,
       navigation: [
-        // { title: 'Customers', router: '/Customers' },
+        { title: 'Customers', router: '/Customers' },
         // { title: 'Careers', router: '/Careers' },
         // { title: 'Guides', router: '/Guides' },
         // { title: 'Partners', router: '/Partners' }
@@ -113,27 +113,26 @@ export default {
       open: false
     }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     menuOpen() {
       this.open = !this.open
     },
     async login() {
       try {
-        const status = await this.$auth0.loginWithPopup();
+        const status = await this.$auth0.loginWithPopup()
         // check if successfully authentificated
         console.log('Login status:', status)
-        if(this.$auth0.isAuthenticated) {
-          this.toastMessage = 'Successfully logged in!';
-          this.toastType = 'success';
-          this.showToast = true;
-          const response = await axios.post('/api/auth0_signin', this.user);
-          this.$router.push('/dashboard');
-        }else{
-          this.toastMessage = 'Login failed!';
-          this.toastType = 'error';
-          this.showToast = true;
+        if (this.$auth0.isAuthenticated) {
+          this.toastMessage = 'Successfully logged in!'
+          this.toastType = 'success'
+          this.showToast = true
+          const response = await axios.post('/api/auth0_signin', this.user)
+          this.$router.push('/dashboard')
+        } else {
+          this.toastMessage = 'Login failed!'
+          this.toastType = 'error'
+          this.showToast = true
         }
       } catch (error) {
         console.error('Login error:', error)

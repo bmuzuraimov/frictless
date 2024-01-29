@@ -62,7 +62,7 @@
             <div class="flex items-center gap-x-4">
               <img v-if="user" :src="user.picture" class="w-12 h-12 rounded-full" />
               <div>
-                <span class="block text-gray-700 text-sm font-semibold">{{ user.name }}</span>
+                <span class="block text-gray-700 text-sm font-semibold">{{ user?.name }}</span>
                 <a
                   href="javascript:void(0)"
                   class="block mt-px text-gray-600 hover:text-indigo-600 text-xs"
