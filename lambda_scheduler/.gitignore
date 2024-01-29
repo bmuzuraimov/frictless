@@ -7,4 +7,5 @@ __pycache__
 logs/*
 deployment.zip
 .env
+.env.aws
 users.json

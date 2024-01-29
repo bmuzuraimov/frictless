@@ -7,7 +7,6 @@ COPY requirements.txt ${LAMBDA_TASK_ROOT}
 RUN pip install -r requirements.txt
 
 # Copy function code
-COPY users.json ${LAMBDA_TASK_ROOT}
 COPY /app ${LAMBDA_TASK_ROOT}/app/
 COPY .env ${LAMBDA_TASK_ROOT}
 COPY lambda_function.py ${LAMBDA_TASK_ROOT}
