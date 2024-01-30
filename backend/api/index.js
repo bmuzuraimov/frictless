@@ -5,11 +5,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
-require('./config/passport')(passport); // Passport configuration
+require('../config/passport')(passport); // Passport configuration
 require('dotenv').config();
 
 // Import routes
-var indexRouter = require('./routes/index');
+var indexRouter = require('../routes/index');
 
 // Initialize Express app
 var app = express();
