@@ -28,7 +28,8 @@ const EN_DB_NAMES = {
 router.get(
   "/test",
   asyncHandler(async (req, res) => {
-    res.json({ 'status': true, 'message': 'Success!' });
+    const test = process.env.NOTION_CLIENT_ID;
+    res.json({ 'status': true, 'message': 'Success!', test: test });
   })
 );
 
