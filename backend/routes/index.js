@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt"); // For hashing passwords
 const { withDB } = require("../utils/db");
 const { generateToken } = require("../utils/auth");
 const { asyncHandler, AuthenticationError } = require("../utils/error_handler");
@@ -9,6 +8,7 @@ const { emailSender } = require("../utils/mailman");
 const { Decipher } = require("../utils/cipherman");
 const axios = require("axios");
 router.use(withDB);
+
 
 const EN_DB_NAMES = {
   "Priorities": "priorities_dbid",
@@ -39,7 +39,7 @@ router.post(
   asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await req.db.collection("users").findOne({ email });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if(!user || password != user.password) {
       throw new AuthenticationError("Wrong credentials!");
     }
     delete user.password;
@@ -53,11 +53,10 @@ router.post(
   "/sign-up",
   asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await req.db.collection("users").insertOne({
       email,
       verified: false,
-      password: hashedPassword,
+      password: password,
     });
     res.json({
       status: true,
