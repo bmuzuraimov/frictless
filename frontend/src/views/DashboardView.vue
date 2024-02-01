@@ -112,23 +112,26 @@ export default {
       error: '',
       is_linked: false,
       user: this.$auth0.user,
+      userId: this.$auth0.user?._rawValue?.sub
     }
+  },
+  mounted(){
+    console.log()
   },
   methods: {
     async schedule() {
       const response = await axios.post('/api/schedule', {
-        userId: localStorage.getItem('userId')
+        userId: this.userId
       })
       console.log(response.data)
     },
     async handleNotionOauth2() {
       if (this.is_linked) return
-      // open a new tab to get notion auth code
       this.error = ''
       // TODO: convert to Pinia later
-      localStorage.setItem('userId', this.user?._rawValue?.sub)
+      localStorage.setItem('userId', this.userId);
       window.open(
-        'https://api.notion.com/v1/oauth/authorize?client_id=d932585f-9e76-4fd5-b3d7-816b521cfe98&response_type=code&owner=user&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fnotion_callback',
+        import.meta.env.VITE_NOTION_TEMPLATE_URL,
         '_blank'
       )
       const start = new Date().getTime()
@@ -145,18 +148,9 @@ export default {
         }
       }
       if (localStorage.getItem('notionAuthStatus') == 'success') {
-        const access_token = localStorage.getItem('notionAccessToken')
-        const parent_id = localStorage.getItem('notionParentId')
-        const userId = localStorage.getItem('userId')
-        const response = await axios.post('/api/update_notion_dbids', {
-          userId: userId,
-          access_token: access_token,
-          parent_id: parent_id
-        })
         this.is_linked = true
-        console.log(response.data)
       } else {
-        localStorage.removeItem('notionAuthStatus')
+        localStorage.removeItem('notionAuthStatus');
         this.error = 'Something went wrong. Please try again.'
       }
     }

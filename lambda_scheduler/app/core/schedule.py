@@ -21,22 +21,22 @@ from app.databases.job_tasks_database import JobTasksDatabase
 
 class Schedule:
     def __init__(self, user_data):
-        self.uid = user_data["uid"]
-        self.priorities_dbid = user_data["priorities_dbid"]
-        self.todo_dbid = user_data["todo_dbid"]
-        self.schedule_dbid = user_data["schedule_dbid"]
-        self.jobs_dbid = user_data["jobs_dbid"]
-        self.courses_dbid = user_data["courses_dbid"]
-        self.recurring_dbid = user_data["recurring_dbid"]
-        self.personal_dbid = user_data["personal_dbid"]
-        self.routine_dbid = user_data["routine_dbid"]
-        self.sports_dbid = user_data["sports_dbid"]
-        self.lecture_notes_dbid = user_data["lecture_notes_dbid"]
-        self.job_tasks_dbid = user_data["job_tasks_dbid"]
-        self.notion_key = user_data["access_token"]
+        self.uid = user_data.get("uid", None)
+        self.priorities_dbid = user_data.get("priorities_dbid", None)
+        self.todo_dbid = user_data.get("todo_dbid", None)
+        self.schedule_dbid = user_data.get("schedule_dbid", None)
+        self.jobs_dbid = user_data.get("jobs_dbid", None)
+        self.courses_dbid = user_data.get("courses_dbid", None)
+        self.recurring_dbid = user_data.get("recurring_dbid", None)
+        self.personal_dbid = user_data.get("personal_dbid", None)
+        self.routine_dbid = user_data.get("routine_dbid", None)
+        self.sports_dbid = user_data.get("sports_dbid", None)
+        self.lecture_notes_dbid = user_data.get("lecture_notes_dbid", None)
+        self.job_tasks_dbid = user_data.get("job_tasks_dbid", None)
+        self.notion_key = user_data.get("access_token", None)
         self.ios_url = 'https://caldav.icloud.com'
-        self.ios_username = user_data["IOS_USER"]
-        self.ios_password = user_data["IOS_PASSWORD"]
+        self.ios_username = user_data.get("IOS_USER", None)
+        self.ios_password = user_data.get("IOS_PASSWORD", None)
         self._db_cache = {}
 
     def _get_or_create_database(self, db_type, db_id):

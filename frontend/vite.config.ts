@@ -3,7 +3,8 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-console.log(process.env.VITE_BACKEND_URL);
+const mode = process.env.APP_ENV || 'development'
+
 export default defineConfig({
   plugins: [
     vue(),
@@ -16,7 +17,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-            target: 'https://0e7q8dg175.execute-api.ap-southeast-1.amazonaws.com/prod',
+            target: mode=='development' ? 'http://localhost:8000':'https://0e7q8dg175.execute-api.ap-southeast-1.amazonaws.com/prod',
             changeOrigin: true,
       }
     }
