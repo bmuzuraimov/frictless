@@ -59,7 +59,7 @@ router.post(
       password: password,
     });
     res.json({
-      status: true,
+      success: true,
       message: "Sign-up successful",
       data: { userId: newUser.insertedId },
     });
@@ -73,16 +73,17 @@ router.post(
 router.post(
   "/auth0_signin",
   asyncHandler(async (req, res) => {
-    const { email_verified, sub, ...userData } = req.body;
+    const { email_verified, sub, timezone, ...userData } = req.body;
 
     // Check for email verification
     if (!email_verified) {
       return res
         .status(400)
-        .json({ status: false, message: "Email is not verified" });
+        .json({ success: false, message: "Email is not verified" });
     }
     // Extract the user's IP address
-    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    const ip = (req.headers["x-forwarded-for"] || req.connection.remoteAddress || "").split(",")[0].trim();
+    // get the timezone of the user
     // Check if the user with sub exists
     const existingUser = await req.db.collection("users").findOne({ _id: sub });
     // If the user doesn't exist, create a new user
@@ -92,12 +93,13 @@ router.post(
         _id: sub,
         ...userData,
         ip,
+        timezone,
         creationDate: new Date(), // Add a creation date for the new user
         lastLogin: new Date(), // Add a last login date for the new user
       });
 
       return res.json({
-        status: true,
+        success: true,
         message: "Signin successful",
         data: { userId: newUser.insertedId },
       });
@@ -110,47 +112,26 @@ router.post(
 
     // Respond with success message
     return res.json({
-      status: true,
+      success: true,
       message: "Signin successful",
       data: { userId: existingUser._id },
     });
   })
 );
 
-// {
-//   access_token: 'secret_EPtOF69r7h2EsQh0oTLdmZawQFfTmpCvV0jgVNfBbi6',
-//   token_type: 'bearer',
-//   bot_id: '22efb0f6-0663-4672-817f-9f0aedf02d39',
-//   workspace_name: "Baiel Muzuraimov's Notion",
-//   workspace_icon: 'https://lh3.googleusercontent.com/a/ALm5wu3Qzdep_WmcvN322LDTcPL5fdlnY7JeJ8GlYpUFcw=s100',
-//   workspace_id: '439bc436-10f5-438a-87c6-a44edeb6f1b3',
-//   owner: {
-//     type: 'user',
-//     user: {
-//       object: 'user',
-//       id: '25545226-da1e-4c33-8558-29b8192f1240',
-//       name: 'Baiel Muzuraimov',
-//       avatar_url: 'https://lh3.googleusercontent.com/a/ALm5wu3Qzdep_WmcvN322LDTcPL5fdlnY7JeJ8GlYpUFcw=s100',
-//       type: 'person',
-//       person: [Object]
-//     }
-//   },
-//   duplicated_template_id: '98efc392-5be3-4384-80f0-5256dd46d8f2',
-//   request_id: '876aa07e-15e6-44d2-89fd-a58c668438dc'
-// }
 router.post(
   "/notion_callback",
   asyncHandler(async (req, res) => {
     const { userId, code, redirect_uri } = req.body;
     const data = {
-      grant_type: "authorization_code",
-      code: code,
-      redirect_uri: redirect_uri,
+      "grant_type": "authorization_code",
+      "code": code,
+      "redirect_uri": redirect_uri,
     };
     const response = await fetch("https://api.notion.com/v1/oauth/token", {
       method: "POST",
       headers: {
-        Authorization:
+        "Authorization":
           "Basic " +
           Buffer.from(
             process.env.NOTION_CLIENT_ID +
@@ -158,6 +139,7 @@ router.post(
               process.env.NOTION_CLIENT_SECRET
           ).toString("base64"),
         "Content-Type": "application/json",
+        "Notion-Version": "2022-06-28"
       },
       body: JSON.stringify(data),
     });
@@ -193,6 +175,40 @@ router.post(
       {
         headers: {
           "Notion-Version": "2022-02-22",
+          "Authorization": `Bearer ${access_token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const filteredResults = response.data.results
+    .filter((item) => item.parent && item.parent.page_id == parent_id)
+    .reduce((accumulator, item) => {
+      const key = EN_DB_NAMES[item.title[0].text.content];
+      accumulator[key] = item.id;
+      return accumulator;
+    }, {});
+    await req.db
+      .collection("users")
+      .updateOne({ _id: userId }, { $set: { ...filteredResults } });
+    res.json({ success: true, message: "Success!", data: filteredResults});
+  } catch (error) {
+    console.error(error);
+  }
+}));
+
+async function update_notion_dbids(req, userId, access_token, parent_id) {
+  try {
+    const response = await axios.post(
+      "https://api.notion.com/v1/search",
+      {
+        filter: {
+          value: "database",
+          property: "object",
+        },
+      },
+      {
+        headers: {
+          "Notion-Version": "2022-02-22",
           Authorization: `Bearer ${access_token}`,
           "Content-Type": "application/json",
         },
@@ -205,15 +221,14 @@ router.post(
       accumulator[key] = item.id;
       return accumulator;
     }, {});
-    console.log(filteredResults);   
-    await req.db
+    const result = await req.db
       .collection("users")
       .updateOne({ _id: userId }, { $set: { ...filteredResults } });
-    res.json({ success: true, message: "Success!" });
+    return result;
   } catch (error) {
     console.error(error);
   }
-}));
+}
 
 function getFormattedDate() {
   const date = new Date();
@@ -235,18 +250,24 @@ router.post(
   "/schedule",
   asyncHandler(async (req, res) => {
   const { userId } = req.body;
-  const user = await req.db.collection("users").findOne({ _id: userId });
+  var user = await req.db.collection("users").findOne({ _id: userId });
+  if(!user.priorities_dbid || !user.todo_dbid || !user.schedule_dbid || !user.jobs_dbid || !user.courses_dbid || !user.recurring_dbid || !user.personal_dbid || !user.routine_dbid || !user.sports_dbid || !user.lecture_notes_dbid || !user.job_tasks_dbid) {
+    output = await update_notion_dbids(req, userId, user.notion_access_token, user.parent_id);
+    console.log(output);
+  }
+  // refetch the user
+  user = await req.db.collection("users").findOne({ _id: userId });
   const date = getFormattedDate();
   const response = await axios.post(
-    "https://pbez08lbmj.execute-api.ap-southeast-1.amazonaws.com/default/hello-world",
+    process.env.LAMBDA_SCHEDULE_URL,
     {
       "date": date,
-      "time_zone": "Asia/Hong_Kong", 
+      "time_zone": user.timezone, 
       "user_data": {
           "uid": user._id,
           "access_token": user.notion_access_token,
-          "IOS_USER": "muzuraimov02@mail.ru",
-          "IOS_PASSWORD": "kbsl-rpkq-zeis-jdnz",
+          "IOS_USER": user.ios_email,
+          "IOS_PASSWORD": user.ios_password,
           "priorities_dbid": user.priorities_dbid,
           "todo_dbid": user.todo_dbid,
           "schedule_dbid": user.schedule_dbid,
@@ -267,7 +288,12 @@ router.post(
       },
     }
   );
-  res.json({ success: true, message: "Success!" });
+  console.log(response);
+  if(response.data == 'Success!') {
+    res.json({ success: true, message: "Success!" });
+  }else{
+    return res.status(400).json({ success: false, message: response.data.message });
+  }
 }));
 
 // Confirm the code
@@ -279,18 +305,18 @@ router.post(
     if (!email || !confirm_code) {
       return res
         .status(400)
-        .json({ status: false, message: "Missing email or code" });
+        .json({ success: false, message: "Missing email or code" });
     }
     try {
       if (await verifyCode(email, confirm_code)) {
         res
           .status(200)
-          .json({ status: true, message: "Code confirmed successfully" });
+          .json({ success: true, message: "Code confirmed successfully" });
       } else {
-        res.status(400).json({ status: false, message: "Invalid code" });
+        res.status(400).json({ success: false, message: "Invalid code" });
       }
     } catch (error) {
-      res.status(500).json({ status: false, message: "Server error" });
+      res.status(500).json({ success: false, message: "Server error" });
     }
   })
 );

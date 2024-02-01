@@ -77,7 +77,7 @@
     </div>
   </aside>
 </template>
-  
+
 <script lang="ts">
 export default {
   name: 'SidebarComponent',
@@ -121,10 +121,9 @@ export default {
     }
   },
   methods: {
-    logout() {
-      this.$auth0.logout()
+    async logout() {
+      await this.$auth0.logout({ logoutParams: { returnTo: window.location.origin } })
     }
   }
 }
 </script>
-  

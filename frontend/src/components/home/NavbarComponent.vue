@@ -48,9 +48,13 @@
         :class="[open ? 'block' : 'hidden']"
       >
         <ul class="justify-center items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-            <li v-for="link in navigation" :key="link.router" class="text-gray-600 hover:text-indigo-600">
+          <li
+            v-for="link in navigation"
+            :key="link.router"
+            class="text-gray-600 hover:text-indigo-600"
+          >
             <a :href="link.router">
-                {{ link?.title }}
+              {{ link?.title }}
             </a>
           </li>
         </ul>
@@ -103,9 +107,10 @@ export default {
       isLoading: this.$auth0.isLoading,
       toastMessage: '',
       toastType: '',
+      timezone: '',
       showToast: false,
       navigation: [
-        { title: 'Customers', router: '/Customers' },
+        { title: 'Story behind', router: '/story' }
         // { title: 'Careers', router: '/Careers' },
         // { title: 'Guides', router: '/Guides' },
         // { title: 'Partners', router: '/Partners' }
@@ -123,23 +128,26 @@ export default {
         const status = await this.$auth0.loginWithPopup()
         // check if successfully authentificated
         console.log('Login status:', status)
-        if (this.$auth0.isAuthenticated) {
-          this.toastMessage = 'Successfully logged in!'
-          this.toastType = 'success'
-          this.showToast = true
-          const response = await axios.post('/api/auth0_signin', this.user)
-          this.$router.push('/dashboard')
+        if (this.$auth0.isAuthenticated && this.user) {
+          this.toastMessage = 'Successfully logged in!';
+          this.toastType = 'success';
+          this.showToast = true;
+          this.user.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          const response = await axios.post('/api/auth0_signin', this.user);
+          if (response.data.success) {
+            this.$router.push('/dashboard');
+          }
         } else {
-          this.toastMessage = 'Login failed!'
-          this.toastType = 'error'
-          this.showToast = true
+          this.toastMessage = 'Login failed!';
+          this.toastType = 'error';
+          this.showToast = true;
         }
       } catch (error) {
-        console.error('Login error:', error)
+        console.error('Login error:', error);
       }
     },
     signup() {
-      this.$auth0.loginWithRedirect()
+      this.$auth0.loginWithRedirect();
     },
     async logout() {
       await this.$auth0.logout({ logoutParams: { returnTo: window.location.origin } })
