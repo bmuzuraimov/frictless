@@ -112,18 +112,21 @@ export default {
       error: '',
       is_linked: false,
       user: this.$auth0.user,
-      userId: this.$auth0.user?._rawValue?.sub
+    }
+  },
+  computed: {
+    userId(): any {
+      return this.user ? this.user.sub : { email: '', email_verified: false, family_name: '', given_name: '', locale: '', name: '', nickname: '', picture: '', sub: '', updated_at: '' }
     }
   },
   mounted(){
-    console.log()
+    console.log(this.userId);
   },
   methods: {
     async schedule() {
       const response = await axios.post('/api/schedule', {
         userId: this.userId
       })
-      console.log(response.data)
     },
     async handleNotionOauth2() {
       if (this.is_linked) return
