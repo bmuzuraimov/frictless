@@ -9,7 +9,6 @@ const { Decipher } = require("../utils/cipherman");
 const axios = require("axios");
 router.use(withDB);
 
-
 const EN_DB_NAMES = {
   "Priorities": "priorities_dbid",
   "To do": "todo_dbid",
@@ -29,7 +28,7 @@ router.get(
   "/test",
   asyncHandler(async (req, res) => {
     const test = process.env.NOTION_CLIENT_ID;
-    res.json({ 'status': true, 'message': 'Success!', test: test });
+    res.json({ status: true, message: "Success!", test: test });
   })
 );
 
@@ -39,7 +38,7 @@ router.post(
   asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await req.db.collection("users").findOne({ email });
-    if(!user || password != user.password) {
+    if (!user || password != user.password) {
       throw new AuthenticationError("Wrong credentials!");
     }
     delete user.password;
@@ -82,7 +81,13 @@ router.post(
         .json({ success: false, message: "Email is not verified" });
     }
     // Extract the user's IP address
-    const ip = (req.headers["x-forwarded-for"] || req.connection.remoteAddress || "").split(",")[0].trim();
+    const ip = (
+      req.headers["x-forwarded-for"] ||
+      req.connection.remoteAddress ||
+      ""
+    )
+      .split(",")[0]
+      .trim();
     // get the timezone of the user
     // Check if the user with sub exists
     const existingUser = await req.db.collection("users").findOne({ _id: sub });
@@ -124,14 +129,14 @@ router.post(
   asyncHandler(async (req, res) => {
     const { userId, code, redirect_uri } = req.body;
     const data = {
-      "grant_type": "authorization_code",
-      "code": code,
-      "redirect_uri": redirect_uri,
+      grant_type: "authorization_code",
+      code: code,
+      redirect_uri: redirect_uri,
     };
     const response = await fetch("https://api.notion.com/v1/oauth/token", {
       method: "POST",
       headers: {
-        "Authorization":
+        Authorization:
           "Basic " +
           Buffer.from(
             process.env.NOTION_CLIENT_ID +
@@ -139,62 +144,103 @@ router.post(
               process.env.NOTION_CLIENT_SECRET
           ).toString("base64"),
         "Content-Type": "application/json",
-        "Notion-Version": "2022-06-28"
+        "Notion-Version": "2022-06-28",
       },
       body: JSON.stringify(data),
     });
     const response_data = await response.json();
+    console.log("Response Data:", response_data); // Log response data for debugging
+
     if (response_data.error) {
+      console.error("API Error:", response_data.error); // Log API error if any
       return res
         .status(400)
         .json({ success: false, message: response_data.error });
     } else {
       const access_token = response_data.access_token;
       const parent_id = response_data.duplicated_template_id;
-      await req.db.collection("users").updateOne(
-        { _id: userId },
-        { $set: { notion_access_token: access_token, parent_id: parent_id } }
-      );
-      res.json({ success: true, access_token: access_token, parent_id: parent_id, messsage: "Success!" });
+      try {
+        const updateResult = await req.db
+          .collection("users")
+          .updateOne(
+            { _id: userId },
+            {
+              $set: { notion_access_token: access_token, parent_id: parent_id },
+            }
+          );
+        console.log("Database Update Result:", updateResult); // Log the result of the update operation
+
+        if (updateResult.matchedCount === 0) {
+          console.warn(
+            "No matching documents found to update for userId:",
+            userId
+          );
+          return res
+            .status(404)
+            .json({ success: false, message: "User not found." });
+        } else if (updateResult.modifiedCount === 0) {
+          console.warn(
+            "Document not modified, possibly already up-to-date for userId:",
+            userId
+          );
+          // Decide if you want to return a different response in this case
+        }
+
+        res.json({
+          success: true,
+          access_token: access_token,
+          parent_id: parent_id,
+          message: "Success!",
+        });
+      } catch (error) {
+        console.error("Database Update Error:", error); // Log any error thrown during the update
+        return res
+          .status(500)
+          .json({
+            success: false,
+            message: "Failed to update user information.",
+          });
+      }
     }
   })
 );
 router.post(
   "/update_notion_dbids",
   asyncHandler(async (req, res) => {
-  const { userId, access_token, parent_id } = req.body;
-  try {
-    const response = await axios.post(
-      "https://api.notion.com/v1/search",
-      {
-        filter: {
-          value: "database",
-          property: "object",
+    const { userId, access_token, parent_id } = req.body;
+    try {
+      const response = await axios.post(
+        "https://api.notion.com/v1/search",
+        {
+          filter: {
+            value: "database",
+            property: "object",
+          },
         },
-      },
-      {
-        headers: {
-          "Notion-Version": "2022-02-22",
-          "Authorization": `Bearer ${access_token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const filteredResults = response.data.results
-    .filter((item) => item.parent && item.parent.page_id == parent_id)
-    .reduce((accumulator, item) => {
-      const key = EN_DB_NAMES[item.title[0].text.content];
-      accumulator[key] = item.id;
-      return accumulator;
-    }, {});
-    await req.db
-      .collection("users")
-      .updateOne({ _id: userId }, { $set: { ...filteredResults } });
-    res.json({ success: true, message: "Success!", data: filteredResults});
-  } catch (error) {
-    console.error(error);
-  }
-}));
+        {
+          headers: {
+            "Notion-Version": "2022-02-22",
+            Authorization: `Bearer ${access_token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const filteredResults = response.data.results
+        .filter((item) => item.parent && item.parent.page_id == parent_id)
+        .reduce((accumulator, item) => {
+          const key = EN_DB_NAMES[item.title[0].text.content];
+          accumulator[key] = item.id;
+          return accumulator;
+        }, {});
+      await req.db
+        .collection("users")
+        .updateOne({ _id: userId }, { $set: { ...filteredResults } });
+      res.json({ success: true, message: "Success!", data: filteredResults });
+    } catch (error) {
+      console.error(error);
+    }
+  })
+);
 
 async function update_notion_dbids(req, userId, access_token, parent_id) {
   try {
@@ -215,12 +261,12 @@ async function update_notion_dbids(req, userId, access_token, parent_id) {
       }
     );
     const filteredResults = response.data.results
-    .filter((item) => item.parent && item.parent.page_id == parent_id)
-    .reduce((accumulator, item) => {
-      const key = EN_DB_NAMES[item.title[0].text.content];
-      accumulator[key] = item.id;
-      return accumulator;
-    }, {});
+      .filter((item) => item.parent && item.parent.page_id == parent_id)
+      .reduce((accumulator, item) => {
+        const key = EN_DB_NAMES[item.title[0].text.content];
+        accumulator[key] = item.id;
+        return accumulator;
+      }, {});
     const result = await req.db
       .collection("users")
       .updateOne({ _id: userId }, { $set: { ...filteredResults } });
@@ -238,10 +284,8 @@ function getFormattedDate() {
   const year = date.getFullYear();
 
   // Adding leading zero if month or day is less than 10
-  if (month.length < 2) 
-      month = '0' + month;
-  if (day.length < 2) 
-      day = '0' + day;
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
 
   return `${day}-${month}-${year}`;
 }
@@ -249,53 +293,94 @@ function getFormattedDate() {
 router.post(
   "/schedule",
   asyncHandler(async (req, res) => {
-  const { userId } = req.body;
-  var user = await req.db.collection("users").findOne({ _id: userId });
-  if(!user.priorities_dbid || !user.todo_dbid || !user.schedule_dbid || !user.jobs_dbid || !user.courses_dbid || !user.recurring_dbid || !user.personal_dbid || !user.routine_dbid || !user.sports_dbid || !user.lecture_notes_dbid || !user.job_tasks_dbid) {
-    output = await update_notion_dbids(req, userId, user.notion_access_token, user.parent_id);
-    console.log(output);
-  }
-  // refetch the user
-  user = await req.db.collection("users").findOne({ _id: userId });
-  const date = getFormattedDate();
-  const response = await axios.post(
-    process.env.LAMBDA_SCHEDULE_URL,
-    {
-      "date": date,
-      "time_zone": user.timezone, 
-      "user_data": {
-          "uid": user._id,
-          "access_token": user.notion_access_token,
-          "IOS_USER": user.ios_email,
-          "IOS_PASSWORD": user.ios_password,
-          "priorities_dbid": user.priorities_dbid,
-          "todo_dbid": user.todo_dbid,
-          "schedule_dbid": user.schedule_dbid,
-          "jobs_dbid": user.jobs_dbid,
-          "courses_dbid": user.courses_dbid,
-          "recurring_dbid": user.recurring_dbid,
-          "personal_dbid": user.personal_dbid,
-          "routine_dbid": user.routine_dbid,
-          "sports_dbid": user.sports_dbid,
-          "lecture_notes_dbid": user.lecture_notes_dbid,
-          "job_tasks_dbid": user.job_tasks_dbid,
-          "email": user.email,
-      }
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const { userId } = req.body;
+    var user = await req.db.collection("users").findOne({ _id: userId });
+    if (
+      !user.priorities_dbid ||
+      !user.todo_dbid ||
+      !user.schedule_dbid ||
+      !user.jobs_dbid ||
+      !user.courses_dbid ||
+      !user.recurring_dbid ||
+      !user.personal_dbid ||
+      !user.routine_dbid ||
+      !user.sports_dbid ||
+      !user.lecture_notes_dbid ||
+      !user.job_tasks_dbid
+    ) {
+      output = await update_notion_dbids(
+        req,
+        userId,
+        user.notion_access_token,
+        user.parent_id
+      );
+      console.log(output);
     }
-  );
-  console.log(response);
-  if(response.data == 'Success!') {
-    res.json({ success: true, message: "Success!" });
-  }else{
-    return res.status(400).json({ success: false, message: response.data.message });
-  }
-}));
+    // refetch the user
+    user = await req.db.collection("users").findOne({ _id: userId });
+    const date = getFormattedDate();
+    const response = await axios.post(
+      process.env.LAMBDA_SCHEDULE_URL,
+      {
+        date: date,
+        time_zone: user.timezone,
+        user_data: {
+          uid: user._id,
+          access_token: user.notion_access_token,
+          IOS_USER: user.ios_email,
+          IOS_PASSWORD: user.ios_password,
+          priorities_dbid: user.priorities_dbid,
+          todo_dbid: user.todo_dbid,
+          schedule_dbid: user.schedule_dbid,
+          jobs_dbid: user.jobs_dbid,
+          courses_dbid: user.courses_dbid,
+          recurring_dbid: user.recurring_dbid,
+          personal_dbid: user.personal_dbid,
+          routine_dbid: user.routine_dbid,
+          sports_dbid: user.sports_dbid,
+          lecture_notes_dbid: user.lecture_notes_dbid,
+          job_tasks_dbid: user.job_tasks_dbid,
+          email: user.email,
+        },
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response);
+    if (response.data == "Success!") {
+      res.json({ success: true, message: "Success!" });
+    } else {
+      return res
+        .status(400)
+        .json({ success: false, message: response.data.message });
+    }
+  })
+);
 
+
+router.post(
+  "/calendar/apple",
+  asyncHandler(async (req, res) => {
+    const { userId, ios_email,  ios_password } = req.body;
+    console.log(req.body);
+    // update user apple credentials
+    const result = await req.db
+      .collection("users")
+      .updateOne(
+        { _id: userId },
+        { $set: { ios_email: ios_email, ios_password: ios_password } }
+      );
+      console.log(result);
+      if(result.modifiedCount == 1){
+        res.json({ success: true, message: "Success!" });
+      }else{
+        res.json({ success: false, message: "Failed to update user information." });
+      }
+  })
+);
 // Confirm the code
 router.post(
   "/confirm-code",

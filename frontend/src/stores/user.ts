@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: null, // To store user information
-    isAuthenticated: false // To track authentication status
+    user: null, 
+    isAuthenticated: false
   }),
   actions: {
     setUser(userData: any) {
