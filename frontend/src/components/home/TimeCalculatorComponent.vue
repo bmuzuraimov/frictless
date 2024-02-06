@@ -81,7 +81,7 @@ export default {
         3: 'text-warning-500',
         3.5: 'text-warning-600',
         4: 'text-warning-700'
-      },
+      } as { [key: number]: string },
       renumeration: 50
     }
   }

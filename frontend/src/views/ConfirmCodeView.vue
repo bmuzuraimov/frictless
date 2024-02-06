@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     async confirmCode() {
-      if (this.code || this.email || this.code.length === 6) {
+      if (this.code || this.email || (this.code && this.code.length === 6)) {
         try {
           const response = await axios.post('/api/confirm-code', {
             confirm_code: this.code,
