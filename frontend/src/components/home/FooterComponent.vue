@@ -3,8 +3,7 @@
       <div class="max-w-lg sm:mx-auto sm:text-center">
         <img src="@/assets/images/logo.png" class="w-32 sm:mx-auto" />
         <p class="leading-relaxed mt-2 text-[15px]">
-          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-          galley of type and scrambled it to make a type specimen book.
+          Stay connected with Acuella for the latest updates, tips, and more. Follow us on our social media channels and subscribe to our newsletter for productivity insights delivered straight to your inbox.
         </p>
       </div>
       <ul class="items-center justify-center mt-8 space-y-5 sm:flex sm:space-x-4 sm:space-y-0">

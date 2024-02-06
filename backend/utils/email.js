@@ -26,9 +26,9 @@ class EmailSender {
 
         this.transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                console.log(error);
+                alert('Error sending email');
             } else {
-                console.log('Email sent: ' + info.response);
+                alert('Email sent: ' + info.response);
             }
         });
     }

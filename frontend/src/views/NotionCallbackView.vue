@@ -20,7 +20,6 @@ export default {
   },
   mounted() {
     this.getAccessToken()
-    console.log(this.user)
   },
   methods: {
     async getAccessToken() {

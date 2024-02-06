@@ -10,19 +10,16 @@
           />
         </div>
         <div class="max-w-xl px-4 space-y-3 mt-6 sm:px-0 md:mt-0 lg:max-w-2xl">
-          <h3 class="text-indigo-600 font-semibold">Professional services</h3>
-          <p class="text-gray-800 text-3xl font-semibold sm:text-4xl">
+          <h3 class="text-4xl font-ourfit text-secondary-800 font-semibold">Focus Where It Counts</h3>
+          <!-- <p class="text-gray-800 text-3xl font-semibold sm:text-4xl">
             Build your SaaS solution with help from our experts
+          </p> -->
+          <p class="mt-3 text-xl font-ourfit leading-normal text-gray-600">
+            Merge your tasks with your calendar seamlessly. Acuella brings clarity to your day, helping you prioritize and focus on what truly moves the needle.
           </p>
-          <p class="mt-3 text-gray-600">
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum, sed ut perspiciatis unde omnis iste natus
-            error sit voluptatem accusantium doloremque laudantium
-          </p>
-          <a
-            href="javascript:void(0)"
-            class="inline-flex gap-x-1 items-center text-indigo-600 hover:text-indigo-500 duration-150 font-medium"
+          <router-link
+            to="/guide"
+            class="inline-flex gap-x-1 items-center text-primary-600 text-ourfit hover:text-primary-400 duration-150 font-medium"
           >
             Learn more
             <svg
@@ -37,7 +34,7 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-          </a>
+          </router-link>
         </div>
       </div>
     </div>

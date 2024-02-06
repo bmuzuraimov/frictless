@@ -23,64 +23,83 @@ const EN_DB_NAMES = {
   "Job tasks": "job_tasks_dbid",
 };
 
-// Testing get node
-router.get(
-  "/test",
-  asyncHandler(async (req, res) => {
-    const test = process.env.NOTION_CLIENT_ID;
-    res.json({ status: true, message: "Success!", test: test });
-  })
-);
-
 // Login user
-router.post(
-  "/login",
-  asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
-    const user = await req.db.collection("users").findOne({ email });
-    if (!user || password != user.password) {
-      throw new AuthenticationError("Wrong credentials!");
-    }
-    delete user.password;
-    const token = generateToken(user);
-    res.json({ token: token, messsage: "Success!" });
-  })
-);
+router.post("/login", asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const user = await req.db.collection("users").findOne({ email });
+  if (!user) {
+    return res.status(401).json({ message: "User not found!" });
+  }
+  if (!user.verified) {
+    return res.status(401).json({ message: "Email is not verified!" });
+  }
+  if (password !== user.password) {
+    return res.status(401).json({ message: "Wrong credentials!" });
+  }
+  const token = generateToken({
+    userId: user._id,
+    name: user.name,
+    picture: user.picture,
+    locale: user.locale,
+    is_ios_connected: user.ios_email && user.ios_password,
+    is_notion_connected: user.parent_id && user.notion_access_token,
+    notion_page_url: user.parent_id ? "https://www.notion.so/" + user.parent_id : null,
+    email: user.email,
+  });
+  res.json({ success:true, token, message: "Success!" });
+}));
+
 
 // Sign up user
-router.post(
-  "/sign-up",
-  asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
-    const newUser = await req.db.collection("users").insertOne({
-      email,
-      verified: false,
-      password: password,
-    });
-    res.json({
-      success: true,
-      message: "Sign-up successful",
-      data: { userId: newUser.insertedId },
-    });
-    const confirmationCode = await generateCode(email);
-    emailSender.sendEmail(email, confirmationCode);
-  })
-);
+router.post("/sign-up", asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const existingUser = await req.db.collection("users").findOne({ email });
+  if (existingUser) {
+    return res.status(400).json({ message: "User already exists!" });
+  }
+  const newUser = await req.db.collection("users").insertOne({
+    email,
+    password,
+    name: null,
+    picture: "https://cdn-icons-png.flaticon.com/512/10337/10337609.png",
+    locale: "en",
+    is_ios_connected: null,
+    is_notion_connected: null,
+    notion_page_url: null,
+    verified: false,
+    creationDate: new Date(),
+    lastLogin: new Date(),
+  });
 
-// store the user signed with Auth0 if doesn't exist
-// POST endpoint for Auth0 signin
+  const confirmationCode = await generateCode(email); 
+  emailSender.sendEmail(email, confirmationCode); 
+
+  const token = generateToken({ 
+    userId: newUser.insertedId,
+    name: null,
+    picture: null,
+    locale: "en",
+    is_ios_connected: null,
+    is_notion_connected: null,
+    notion_page_url: null,
+   });
+  res.json({
+    success: true,
+    message: "Sign-up successful! Please confirm your email address.",
+    token: token,
+  });
+}));
+
+
 router.post(
   "/auth0_signin",
   asyncHandler(async (req, res) => {
     const { email_verified, sub, timezone, ...userData } = req.body;
-
-    // Check for email verification
     if (!email_verified) {
       return res
         .status(400)
         .json({ success: false, message: "Email is not verified" });
     }
-    // Extract the user's IP address
     const ip = (
       req.headers["x-forwarded-for"] ||
       req.connection.remoteAddress ||
@@ -88,25 +107,29 @@ router.post(
     )
       .split(",")[0]
       .trim();
-    // get the timezone of the user
-    // Check if the user with sub exists
     const existingUser = await req.db.collection("users").findOne({ _id: sub });
-    // If the user doesn't exist, create a new user
     if (!existingUser) {
-      // use sub as _id
       const newUser = await req.db.collection("users").insertOne({
         _id: sub,
         ...userData,
         ip,
         timezone,
-        creationDate: new Date(), // Add a creation date for the new user
-        lastLogin: new Date(), // Add a last login date for the new user
+        creationDate: new Date(),
+        lastLogin: new Date(),
       });
-
+      let token = generateToken({ 
+        userId: newUser.insertedId,
+        name: userData.name,
+        picture: userData.picture,
+        locale: userData.locale,
+        is_ios_connected: null,
+        is_notion_connected: null,
+        notion_page_url: null,
+      });
       return res.json({
         success: true,
         message: "Signin successful",
-        data: { userId: newUser.insertedId },
+        token: token,
       });
     }
     // If user exists, update their last login time
@@ -114,12 +137,19 @@ router.post(
       { _id: existingUser._id },
       { $set: { lastLogin: new Date() } } // Update the last login time
     );
-
-    // Respond with success message
+    let token = generateToken({ 
+      userId: existingUser._id,
+      name: existingUser.name,
+      picture: existingUser.picture,
+      locale: existingUser.locale,
+      is_ios_connected: existingUser.ios_email && existingUser.ios_password,
+      is_notion_connected: existingUser.parent_id && existingUser.notion_access_token,
+      notion_page_url: existingUser.parent_id ? "https://www.notion.so/" + existingUser.parent_id : null,
+    });
     return res.json({
       success: true,
       message: "Signin successful",
-      data: { userId: existingUser._id },
+      token: token,
     });
   })
 );
@@ -149,10 +179,7 @@ router.post(
       body: JSON.stringify(data),
     });
     const response_data = await response.json();
-    console.log("Response Data:", response_data); // Log response data for debugging
-
     if (response_data.error) {
-      console.error("API Error:", response_data.error); // Log API error if any
       return res
         .status(400)
         .json({ success: false, message: response_data.error });
@@ -168,8 +195,6 @@ router.post(
               $set: { notion_access_token: access_token, parent_id: parent_id },
             }
           );
-        console.log("Database Update Result:", updateResult); // Log the result of the update operation
-
         if (updateResult.matchedCount === 0) {
           console.warn(
             "No matching documents found to update for userId:",
@@ -183,9 +208,7 @@ router.post(
             "Document not modified, possibly already up-to-date for userId:",
             userId
           );
-          // Decide if you want to return a different response in this case
         }
-
         res.json({
           success: true,
           access_token: access_token,
@@ -276,19 +299,23 @@ async function update_notion_dbids(req, userId, access_token, parent_id) {
   }
 }
 
-function getFormattedDate() {
-  const date = new Date();
-
-  let month = (date.getMonth() + 1).toString();
-  let day = date.getDate().toString();
-  const year = date.getFullYear();
-
-  // Adding leading zero if month or day is less than 10
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-
-  return `${day}-${month}-${year}`;
-}
+router.get(
+  "/server-time",
+  asyncHandler(async (req, res) => {
+    const date = new Date();
+    const options = {
+      timeZone: "Asia/Hong_Kong",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    };
+    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(date);
+    res.json({ date: formattedDate });
+  })
+);
 
 router.post(
   "/schedule",
@@ -314,11 +341,19 @@ router.post(
         user.notion_access_token,
         user.parent_id
       );
-      console.log(output);
     }
     // refetch the user
     user = await req.db.collection("users").findOne({ _id: userId });
-    const date = getFormattedDate();
+    const options = {
+      timeZone: user.timezone,
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    };
+    const date = new Intl.DateTimeFormat("en-GB", options).format(new Date());
     const response = await axios.post(
       process.env.LAMBDA_SCHEDULE_URL,
       {
@@ -349,7 +384,6 @@ router.post(
         },
       }
     );
-    console.log(response);
     if (response.data == "Success!") {
       res.json({ success: true, message: "Success!" });
     } else {
@@ -365,15 +399,12 @@ router.post(
   "/calendar/apple",
   asyncHandler(async (req, res) => {
     const { userId, ios_email,  ios_password } = req.body;
-    console.log(req.body);
-    // update user apple credentials
     const result = await req.db
       .collection("users")
       .updateOne(
         { _id: userId },
         { $set: { ios_email: ios_email, ios_password: ios_password } }
       );
-      console.log(result);
       if(result.modifiedCount == 1){
         res.json({ success: true, message: "Success!" });
       }else{
@@ -394,6 +425,10 @@ router.post(
     }
     try {
       if (await verifyCode(email, confirm_code)) {
+        await req.db.collection("users").updateOne(
+          { email },
+          { $set: { verified: true } }
+        );
         res
           .status(200)
           .json({ success: true, message: "Code confirmed successfully" });

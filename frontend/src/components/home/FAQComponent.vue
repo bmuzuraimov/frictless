@@ -2,10 +2,7 @@
     <div>
     <section class="leading-relaxed max-w-screen-xl my-12 mx-auto px-4 md:px-8">
       <div class="space-y-3 text-center">
-        <h1 class="text-3xl text-gray-800 font-semibold">Frequently Asked Questions</h1>
-        <p class="text-gray-600 max-w-lg mx-auto text-lg">
-          Answered all frequently asked questions, Still confused? feel free to contact us.
-        </p>
+        <h1 class="text-2xl text-gray-800 font-semibold">Frequently Asked Questions</h1>
       </div>
       <div class="mt-14 max-w-2xl mx-auto">
         <div
@@ -50,7 +47,7 @@
             :style="{ maxHeight: selectedFaq === index ? '1000px' : '0px' }"
           >
             <div>
-              <p class="text-gray-500 pb-4">{{ item.a }}</p>
+              <p class="text-lg font-ourfit leading-normal text-gray-600 pb-4">{{ item.a }}</p>
             </div>
           </div>
         </div>
@@ -66,25 +63,21 @@ export default {
       selectedFaq: -1,
       faqs: [
         {
-          q: 'What are some random questions to ask?',
-          a: "That's exactly the reason we created this random question generator. There are hundreds of random questions to choose from so you're able to find the perfect random question."
+          q: 'Why Acuella?',
+          a: "Amidst the noise of endless tasks and deadlines, the essence of your goals can get lost. Acuella is here to ensure they don't. By transforming your overwhelming schedules into a structured symphony of daily and tomorrow's tasks, Acuella lets you focus on what truly matters—achieving remarkable outcomes."
         },
         {
-          q: 'Do you include common questions?',
-          a: "This generator doesn't include most common questions. The thought is that you can come up with common questions on your own so most of the questions in this generator."
+          q: 'Who\'s It For?',
+          a: "Students, freelancers, professionals—anyone who's tired of feeling swamped by their schedule. If you're looking for a way to cut through the chaos and get your priorities straight, Acuella's here for you."
         },
         {
-          q: 'Can I use this for 21 questions?',
-          a: "Yes! there are two ways that you can use this question generator depending on what you're after. You can indicate that you want 21 questions generated."
+          q: 'Why Choose Acuella?',
+          a: "No More Overwhelm, Focus on Today and Tomorrow, Tailored to You: Your day, your tasks. We fit them into your time, not the other way around."
         },
         {
-          q: 'Are these questions for girls or for boys?',
-          a: 'The questions in this generator are gender neutral and can be used to ask either male of females (or any other gender the person identifies with).'
+          q: 'Real Talk: Why Acuella Rocks',
+          a: 'No fluff, no fuss—just a straightforward way to get your tasks in order.'
         },
-        {
-          q: 'What do you wish you had more talent doing?',
-          a: "If you've been searching for a way to get random questions, you've landed on the correct webpage. We created the Random Question Generator to ask you as many random questions as your heart desires."
-        }
       ],
     }
   },

@@ -17,6 +17,14 @@ export const useButtonStore = defineStore('buttonStore', {
         'hover:bg-gray-50'
       ]
     },
+    connectAppleCalendarButton: {
+      text: 'Connect',
+      disabled: false,
+    },
+    connectNotionButton: {
+      text: 'Link Notion',
+      disabled: false,
+    },
     submitAppleCalendarButton: {
       text: 'Save',
       disabled: false,
@@ -38,7 +46,7 @@ export const useButtonStore = defineStore('buttonStore', {
               alert('Error saving to Apple Calendar');
             }
           }catch(e){
-            console.log((e as any).response.data.message);
+            alert('Error saving to Apple Calendar');
           }
     },
     async schedule(userId: string) {
@@ -58,7 +66,7 @@ export const useButtonStore = defineStore('buttonStore', {
         this.scheduleButton.text = 'Schedule Plan'
         this.scheduleButton.tw_class.push('border-red-500')
         this.scheduleButton.disabled = false
-        console.error(error)
+        alert('Error scheduling plan');
       }
     }
   }

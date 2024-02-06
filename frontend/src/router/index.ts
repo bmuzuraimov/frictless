@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { authGuard } from '@auth0/auth0-vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,42 +6,81 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/HomeView.vue')
+      component: () => import('@/views/HomeView.vue'),
+      meta: { requiresAuth: false }
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('@/views/AboutView.vue')
+      path: '/privacy',
+      name: 'privacy',
+      component: () => import('@/views/PrivacyView.vue'),
+      meta: { requiresAuth: false }
+    },
+    {
+      path: '/terms',
+      name: 'terms',
+      component: () => import('@/views/TermsView.vue'),
+      meta: { requiresAuth: false }
+    },
+    {
+      path: '/story',
+      name: 'story',
+      component: () => import('@/views/StoryView.vue'),
+      meta: { requiresAuth: false }
+    },
+    {
+      path: '/guide',
+      name: 'guide',
+      component: () => import('@/views/GuideView.vue'),
+      meta: { requiresAuth: false }
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/LoginView.vue')
+      component: () => import('@/views/LoginView.vue'),
+      meta: { requiresAuth: false }
+    },
+    {
+      path: '/confirm-code',
+      name: 'confirm-code',
+      component: () => import('@/views/ConfirmCodeView.vue'),
+      meta: { requiresAuth: false }
     },
     {
       path: '/dashboard',
       name: 'dashboard',
       component: () => import('@/views/DashboardView.vue'),
-      beforeEnter: authGuard
+      meta: { requiresAuth: true }
     },
     {
       path: '/profile',
       name: 'profile',
       component: () => import('@/views/ProfileView.vue'),
-      beforeEnter: authGuard
+      meta: { requiresAuth: true }
     },
     {
       path: '/notion_callback',
       name: 'notion_callback',
       component: () => import('@/views/NotionCallbackView.vue'),
-      // beforeEnter: authGuard
+      meta: { requiresAuth: true }
     },
     {
       path: '/:pathMatch(.*)*',
       name: '404',
-      component: () => import('@/views/404View.vue')
+      component: () => import('@/views/404View.vue'),
+      meta: { requiresAuth: false }
     },
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const isAuthenticated = localStorage.getItem('token'); // Or wherever you store your token
+  
+  if (requiresAuth && !isAuthenticated) {
+    next('/login');
+  } else {
+    next();
+  }
+});
 
 export default router

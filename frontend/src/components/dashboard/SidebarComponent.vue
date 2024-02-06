@@ -8,6 +8,14 @@
       </div>
       <div class="flex-1 flex flex-col h-full overflow-auto">
         <ul class="px-4 text-sm font-medium md:flex-1">
+          <li v-if="$userDecoded.notion_page_url">
+            <a
+              :href="$userDecoded.notion_page_url"
+              class="flex items-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 duration-150"
+            >
+              My Notion Page
+            </a>
+          </li>
           <li v-for="(item, idx) in navigation" :key="idx">
             <a
               :href="item.href"
@@ -60,9 +68,9 @@
           </ul>
           <div class="py-4 px-4 border-t md:block hidden">
             <div class="flex items-center gap-x-4">
-              <img v-if="user" :src="user.picture" class="w-12 h-12 rounded-full" />
+                <img v-if="$userDecoded.picture" :src="$userDecoded.picture" class="w-12 h-12 rounded-full" />
               <div>
-                <span class="block text-gray-700 text-sm font-semibold">{{ user?.name }}</span>
+                <span class="block text-gray-700 text-sm font-semibold">{{ $userDecoded.name }}</span>
                 <a
                   href="javascript:void(0)"
                   class="block mt-px text-gray-600 hover:text-indigo-600 text-xs"
@@ -83,7 +91,7 @@ export default {
   name: 'SidebarComponent',
   data() {
     return {
-      user: this.$auth0.user,
+      user: this.$userDecoded,
       navigation: [
         {
           href: 'javascript:void(0)',
@@ -120,8 +128,12 @@ export default {
       ]
     }
   },
+  mounted() {
+    console.log(this.user);
+  },
   methods: {
     async logout() {
+      localStorage.removeItem('token');
       await this.$auth0.logout({ logoutParams: { returnTo: window.location.origin } })
     }
   }

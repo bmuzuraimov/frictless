@@ -73,34 +73,13 @@
             </p>
             <div class="border border-black rounded-lg p-5">
               <ul class="border border-black rounded-lg p-5">
-                <!-- <li class="flex flex-row justify-between my-2">
-                  <span class="flex items-center"
-                    ><img src="@/assets/images/google_cal.svg" class="h-6 w-6 mr-1" />Google
-                    Calendar</span
-                  >
-                  <v-btn variant="outlined"> Connect </v-btn>
-                </li>
-                <li class="flex flex-row justify-between my-2">
-                  <span class="flex items-center"
-                    ><img src="@/assets/images/outlook_cal.svg" class="h-6 w-6 mr-1" />Outlook
-                    Calendar</span
-                  >
-                  <v-btn variant="outlined"> Connect </v-btn>
-                </li> -->
                 <li class="flex flex-row justify-between my-2">
                   <span class="flex items-center"
                     ><img src="@/assets/images/apple_cal.svg" class="h-6 w-6 mr-1" />Apple
                     Calendar</span
                   >
-                  <v-btn variant="outlined" @click="closeModal">Connect</v-btn>
+                  <v-btn variant="outlined" @click="closeModal">{{ useButtonStore.connectAppleCalendarButton.text }}</v-btn>
                 </li>
-                <!-- <li class="flex flex-row justify-between my-2">
-                  <span class="flex items-center"
-                    ><img src="@/assets/images/caldav.svg" class="h-6 w-6 mr-1" />CalDav
-                    (Beta)</span
-                  >
-                  <v-btn variant="outlined"> Connect </v-btn>
-                </li> -->
               </ul>
             </div>
           </v-card>
@@ -114,7 +93,7 @@
                 {{ error }}
               </p>
               <a
-                disabled
+                :disabled="useButtonStore.connectNotionButton.disabled"
                 @click="handleNotionOauth2()"
                 :class="[
                   'flex',
@@ -129,7 +108,7 @@
               >
                 <img src="@/assets/images/notion.png" class="w-8 h-8 mr-2" />
                 <span class="text-lg fonr-mont">{{
-                  is_linked ? 'Linked Notion' : 'Get Notion Template'
+                  useButtonStore.connectNotionButton.text
                 }}</span>
               </a>
             </div>
@@ -156,6 +135,7 @@
 <script lang="ts">
 import SidebarComponent from '../components/dashboard/SidebarComponent.vue'
 import { useButtonStore } from '@/stores/buttonStore'
+import { useUserStore } from '@/stores/user';
 
 export default {
   components: {
@@ -172,7 +152,18 @@ export default {
       error: '',
       is_linked: false,
       user: this.$auth0.user,
-      useButtonStore: useButtonStore()
+      useButtonStore: useButtonStore(),
+      useUserStore: useUserStore()
+    }
+  },
+  mounted(){
+    if (this.$userDecoded.is_ios_connected){
+      this.useButtonStore.connectAppleCalendarButton.text = 'Connected';
+      this.useButtonStore.connectAppleCalendarButton.disabled = true;
+    }
+    if (this.$userDecoded.is_notion_connected){
+      this.useButtonStore.connectNotionButton.text = 'Linked';
+      this.useButtonStore.connectNotionButton.disabled = true;
     }
   },
   computed: {
@@ -192,9 +183,6 @@ export default {
             updated_at: ''
           }
     }
-  },
-  mounted() {
-    console.log(this.userId)
   },
   methods: {
     closeModal() {

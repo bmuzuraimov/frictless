@@ -3,16 +3,13 @@
     <div class="absolute top-0 left-0 w-full h-full bg-white opacity-40"></div>
     <div class="relative z-10 gap-5 items-center lg:flex">
       <div class="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
-        <h3 class="text-3xl text-gray-800 font-semibold md:text-4xl">
-          build your websites with <span class="text-indigo-600">high performance</span>
-        </h3>
-        <p class="text-gray-500 leading-relaxed mt-3">
-          Nam erat risus, sodales sit amet lobortis ut, finibus eget metus. Cras aliquam ante ut
-          tortor posuere feugiat. Duis sodales nisi id porta lacinia.
+        <h3 class="text-4xl font-ourfit text-secondary-800 font-semibold">Effortless Organization</h3>
+        <p class="mt-3 text-xl font-ourfit leading-normal text-gray-600">
+          Visualize your priorities for today and tomorrow with ease. Acuella simplifies your planning, so you can spend more time achieving and less time organizing.
         </p>
-        <a
-          class="mt-5 px-4 py-2 text-indigo-600 font-medium bg-indigo-50 rounded-full inline-flex items-center"
-          href="javascript:void()"
+        <router-link
+          class="mt-5 px-4 py-1 text-ourfit hover:text-primary-400 font-medium bg-primary-50 bg-opacity-50 rounded-full inline-flex items-center"
+          to="/login"
         >
           Try it out
           <svg
@@ -29,7 +26,7 @@
               d="M13 7l5 5m0 0l-5 5m5-5H6"
             />
           </svg>
-        </a>
+        </router-link>
       </div>
       <div class="flex-1 mt-5 mx-auto sm:w-9/12 lg:mt-0 lg:w-auto">
         <img src="https://i.postimg.cc/kgd4WhyS/container.png" alt="" class="w-full" />
