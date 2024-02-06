@@ -1,8 +1,7 @@
 from app.schedules.fair_schedule import FairSchedule
 import json
 import logging
-from datetime import datetime
-# import pytz
+from datetime import datetime, timedelta
 import traceback
 from dotenv import load_dotenv
 load_dotenv()
@@ -19,10 +18,11 @@ def lambda_handler(event, context):
         if isinstance(event["body"], str):
             event["body"] = json.loads(event["body"])
         user_data = event["body"].get("user_data")
-        date = datetime.strptime(event["body"].get("date"), "%d-%m-%Y").date()
+        date = datetime.strptime(event["body"].get("date"), "%d/%m/%Y, %H:%M:%S").date()
+        tomorrow = date + timedelta(days=1)
         try:
             myschedule = FairSchedule(user_data)
-            myschedule.organize_daily_schedule(date)
+            myschedule.organize_daily_schedule(tomorrow)
             return {
                 "status": "success",
                 "statusCode": 200,

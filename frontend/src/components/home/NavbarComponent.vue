@@ -7,7 +7,7 @@
       @close="showToast = false"
     >
     </ToastSuccess>
-    <div class="items-center justify-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
+    <div class="items-center justify-center px-4 py-2 max-w-screen-xl mx-auto md:flex md:px-8">
       <div class="flex items-center justify-between py-3 md:py-5 md:block">
         <a href="javascript:void(0)">
           <img src="@/assets/images/logo.png" width="120" height="50" alt="Float UI logo" />
@@ -43,15 +43,12 @@
           </button>
         </div>
       </div>
-      <div
-        class="flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0"
-        :class="[open ? 'block' : 'hidden']"
-      >
+      <div class="flex-1 justify-self-center md:block" :class="[open ? 'block' : 'hidden']">
         <ul class="justify-center items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
           <li
             v-for="link in navigation"
             :key="link.router"
-            class="text-gray-600 hover:text-indigo-600"
+            class="text-gray-600 text-ourfit hover:text-black"
           >
             <a :href="link.router">
               {{ link?.title }}
@@ -62,32 +59,25 @@
       <div class="hidden md:inline-block">
         <router-link
           to="/dashboard"
-          v-if="isAuthenticated && !isLoading"
-          class="animate-fade-in px-4 py-1.5 text-sm font-medium text-gray-500 transition-colors ease-out hover:text-black"
+          v-if="isAuthenticated"
+          class="animate-fade-in rounded-full border border-black bg-black px-4 py-1.5 text-sm text-ourfit text-white transition-all hover:bg-white hover:text-black"
         >
           Dashboard
         </router-link>
         <button
-          v-if="isAuthenticated && !isLoading"
           @click="logout"
-          class="animate-fade-in rounded-full border border-black bg-black px-4 py-1.5 text-sm text-white transition-all hover:bg-white hover:text-black"
+          v-if="isAuthenticated"
+          class="animate-fade-in px-4 py-1.5 text-sm font-medium text-gray-500 transition-colors text-ourfit ease-out hover:text-black"
         >
           Logout
         </button>
-        <button
-          v-if="!isAuthenticated && !isLoading"
-          @click="login"
-          class="animate-fade-in px-4 py-1.5 text-sm font-medium text-gray-500 transition-colors ease-out hover:text-black"
+        <router-link
+          to="/login"
+          v-if="!isAuthenticated"
+          class="animate-fade-in rounded-full border border-black bg-black px-4 py-1.5 text-sm text-ourfit text-white transition-all hover:bg-white hover:text-black"
         >
-          login
-        </button>
-        <button
-          v-if="!isAuthenticated && !isLoading"
-          @click="signup"
-          class="animate-fade-in rounded-full border border-black bg-black px-4 py-1.5 text-sm text-white transition-all hover:bg-white hover:text-black"
-        >
-          Signup
-        </button>
+          Login
+        </router-link>
       </div>
     </div>
   </nav>
@@ -96,6 +86,8 @@
 <script lang="ts">
 import axios from 'axios'
 import ToastSuccess from '@/components/home/ToastSuccess.vue'
+import { useUserStore } from '@/stores/user'
+
 export default {
   components: {
     ToastSuccess
@@ -103,17 +95,15 @@ export default {
   data() {
     return {
       user: this.$auth0.user,
-      isAuthenticated: this.$auth0.isAuthenticated,
-      isLoading: this.$auth0.isLoading,
+      isAuthenticated: localStorage.getItem('token') ? true : false,
       toastMessage: '',
       toastType: '',
       timezone: '',
       showToast: false,
       navigation: [
-        { title: 'Story behind', router: '/story' }
-        // { title: 'Careers', router: '/Careers' },
-        // { title: 'Guides', router: '/Guides' },
-        // { title: 'Partners', router: '/Partners' }
+        { title: 'Story', router: '/story' },
+        { title: 'Mission', router: '/mission' },
+        { title: 'Guide', router: '/guide' }
       ],
       open: false
     }
@@ -125,32 +115,33 @@ export default {
     },
     async login() {
       try {
-        const status = await this.$auth0.loginWithPopup()
-        // check if successfully authentificated
-        console.log('Login status:', status)
+        await this.$auth0.loginWithPopup()
         if (this.$auth0.isAuthenticated && this.user) {
-          this.toastMessage = 'Successfully logged in!';
-          this.toastType = 'success';
-          this.showToast = true;
-          this.user.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          const response = await axios.post('/api/auth0_signin', this.user);
+          this.toastMessage = 'Successfully logged in!'
+          this.toastType = 'success'
+          this.showToast = true
+          this.user.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+          const response = await axios.post('/api/auth0_signin', this.user)
           if (response.data.success) {
-            this.$router.push('/dashboard');
+            localStorage.setItem('token', response.data.token)
+            this.$router.push('/dashboard')
           }
         } else {
-          this.toastMessage = 'Login failed!';
-          this.toastType = 'error';
-          this.showToast = true;
+          this.toastMessage = 'Login failed!'
+          this.toastType = 'error'
+          this.showToast = true
         }
       } catch (error) {
-        console.error('Login error:', error);
+        alert('Login error:' + error)
       }
     },
     signup() {
-      this.$auth0.loginWithRedirect();
+      this.$auth0.loginWithRedirect()
     },
     async logout() {
-      await this.$auth0.logout({ logoutParams: { returnTo: window.location.origin } })
+      useUserStore().clearUser();
+      localStorage.removeItem('token');
+      this.isAuthenticated = false;
     }
   }
 }

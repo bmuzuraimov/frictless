@@ -4,6 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        ourfit: ['Outfit', 'sans-serif'],
         mont: ['Montserrat', 'sans-serif'],
         sans: ['Raleway', 'sans-serif'],
       },

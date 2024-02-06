@@ -1,4 +1,3 @@
 .DS_Store
-backend/routes/test.json
-lambda_scheduler/deploy-ecr.sh
+*.sh
 .vercel

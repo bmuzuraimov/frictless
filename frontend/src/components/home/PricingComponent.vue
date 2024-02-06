@@ -1,24 +1,23 @@
 <template>
   <section class="relative py-14">
     <div
-      class="absolute top-0 w-full h-[521px]"
+      class="hidden lg:block absolute top-0 w-full h-[521px]"
       style="
         background: linear-gradient(
           152.92deg,
-          rgba(192, 132, 252, 0.2) 4.54%,
-          rgba(232, 121, 249, 0.17) 34.2%,
-          rgba(192, 132, 252, 0.1) 77.55%
+          rgba(124, 114, 146, 0.3) 4.54%,
+          rgba(124, 114, 146, 0.05) 34.2%,
+          rgba(124, 114, 146, 0.531) 77.55%
         );
       "
     ></div>
     <div class="max-w-screen-xl mx-auto text-gray-600 sm:px-4 md:px-8">
       <div class="relative max-w-xl mx-auto space-y-3 px-4 sm:text-center sm:px-0">
         <h3 class="text-indigo-600 font-semibold">Pricing</h3>
-        <p class="text-gray-800 text-3xl font-semibold sm:text-4xl">Pay as you grow</p>
+        <p class="text-gray-800 text-3xl font-semibold sm:text-4xl">Start Automating Now</p>
         <div class="max-w-xl">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam efficitur consequat
-            nunc.
+            Whether you are a one student or CEO, we have a plan for everyone. Pause or cancel at anytime.
           </p>
         </div>
       </div>
@@ -40,15 +39,15 @@
               {{ plan.desc }}
             </p>
             <button
-              class="px-3 py-3 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700"
+              @click="login"
+              class="px-3 py-3 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-secondary-700 hover:bg-secondary-500 active:bg-secondary-700"
             >
-              Start for Free
+              {{ plan.buttonText }}
             </button>
           </div>
           <ul class="p-4 py-8 space-y-3 md:p-8">
             <li class="pb-2 text-gray-800 font-medium">Features</li>
             <li v-for="feature in plan.features" :key="feature" class="flex items-center gap-5">
-              <!-- SVG Icon -->
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5 text-indigo-600"
@@ -61,7 +60,7 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              {{ feature }}
+              <span class="text-lg font-ourfit leading-normal text-gray-600">{{ feature }}</span>
             </li>
           </ul>
         </div>
@@ -76,36 +75,42 @@ export default {
     return {
       plans: [
         {
-          name: 'Enterprise',
-          desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          price: 32,
-          isMostPop: true,
-          features: [
-            'Curabitur faucibus',
-            'massa ut pretium maximus',
-            'Sed posuere nisi',
-            'Pellentesque eu nibh et neque',
-            'Suspendisse a leo',
-            'Praesent quis venenatis ipsum',
-            'Duis non diam vel tortor'
-          ]
-        },
-        {
-          name: 'Startup',
-          desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          price: 12,
+          name: 'Freemium',
+          desc: 'Jumpstart your new life for free.',
+          price: 0.00,
           isMostPop: false,
           features: [
-            'Curabitur faucibus',
-            'massa ut pretium maximus',
-            'Sed posuere nisi',
-            'Pellentesque eu nibh et neque',
-            'Suspendisse a leo',
-            'Praesent quis venenatis ipsum',
-            'Duis non diam vel tortor'
-          ]
+            'Scheduler',
+            'Voice assitant',
+            'External calendar',
+            'Statistics',
+            'Manual schedule',
+            'Standard support',
+          ],
+          buttonText: 'Start for Free'
+        },
+        {
+          name: 'Premium',
+          desc: '0 Strees + Strategic Mindset',
+          price: 49.99,
+          isMostPop: true,
+          features: [
+            'Scheduler',
+            'Voice assitant',
+            'External calendar',
+            'Statistics',
+            'Daily auto schedule',
+            'Ad free',
+            '24/7 priority support'
+          ],
+          buttonText: 'Join Now'
         }
       ]
+    }
+  },
+  methods: {
+    login() {
+      this.$router.push('/login')
     }
   }
 }

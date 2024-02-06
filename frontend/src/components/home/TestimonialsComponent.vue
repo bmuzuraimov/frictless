@@ -2,10 +2,9 @@
   <section class="relative py-14">
     <div class="relative z-10 max-w-screen-xl mx-auto px-4 md:px-8">
       <div class="max-w-xl sm:text-center md:mx-auto">
-        <h3 class="text-gray-800 text-3xl font-semibold sm:text-4xl">Hear from our customers</h3>
+        <h3 class="text-gray-800 text-3xl font-semibold sm:text-4xl">What Winner Say</h3>
         <p class="mt-3 text-gray-600">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et est hendrerit, porta nunc
-          vitae, gravida justo. Nunc fermentum magna lorem, euismod volutpat arcu volutpat et.
+          Hear it straight from the folks who've made their days better with Acuella. Less anxiety, more doing.
         </p>
       </div>
       <div class="mt-12">
@@ -24,19 +23,18 @@
             </div>
             <figure>
               <blockquote>
-                <p class="text-gray-800 text-lg font-semibold px-4 py-1">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et est hendrerit,
-                  porta nunc vitae.
+                <p class="text-xl font-ourfit leading-normal text-gray-600 px-4 py-2">
+                  Finding Acuella was a turning point for managing my academic and personal tasks.
                 </p>
               </blockquote>
               <div class="flex items-center gap-x-4 p-4 mt-6 bg-indigo-50">
                 <img
-                  src="https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg"
+                  src="https://randomuser.me/api/portraits/men/91.jpg"
                   class="w-16 h-16 rounded-full border-2 border-indigo-500"
                 />
                 <div>
-                  <span class="block text-gray-800 font-semibold">Martin escobar</span>
-                  <span class="block text-indigo-600 text-sm mt-0.5">Founder of meta</span>
+                  <span class="block text-gray-800 font-semibold">Destiny Uche</span>
+                  <span class="block text-indigo-600 text-sm mt-0.5">Senior Software Engineer</span>
                 </div>
               </div>
             </figure>
@@ -55,19 +53,18 @@
             </div>
             <figure>
               <blockquote>
-                <p class="text-gray-800 text-lg font-semibold px-4 py-1">
-                  Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur,
-                  adipisci velit.
+                <p class="text-xl font-ourfit leading-normal text-gray-600 px-4 py-2">
+                  Great product! I have been using Acuella for a while now and it elevated my productivity.
                 </p>
               </blockquote>
               <div class="flex items-center gap-x-4 p-4 mt-6 bg-indigo-50">
                 <img
-                  src="https://randomuser.me/api/portraits/men/46.jpg"
+                  src="https://randomuser.me/api/portraits/women/79.jpg"
                   class="w-16 h-16 rounded-full border-2 border-indigo-500"
                 />
                 <div>
-                  <span class="block text-gray-800 font-semibold">Simon andrew</span>
-                  <span class="block text-indigo-600 text-sm mt-0.5">Software engineer</span>
+                  <span class="block text-gray-800 font-semibold">Nargiz Seisek</span>
+                  <span class="block text-indigo-600 text-sm mt-0.5">MSc Student</span>
                 </div>
               </div>
             </figure>
@@ -86,9 +83,8 @@
             </div>
             <figure>
               <blockquote>
-                <p class="text-gray-800 text-lg font-semibold px-4 py-1">
-                  There is no one who loves pain itself, who seeks after it and wants to have it,
-                  simply because it is pain.
+                <p class="text-xl font-ourfit leading-normal text-gray-600 px-4 py-2">
+                  Acuella is a game changer. It has helped me to be more organized and focused.
                 </p>
               </blockquote>
               <div class="flex items-center gap-x-4 p-4 mt-6 bg-indigo-50">
@@ -97,8 +93,8 @@
                   class="w-16 h-16 rounded-full border-2 border-indigo-500"
                 />
                 <div>
-                  <span class="block text-gray-800 font-semibold">Micheal worin</span>
-                  <span class="block text-indigo-600 text-sm mt-0.5">Product designer</span>
+                  <span class="block text-gray-800 font-semibold">Andrew Wong</span>
+                  <span class="block text-indigo-600 text-sm mt-0.5">UI/UX Designer</span>
                 </div>
               </div>
             </figure>
@@ -111,9 +107,9 @@
       style="
         background: linear-gradient(
           152.92deg,
-          rgba(192, 132, 252, 0.2) 4.54%,
-          rgba(232, 121, 249, 0.17) 34.2%,
-          rgba(192, 132, 252, 0.1) 77.55%
+          rgba(124, 114, 146, 0.2) 4.54%,
+          rgba(104, 29, 116, 0.17) 34.2%,
+          rgba(124, 114, 146, 0.1) 77.55%
         );
       "
     ></div>

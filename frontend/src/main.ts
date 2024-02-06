@@ -19,16 +19,24 @@ const vuetify = createVuetify({
   directives,
 });
 
-
 const app = createApp(App);
-
 const token = localStorage.getItem('token');
-if (token) {
-    app.config.globalProperties.$userDecoded = VueJwtDecode.decode(token);
-} else {
-    app.config.globalProperties.$userDecoded = null;
-}
 
+if (token) {
+  app.config.globalProperties.$userDecoded = VueJwtDecode.decode(token);
+} else {
+  app.config.globalProperties.$userDecoded = {
+    userId: '',
+    name: '',
+    picture: '',
+    locale: '',
+    email: '',
+    is_ios_connected: false,
+    is_notion_connected: false,
+    notion_page_url: '',
+    isAuthenticated: false
+  };
+}
 
 app.use(createPinia());
 app.use(vuetify);
