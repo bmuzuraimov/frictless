@@ -15,7 +15,6 @@ export default {
     return {
       overlay: true,
       code: this.$route.query.code,
-      user: this.$auth0.user,
     }
   },
   mounted() {
@@ -25,7 +24,7 @@ export default {
     async getAccessToken() {
       try {
         const response = await axios.post('/api/notion_callback', {
-          userId: localStorage.getItem('userId'),
+          userId: this.$userDecoded.userId,
           code: this.code,
           redirect_uri: import.meta.env.VITE_NOTION_REDIRECT_URI
         })

@@ -7,10 +7,10 @@
               404 Error
             </h3>
             <p class="text-gray-800 text-4xl font-semibold sm:text-5xl">
-              Page not found
+              Unauthorized
             </p>
             <p>
-              Sorry, the page you are looking for could not be found or has been removed.
+              Sorry, you are not authorized to access this page.
             </p>
           </div>
           <div class="mt-12">

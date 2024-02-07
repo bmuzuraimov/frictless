@@ -1,12 +1,5 @@
 <template>
   <nav class="bg-white w-full md:static">
-    <ToastSuccess
-      :visible="showToast"
-      :message="toastMessage"
-      :toastType="toastType"
-      @close="showToast = false"
-    >
-    </ToastSuccess>
     <div class="items-center justify-center px-4 py-2 max-w-screen-xl mx-auto md:flex md:px-8">
       <div class="flex items-center justify-between py-3 md:py-5 md:block">
         <a href="javascript:void(0)">
@@ -54,6 +47,13 @@
               {{ link?.title }}
             </a>
           </li>
+          <li
+            class="md:hidden text-gray-600 text-ourfit hover:text-black"
+          >
+            <router-link to="/login">
+              Login
+            </router-link>
+          </li>
         </ul>
       </div>
       <div class="hidden md:inline-block">
@@ -84,22 +84,10 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
-import ToastSuccess from '@/components/home/ToastSuccess.vue'
-import { useUserStore } from '@/stores/user'
-
 export default {
-  components: {
-    ToastSuccess
-  },
   data() {
     return {
-      user: this.$auth0.user,
-      isAuthenticated: localStorage.getItem('token') ? true : false,
-      toastMessage: '',
-      toastType: '',
-      timezone: '',
-      showToast: false,
+      isAuthenticated: !!localStorage.getItem('token'),
       navigation: [
         { title: 'Story', router: '/story' },
         { title: 'Mission', router: '/mission' },
@@ -108,40 +96,14 @@ export default {
       open: false
     }
   },
-  mounted() {},
   methods: {
     menuOpen() {
       this.open = !this.open
     },
-    async login() {
-      try {
-        await this.$auth0.loginWithPopup()
-        if (this.$auth0.isAuthenticated && this.user) {
-          this.toastMessage = 'Successfully logged in!'
-          this.toastType = 'success'
-          this.showToast = true
-          this.user.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-          const response = await axios.post('/api/auth0_signin', this.user)
-          if (response.data.success) {
-            localStorage.setItem('token', response.data.token)
-            this.$router.push('/dashboard')
-          }
-        } else {
-          this.toastMessage = 'Login failed!'
-          this.toastType = 'error'
-          this.showToast = true
-        }
-      } catch (error) {
-        alert('Login error:' + error)
-      }
-    },
-    signup() {
-      this.$auth0.loginWithRedirect()
-    },
     async logout() {
-      useUserStore().clearUser();
       localStorage.removeItem('token');
       this.isAuthenticated = false;
+      this.$router.push('/');
     }
   }
 }

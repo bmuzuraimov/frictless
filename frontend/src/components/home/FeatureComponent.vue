@@ -1,43 +1,44 @@
 <template>
-    <section class="py-14">
-    <div class="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
-      <div class="relative max-w-2xl mx-auto sm:text-center">
-        <div class="relative z-10">
-          <h3 class="text-4xl font-ourfit text-secondary-800 font-semibold">
-            Features
-          </h3>
-          <p class="mt-3 text-xl font-ourfit leading-normal text-gray-600">
-            Advantages Over Other Task Management Tools
-          </p>
-        </div>
-        <div
-          class="absolute inset-0 max-w-xs mx-auto h-44 blur-[118px]"
-          style="
-            background: linear-gradient(
+  <section class="py-8 sm:py-14">
+  <div class="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-6 lg:px-8">
+    <div class="relative max-w-xl mx-auto text-center">
+      <div class="relative z-10">
+        <h3 class="text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">
+          Features
+        </h3>
+        <p class="mt-3 text-lg sm:text-xl font-ourfit leading-normal text-gray-600">
+          Advantages Over Other Task Management Tools
+        </p>
+      </div>
+      <div
+        class="absolute inset-0 max-w-xs mx-auto h-44 blur-[118px]"
+        style="
+          background: linear-gradient(
               152.92deg,
               rgba(192, 132, 252, 0.2) 4.54%,
               rgba(232, 121, 249, 0.26) 34.2%,
               rgba(192, 132, 252, 0.1) 77.55%
             );
-          "
-        ></div>
-      </div>
-      <div class="relative mt-12">
-        <ul class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          <li
-            v-for="feature in features"
-            :key="feature.title"
-            class="bg-white space-y-3 p-4 font-ourfit leading-normal border rounded-lg shadow-md hover:shadow-lg transition duration-150"
-          >
-            <div class="flex items-center mb-4 text-purple-600" v-html="feature.icon"></div>
-            <h5 class="text-lg font-semibold text-gray-800">{{ feature.title }}</h5>
-            <p class="mt-2 text-base">{{ feature.desc }}</p>
-          </li>
-        </ul>
-      </div>
+        "
+      ></div>
     </div>
-  </section>
+    <div class="relative mt-8 sm:mt-12">
+      <ul class="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <li
+          v-for="feature in features"
+          :key="feature.title"
+          class="bg-white space-y-3 p-4 font-ourfit leading-normal border rounded-lg shadow hover:shadow-lg transition duration-150 ease-in-out"
+        >
+          <div class="flex items-center mb-4 text-purple-600" v-html="feature.icon"></div>
+          <h5 class="text-md sm:text-lg font-semibold text-gray-800">{{ feature.title }}</h5>
+          <p class="text-sm sm:text-base">{{ feature.desc }}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
 </template>
+
 <script lang="ts">
 export default {
   data() {

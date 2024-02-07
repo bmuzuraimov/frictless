@@ -1,56 +1,65 @@
 <template>
-  <section class="relative py-14">
+  <section class="relative py-10 sm:py-14">
     <div
-      class="hidden lg:block absolute top-0 w-full h-[521px]"
+      class="hidden lg:block absolute top-0 w-full h-[420px] sm:h-[521px]"
       style="
         background: linear-gradient(
-          152.92deg,
-          rgba(124, 114, 146, 0.3) 4.54%,
-          rgba(124, 114, 146, 0.05) 34.2%,
-          rgba(124, 114, 146, 0.531) 77.55%
+          180deg,
+          rgba(187, 177, 208, 0) 0%,
+          rgba(124, 114, 146, 0.1) 15%,
+          rgba(173, 164, 193, 0.2) 50%,
+          rgba(124, 114, 146, 0.1) 85%,
+          rgba(187, 177, 208, 0) 100%
         );
       "
     ></div>
-    <div class="max-w-screen-xl mx-auto text-gray-600 sm:px-4 md:px-8">
-      <div class="relative max-w-xl mx-auto space-y-3 px-4 sm:text-center sm:px-0">
-        <h3 class="text-indigo-600 font-semibold">Pricing</h3>
-        <p class="text-gray-800 text-3xl font-semibold sm:text-4xl">Start Automating Now</p>
-        <div class="max-w-xl">
-          <p>
-            Whether you are a one student or CEO, we have a plan for everyone. Pause or cancel at anytime.
+    <div class="max-w-screen-xl mx-auto text-gray-600 px-4 sm:px-6 lg:px-8">
+      <div class="relative max-w-xl mx-auto space-y-3 px-4 sm:text-center">
+        <h3 class="text-indigo-600 font-semibold text-lg sm:text-xl">Pricing</h3>
+        <h2 class="text-center text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">
+          Start Automating Now
+        </h2>
+        <div class="max-w-md sm:max-w-xl mx-auto">
+          <p class="text-lg sm:text-xl font-ourfit leading-normal text-gray-600">
+            Whether you are a one student or CEO, we have a plan for everyone. Pause or cancel at
+            anytime.
           </p>
         </div>
       </div>
-      <div class="mt-16 justify-center sm:flex">
+      <div class="mt-12 sm:mt-16 justify-center sm:flex sm:flex-wrap gap-4">
         <div
           v-for="plan in plans"
           :key="plan.name"
-          class="relative flex-1 flex items-stretch flex-col mt-6 sm:mt-0 sm:rounded-xl sm:max-w-md"
-          :class="{ 'bg-white shadow-lg sm:border': plan.isMostPop }"
+          class="relative flex-1 flex items-stretch flex-col mt-6 sm:mt-0 sm:rounded-xl sm:max-w-md mx-2"
+          :class="
+            plan.isMostPop
+              ? 'bg-white shadow-lg sm:border'
+              : 'backdrop-blur-sm bg-white/20 shadow-lg sm:border border-gray-100/50'
+          "
         >
-          <div class="p-4 py-8 space-y-4 border-b md:p-8">
-            <span class="text-indigo-600 font-medium">
+          <div class="p-4 py-6 space-y-3 border-b md:p-6">
+            <span class="text-indigo-600 font-medium text-base sm:text-lg">
               {{ plan.name }}
             </span>
-            <div class="text-gray-800 text-3xl font-semibold">
-              ${{ plan.price }} <span class="text-xl text-gray-600 font-normal">/mo</span>
+            <div class="text-gray-800 text-2xl font-semibold">
+              ${{ plan.price }} <span class="text-lg text-gray-600 font-normal">/mo</span>
             </div>
-            <p>
+            <p class="text-sm sm:text-base">
               {{ plan.desc }}
             </p>
             <button
               @click="login"
-              class="px-3 py-3 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-secondary-700 hover:bg-secondary-500 active:bg-secondary-700"
+              class="px-4 py-2 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-secondary-700 hover:bg-secondary-500 active:bg-secondary-700"
             >
               {{ plan.buttonText }}
             </button>
           </div>
-          <ul class="p-4 py-8 space-y-3 md:p-8">
-            <li class="pb-2 text-gray-800 font-medium">Features</li>
-            <li v-for="feature in plan.features" :key="feature" class="flex items-center gap-5">
+          <ul class="p-4 py-6 space-y-2 md:p-6">
+            <li class="pb-1 text-gray-800 font-medium text-base">Features</li>
+            <li v-for="feature in plan.features" :key="feature" class="flex items-center gap-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 text-indigo-600"
+                class="h-4 w-4 text-indigo-600"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -60,7 +69,7 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="text-lg font-ourfit leading-normal text-gray-600">{{ feature }}</span>
+              <span class="text-base font-ourfit leading-normal text-gray-600">{{ feature }}</span>
             </li>
           </ul>
         </div>
@@ -68,7 +77,6 @@
     </div>
   </section>
 </template>
-
 <script lang="ts">
 export default {
   data() {
@@ -77,7 +85,7 @@ export default {
         {
           name: 'Freemium',
           desc: 'Jumpstart your new life for free.',
-          price: 0.00,
+          price: 0.0,
           isMostPop: false,
           features: [
             'Scheduler',
@@ -85,7 +93,7 @@ export default {
             'External calendar',
             'Statistics',
             'Manual schedule',
-            'Standard support',
+            'Standard support'
           ],
           buttonText: 'Start for Free'
         },
@@ -116,5 +124,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

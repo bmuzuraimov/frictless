@@ -34,6 +34,12 @@ const router = createRouter({
       meta: { requiresAuth: false }
     },
     {
+      path: '/mission',
+      name: 'mission',
+      component: () => import('@/views/MissionView.vue'),
+      meta: { requiresAuth: false }
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue'),
@@ -64,6 +70,12 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
+      path: '/unauthorized',
+      name: 'unauthorized',
+      component: () => import('@/views/UnauthorizedView.vue'),
+      meta: { requiresAuth: false }
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: '404',
       component: () => import('@/views/404View.vue'),
@@ -77,7 +89,7 @@ router.beforeEach((to, from, next) => {
   const isAuthenticated = localStorage.getItem('token'); // Or wherever you store your token
   
   if (requiresAuth && !isAuthenticated) {
-    next('/login');
+    next('/unauthorized');
   } else {
     next();
   }
