@@ -29,13 +29,13 @@ Acuella is a task automation tool designed to manage life with priorities.
 
 To get started:
 
-\```bash
+```bash
 git clone "https://github.com/bmuzuraimov/acuella"
-\```
+```
 
 Then, install the dependencies:
 
-\```bash
+```bash
 # Using npm
 npm install
 
@@ -44,7 +44,7 @@ yarn install
 
 # Using pnpm
 pnpm install
-\```
+```
 
 ## Tech Stack & Features
 
