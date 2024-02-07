@@ -43,7 +43,7 @@
         <ul class="px-4 text-sm font-medium md:flex-1">
           <li v-if="$userDecoded.notion_page_url">
             <a
-              :href="$userDecoded.notion_page_url.replace('-', '')"
+              :href="notion_href"
               class="flex items-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 duration-150"
             >
               <div class="text-gray-500">
@@ -148,6 +148,7 @@ export default {
   name: 'SidebarComponent',
   data() {
     return {
+      notion_href: this.$userDecoded.notion_page_url.replace(/-/g, ''),
       open: false,
       user: this.$userDecoded,
       navigation: [
