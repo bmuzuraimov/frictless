@@ -1,18 +1,67 @@
 <template>
-  <aside class="h-full md:w-1/5 border-r bg-white space-y-8">
-    <div class="flex flex-col h-full">
-      <div class="h-20 flex justify-center items-center px-4">
-        <router-link to="/" class="flex-none md:block hidden">
-          <img src="@/assets/images/logo.png" width="140" class="mx-auto" />
+  <aside class="md:h-full md:w-1/5 lg:w-1/6 border-r bg-white space-y-8">
+    <div class="flex flex-col md:h-full">
+      <div class="py-2 flex items-center px-4 md:h-20">
+        <router-link to="/" class="flex-none mx-auto md:block hidden">
+          <img src="@/assets/images/logo.png" width="140" class="" />
         </router-link>
+        <button
+          class="text-gray-700 ml-auto outline-none p-2 md:hidden rounded-md focus:border-gray-400 focus:border"
+          @click="open = !open"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            :class="[open ? 'block' : 'hidden']"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            :class="[open ? 'hidden' : 'block']"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 8h16M4 16h16" />
+          </svg>
+        </button>
       </div>
-      <div class="flex-1 flex flex-col h-full overflow-auto">
+      <div
+        :class="[
+          'flex-1 flex flex-col h-full overflow-auto',
+          { flex: open, 'hidden md:flex': !open }
+        ]"
+      >
         <ul class="px-4 text-sm font-medium md:flex-1">
           <li v-if="$userDecoded.notion_page_url">
             <a
-              :href="$userDecoded.notion_page_url"
+              :href="$userDecoded.notion_page_url.replace('-', '')"
               class="flex items-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 duration-150"
             >
+              <div class="text-gray-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="{1.5}"
+                  stroke="currentColor"
+                  class="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122"
+                  />
+                </svg>
+              </div>
               My Notion Page
             </a>
           </li>
@@ -68,9 +117,17 @@
           </ul>
           <div class="py-4 px-4 border-t md:block hidden">
             <div class="flex items-center gap-x-4">
-                <img v-if="$userDecoded.picture" :src="$userDecoded.picture" class="w-12 h-12 rounded-full" />
+              <img
+                v-if="$userDecoded.picture"
+                :src="$userDecoded.picture"
+                class="w-12 h-12 rounded-full"
+              />
               <div>
-                <span class="block text-gray-700 text-sm font-semibold">{{ $userDecoded.name }}</span>
+                <span class="block text-gray-700 text-sm font-semibold">
+                  <a :href="$userDecoded.name ? '/profile' : '/settings'" class="text-indigo-600">
+                    {{ $userDecoded.name ? $userDecoded.name : 'Set Your Profile' }}
+                  </a>
+                </span>
                 <a
                   href="javascript:void(0)"
                   class="block mt-px text-gray-600 hover:text-indigo-600 text-xs"
@@ -91,6 +148,7 @@ export default {
   name: 'SidebarComponent',
   data() {
     return {
+      open: false,
       user: this.$userDecoded,
       navigation: [
         {
@@ -108,11 +166,6 @@ export default {
           name: 'Achievements',
           icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>`
         },
-        {
-          href: 'javascript:void(0)',
-          name: 'Settings',
-          icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3" /></svg>`
-        }
       ],
       navsFooter: [
         {
@@ -128,13 +181,13 @@ export default {
       ]
     }
   },
-  mounted() {
-    console.log(this.user);
-  },
   methods: {
     async logout() {
-      localStorage.removeItem('token');
-      await this.$auth0.logout({ logoutParams: { returnTo: window.location.origin } })
+      localStorage.removeItem('token')
+      this.$router.push('/')
+    },
+    menuOpen() {
+      this.open = !this.open
     }
   }
 }

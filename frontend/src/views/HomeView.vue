@@ -56,11 +56,5 @@ export default {
     FAQComponent,
     TestimonialsComponent
   },
-  data() {
-    return {
-      // user: this.$auth0.user
-    }
-  },
-  methods: {}
 }
 </script>

@@ -49,6 +49,18 @@ export const useButtonStore = defineStore('buttonStore', {
             alert('Error saving to Apple Calendar');
           }
     },
+      async get_ios_email(userId: string) {
+        try{
+            const response = await axios.get('/api/calendar/apple', { params: { userId } });
+            if(response.data.success){
+                return response.data.email;
+            }else{
+                return '';
+            }
+          }catch(e){
+            return '';
+          }
+    },
     async schedule(userId: string) {
       this.scheduleButton.disabled = true
       this.scheduleButton.text = 'Scheduling...'

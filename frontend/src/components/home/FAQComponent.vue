@@ -1,18 +1,18 @@
 <template>
-    <div>
-    <section class="leading-relaxed max-w-screen-xl my-12 mx-auto px-4 md:px-8">
-      <div class="space-y-3 text-center">
-        <h1 class="text-2xl text-gray-800 font-semibold">Frequently Asked Questions</h1>
+  <div>
+    <section class="leading-relaxed max-w-screen-xl my-8 sm:my-12 mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="space-y-2 sm:space-y-3 text-center">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-ourfit text-secondary-800 font-semibold">Frequently Asked Questions</h1>
       </div>
-      <div class="mt-14 max-w-2xl mx-auto">
+      <div class="mt-10 sm:mt-14 max-w-3xl mx-auto">
         <div
           v-for="(item, index) in faqs"
           :key="index"
-          class="space-y-3 mt-5 overflow-hidden border-b"
+          class="space-y-2 sm:space-y-3 mt-4 sm:mt-5 overflow-hidden border-b"
           @click="toggleFaq(index)"
         >
           <h4
-            class="cursor-pointer pb-5 flex items-center justify-between text-lg text-gray-700 font-medium"
+            class="cursor-pointer pb-4 sm:pb-5 flex items-center justify-between text-base sm:text-lg text-gray-700 font-medium"
           >
             {{ item.q }}
             <svg
@@ -33,12 +33,7 @@
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 4v16m8-8H4"
-              />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
           </h4>
           <div
@@ -47,7 +42,7 @@
             :style="{ maxHeight: selectedFaq === index ? '1000px' : '0px' }"
           >
             <div>
-              <p class="text-lg font-ourfit leading-normal text-gray-600 pb-4">{{ item.a }}</p>
+              <p class="text-base sm:text-lg font-ourfit leading-normal text-gray-600 pb-4">{{ item.a }}</p>
             </div>
           </div>
         </div>
@@ -55,7 +50,6 @@
     </section>
   </div>
 </template>
-
 <script lang="ts">
 export default {
   data(){

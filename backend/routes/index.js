@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { withDB } = require("../utils/db");
+const { withDB, ObjectId } = require("../utils/db");
 const { generateToken } = require("../utils/auth");
 const { asyncHandler, AuthenticationError } = require("../utils/error_handler");
 const { generateCode, verifyCode } = require("../utils/handle_confirmation");
@@ -52,7 +52,7 @@ router.post("/login", asyncHandler(async (req, res) => {
 
 // Sign up user
 router.post("/sign-up", asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, timezone } = req.body;
   const existingUser = await req.db.collection("users").findOne({ email });
   if (existingUser) {
     return res.status(400).json({ message: "User already exists!" });
@@ -61,7 +61,8 @@ router.post("/sign-up", asyncHandler(async (req, res) => {
     email,
     password,
     name: null,
-    picture: "https://cdn-icons-png.flaticon.com/512/10337/10337609.png",
+    picture: "@/assets/images/default-profile.png",
+    timezone,
     locale: "en",
     is_ios_connected: null,
     is_notion_connected: null,
@@ -91,68 +92,68 @@ router.post("/sign-up", asyncHandler(async (req, res) => {
 }));
 
 
-router.post(
-  "/auth0_signin",
-  asyncHandler(async (req, res) => {
-    const { email_verified, sub, timezone, ...userData } = req.body;
-    if (!email_verified) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Email is not verified" });
-    }
-    const ip = (
-      req.headers["x-forwarded-for"] ||
-      req.connection.remoteAddress ||
-      ""
-    )
-      .split(",")[0]
-      .trim();
-    const existingUser = await req.db.collection("users").findOne({ _id: sub });
-    if (!existingUser) {
-      const newUser = await req.db.collection("users").insertOne({
-        _id: sub,
-        ...userData,
-        ip,
-        timezone,
-        creationDate: new Date(),
-        lastLogin: new Date(),
-      });
-      let token = generateToken({ 
-        userId: newUser.insertedId,
-        name: userData.name,
-        picture: userData.picture,
-        locale: userData.locale,
-        is_ios_connected: null,
-        is_notion_connected: null,
-        notion_page_url: null,
-      });
-      return res.json({
-        success: true,
-        message: "Signin successful",
-        token: token,
-      });
-    }
-    // If user exists, update their last login time
-    await req.db.collection("users").updateOne(
-      { _id: existingUser._id },
-      { $set: { lastLogin: new Date() } } // Update the last login time
-    );
-    let token = generateToken({ 
-      userId: existingUser._id,
-      name: existingUser.name,
-      picture: existingUser.picture,
-      locale: existingUser.locale,
-      is_ios_connected: existingUser.ios_email && existingUser.ios_password,
-      is_notion_connected: existingUser.parent_id && existingUser.notion_access_token,
-      notion_page_url: existingUser.parent_id ? "https://www.notion.so/" + existingUser.parent_id : null,
-    });
-    return res.json({
-      success: true,
-      message: "Signin successful",
-      token: token,
-    });
-  })
-);
+// router.post(
+//   "/auth0_signin",
+//   asyncHandler(async (req, res) => {
+//     const { email_verified, sub, timezone, ...userData } = req.body;
+//     if (!email_verified) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "Email is not verified" });
+//     }
+//     const ip = (
+//       req.headers["x-forwarded-for"] ||
+//       req.connection.remoteAddress ||
+//       ""
+//     )
+//       .split(",")[0]
+//       .trim();
+//     const existingUser = await req.db.collection("users").findOne({ _id: sub });
+//     if (!existingUser) {
+//       const newUser = await req.db.collection("users").insertOne({
+//         _id: sub,
+//         ...userData,
+//         ip,
+//         timezone,
+//         creationDate: new Date(),
+//         lastLogin: new Date(),
+//       });
+//       let token = generateToken({ 
+//         userId: newUser.insertedId,
+//         name: userData.name,
+//         picture: userData.picture,
+//         locale: userData.locale,
+//         is_ios_connected: null,
+//         is_notion_connected: null,
+//         notion_page_url: null,
+//       });
+//       return res.json({
+//         success: true,
+//         message: "Signin successful",
+//         token: token,
+//       });
+//     }
+//     // If user exists, update their last login time
+//     await req.db.collection("users").updateOne(
+//       { _id: existingUser._id },
+//       { $set: { lastLogin: new Date() } } // Update the last login time
+//     );
+//     let token = generateToken({ 
+//       userId: existingUser._id,
+//       name: existingUser.name,
+//       picture: existingUser.picture,
+//       locale: existingUser.locale,
+//       is_ios_connected: existingUser.ios_email && existingUser.ios_password,
+//       is_notion_connected: existingUser.parent_id && existingUser.notion_access_token,
+//       notion_page_url: existingUser.parent_id ? "https://www.notion.so/" + existingUser.parent_id : null,
+//     });
+//     return res.json({
+//       success: true,
+//       message: "Signin successful",
+//       token: token,
+//     });
+//   })
+// );
 
 router.post(
   "/notion_callback",
@@ -190,7 +191,7 @@ router.post(
         const updateResult = await req.db
           .collection("users")
           .updateOne(
-            { _id: userId },
+            { _id: new ObjectId(userId) },
             {
               $set: { notion_access_token: access_token, parent_id: parent_id },
             }
@@ -257,7 +258,7 @@ router.post(
         }, {});
       await req.db
         .collection("users")
-        .updateOne({ _id: userId }, { $set: { ...filteredResults } });
+        .updateOne({ _id: new ObjectId(userId) }, { $set: { ...filteredResults } });
       res.json({ success: true, message: "Success!", data: filteredResults });
     } catch (error) {
       console.error(error);
@@ -292,7 +293,7 @@ async function update_notion_dbids(req, userId, access_token, parent_id) {
       }, {});
     const result = await req.db
       .collection("users")
-      .updateOne({ _id: userId }, { $set: { ...filteredResults } });
+      .updateOne({ _id: new ObjectId(userId) }, { $set: { ...filteredResults } });
     return result;
   } catch (error) {
     console.error(error);
@@ -321,7 +322,7 @@ router.post(
   "/schedule",
   asyncHandler(async (req, res) => {
     const { userId } = req.body;
-    var user = await req.db.collection("users").findOne({ _id: userId });
+    var user = await req.db.collection("users").findOne({ _id: new ObjectId(userId) });
     if (
       !user.priorities_dbid ||
       !user.todo_dbid ||
@@ -343,7 +344,7 @@ router.post(
       );
     }
     // refetch the user
-    user = await req.db.collection("users").findOne({ _id: userId });
+    user = await req.db.collection("users").findOne({ _id: new ObjectId(userId) });
     const options = {
       timeZone: user.timezone,
       day: "2-digit",
@@ -354,7 +355,7 @@ router.post(
       second: "2-digit",
     };
     const date = new Intl.DateTimeFormat("en-GB", options).format(new Date());
-    const response = await axios.post(
+    const response = axios.post(
       process.env.LAMBDA_SCHEDULE_URL,
       {
         date: date,
@@ -384,7 +385,7 @@ router.post(
         },
       }
     );
-    if (response.data == "Success!") {
+    if (response.data.success) {
       res.json({ success: true, message: "Success!" });
     } else {
       return res
@@ -394,6 +395,18 @@ router.post(
   })
 );
 
+router.get(
+  "/calendar/apple",
+  asyncHandler(async (req, res) => {
+    // return user ios email
+    const { userId } = req.query;
+    const user = await req.db.collection("users").findOne({ _id: new ObjectId(userId) });
+    if (!user) {
+      return res.json({ success: false, ios_email: '' });
+    }
+    res.json({ success: true, ios_email: user.ios_email });
+  })
+);
 
 router.post(
   "/calendar/apple",
@@ -402,9 +415,10 @@ router.post(
     const result = await req.db
       .collection("users")
       .updateOne(
-        { _id: userId },
+        { _id: new ObjectId(userId) },
         { $set: { ios_email: ios_email, ios_password: ios_password } }
       );
+      console.log(result);
       if(result.modifiedCount == 1){
         res.json({ success: true, message: "Success!" });
       }else{

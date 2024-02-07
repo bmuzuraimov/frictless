@@ -2,19 +2,19 @@
     <section class="py-14">
     <div class="max-w-screen-xl mx-auto md:px-8">
       <div class="items-center gap-x-12 sm:px-4 md:px-0 lg:flex">
-        <div class="flex-1 sm:hidden lg:block">
+        <div class="flex-1 rounded-xl md:block lg:block">
           <img
-            src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-            class="md:max-w-lg sm:rounded-lg"
+            src="@/assets/images/cta-right.png"
+            class="md:max-w-lg rounded-xl"
             alt=""
           />
         </div>
         <div class="max-w-xl px-4 space-y-3 mt-6 sm:px-0 md:mt-0 lg:max-w-2xl">
-          <h3 class="text-4xl font-ourfit text-secondary-800 font-semibold">Focus Where It Counts</h3>
+          <h3 class="text-3xl lg:text-4xl font-ourfit text-secondary-800 font-semibold text-center lg:text-left">Focus Where It Counts</h3>
           <!-- <p class="text-gray-800 text-3xl font-semibold sm:text-4xl">
             Build your SaaS solution with help from our experts
           </p> -->
-          <p class="mt-3 text-xl font-ourfit leading-normal text-gray-600">
+          <p class="mt-3 text-lg lg:text-xl font-ourfit leading-normal text-gray-600 text-center lg:text-left">
             Merge your tasks with your calendar seamlessly. Acuella brings clarity to your day, helping you prioritize and focus on what truly moves the needle.
           </p>
           <router-link

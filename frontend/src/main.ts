@@ -2,9 +2,7 @@ import './index.css'
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import { createAuth0 } from '@auth0/auth0-vue';
 import VueJwtDecode from 'vue-jwt-decode'
-
 import App from './App.vue'
 import router from './router'
 
@@ -40,15 +38,5 @@ if (token) {
 
 app.use(createPinia());
 app.use(vuetify);
-app.use(
-  createAuth0({
-    domain: import.meta.env.VITE_AUTH0_DOMAIN,
-    clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
-    authorizationParams: {
-      redirect_uri: window.location.origin + '/dashboard'
-    }
-  })
-);
 app.use(router);
-
 app.mount('#app');

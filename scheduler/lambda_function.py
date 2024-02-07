@@ -24,7 +24,7 @@ def lambda_handler(event, context):
             myschedule = FairSchedule(user_data)
             myschedule.organize_daily_schedule(tomorrow)
             return {
-                "status": "success",
+                "success": True,
                 "statusCode": 200,
                 "body": "Success!",
             }
