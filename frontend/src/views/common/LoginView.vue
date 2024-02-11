@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts">
-import ToastSuccess from '@/components/home/ToastSuccess.vue'
+import ToastSuccess from '@/components/common/home/ToastSuccess.vue'
 import axios from 'axios'
 
 export default {
@@ -114,13 +114,13 @@ export default {
   methods: {
     async authenticate() {
       this.isLoading = true
-      const url = this.isSigningUp ? '/api/sign-up' : '/api/login'
+      const url = this.isSigningUp ? '/api/auth/sign-up' : '/api/auth/login'
       try {
         this.user.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-        const response = await axios.post(url, this.user)
+        const response = await axios.post(url, this.user);
         this.showToast = true
         this.toastMessage = response.data.message
-        this.toastType = response.data.success ? 'success' : 'error'
+        this.toastType = 'success'
         if (this.isSigningUp && response.data.success) {
           setTimeout(() => {
             this.$router.push('/confirm-code?email=' + this.user.email)
@@ -132,7 +132,12 @@ export default {
           }, 1000)
         }
       } catch (error) {
-        alert(error)
+        this.showToast = true
+          this.toastMessage = (error as any).response.data.message;
+          this.toastType = 'error'
+        setTimeout(() => {
+          this.showToast = false
+        }, 3000)
       } finally {
         this.isLoading = false
       }

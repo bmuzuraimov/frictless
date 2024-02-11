@@ -20,7 +20,7 @@ export default {
     async confirmCode() {
       if (this.code && this.email && this.code.length === 6) {
         try {
-          const response = await axios.post('/api/confirm-code', {
+          const response = await axios.post('/api/auth/confirm-code', {
             confirm_code: this.code,
             crypted_email: this.email
           })

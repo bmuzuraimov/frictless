@@ -23,7 +23,7 @@ export default {
   methods: {
     async getAccessToken() {
       try {
-        const response = await axios.post('/api/notion_callback', {
+        const response = await axios.post('/notion/callback', {
           userId: this.$userDecoded.userId,
           code: this.code,
           redirect_uri: import.meta.env.VITE_NOTION_REDIRECT_URI

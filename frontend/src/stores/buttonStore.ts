@@ -8,13 +8,15 @@ export const useButtonStore = defineStore('buttonStore', {
       disabled: false,
       tw_class: [
         'flex',
+        'relative',
         'flex-row',
         'items-center',
         'justify-center',
         'p-5',
         'rounded-lg',
         'border',
-        'hover:bg-gray-50'
+        'hover:bg-gray-50',
+        'overflow-hidden',
       ]
     },
     connectAppleCalendarButton: {
@@ -37,7 +39,13 @@ export const useButtonStore = defineStore('buttonStore', {
         try{
             this.submitAppleCalendarButton.disabled = true;
             this.submitAppleCalendarButton.text = 'Saving...';
-            const response = await axios.post('/api/calendar/apple', formData);
+            const token = localStorage.getItem('token');
+            const config = {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            };
+            const response = await axios.post('/api/user/calendar/apple', formData, config);
             if(response.data.success){
                 this.submitAppleCalendarButton.text = 'Saved';
             }else{
@@ -51,7 +59,13 @@ export const useButtonStore = defineStore('buttonStore', {
     },
       async get_ios_email(userId: string) {
         try{
-            const response = await axios.get('/api/calendar/apple', { params: { userId } });
+          const token = localStorage.getItem('token');
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          };
+            const response = await axios.get('/api/user/calendar/apple', { params: { userId } });
             if(response.data.success){
                 return response.data.email;
             }else{
@@ -66,7 +80,14 @@ export const useButtonStore = defineStore('buttonStore', {
       this.scheduleButton.text = 'Scheduling...'
       this.scheduleButton.tw_class.push('bg-grey-50')
       try {
-        const response = await axios.post('/api/schedule', { userId })
+        const token = localStorage.getItem('token');
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        console.log(userId);
+        const response = await axios.post('/api/notion/schedule', { userId }, config)
         if (response.data.success) {
           this.scheduleButton.tw_class = this.scheduleButton.tw_class.filter(
             (className) => className !== 'bg-grey-50'

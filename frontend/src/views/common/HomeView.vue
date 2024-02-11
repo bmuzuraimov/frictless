@@ -28,18 +28,18 @@
 </template>
 
 <script lang="ts">
-import BannerComponent from '@/components/home/BannerComponent.vue'
-import NavbarComponent from '@/components/home/NavbarComponent.vue'
-import HeroComponent from '@/components/home/HeroComponent.vue'
-import FeatureComponent from '@/components/home/FeatureComponent.vue'
-import CTARightComponent from '@/components/home/CTARightComponent.vue'
-import CTALeftComponent from '@/components/home/CTALeftComponent.vue'
-import StatsComponent from '@/components/home/StatsComponent.vue'
-import PricingComponent from '@/components/home/PricingComponent.vue'
-import TimeCalculatorComponent from '@/components/home/TimeCalculatorComponent.vue'
-import FooterComponent from '@/components/home/FooterComponent.vue'
-import FAQComponent from '@/components/home/FAQComponent.vue'
-import TestimonialsComponent from '@/components/home/TestimonialsComponent.vue'
+import BannerComponent from '@/components/common/home/BannerComponent.vue'
+import NavbarComponent from '@/components/common/home/NavbarComponent.vue'
+import HeroComponent from '@/components/common/home/HeroComponent.vue'
+import FeatureComponent from '@/components/common/home/FeatureComponent.vue'
+import CTARightComponent from '@/components/common/home/CTARightComponent.vue'
+import CTALeftComponent from '@/components/common/home/CTALeftComponent.vue'
+import StatsComponent from '@/components/common/home/StatsComponent.vue'
+import PricingComponent from '@/components/common/home/PricingComponent.vue'
+import TimeCalculatorComponent from '@/components/common/home/TimeCalculatorComponent.vue'
+import FooterComponent from '@/components/common/home/FooterComponent.vue'
+import FAQComponent from '@/components/common/home/FAQComponent.vue'
+import TestimonialsComponent from '@/components/common/home/TestimonialsComponent.vue'
 
 export default {
   components: {

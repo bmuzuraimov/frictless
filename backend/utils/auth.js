@@ -1,32 +1,42 @@
-const jwt = require('jsonwebtoken');
-const { AuthorizationError } = require('./error_handler');
+const jwt = require("jsonwebtoken");
+const { AuthorizationError } = require("./error_handler");
 
-// generate a token
-const generateToken = function (user) {
-    return jwt.sign(user, process.env.TOKEN_SECRET, {
-        expiresIn: 86400 // expires in 24 hours
+// Function to generate a JWT token
+const generateToken = function(user, scope = "user") {
+    const payload = {
+        ...user,
+        scope: scope,
+    };
+    return jwt.sign(payload, process.env.TOKEN_SECRET, {
+        expiresIn: 86400, // Token expires in 24 hours
     });
-}
-
-const isMentor = function (req, res, next) {
-    if (req.authInfo.scope !== 'mentor') {
-        throw new AuthorizationError("Unauthorized: mentor role required");
-    }
-    next();
 };
 
-const isMentee = function (req, res, next) {
-    if (req.authInfo.scope !== 'mentee') {
-        throw new AuthorizationError("Unauthorized: mentee role required");
+// Generic function to verify token and check scope
+const verifyScope = (expectedScope) => (req, res, next) => {
+    const bearerHeader = req.headers['authorization'];
+    if (!bearerHeader) {
+        throw new AuthorizationError('Unauthorized: No token provided');
     }
-    next();
+    const token = bearerHeader.split(' ')[1];
+    // console.log(token);
+    // console.log(process.env.TOKEN_SECRET);
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+            throw new AuthorizationError('Unauthorized: Token is invalid');
+        }
+        if (decoded.scope !== expectedScope) {
+            throw new AuthorizationError(`Unauthorized: ${expectedScope} role required`);
+        }
+        req.user = decoded; // Attach the decoded token to the request
+        next();
+    });
 };
 
-const isAdmin = function (req, res, next) {
-    if (req.authInfo.scope !== 'admin') {
-        throw new AuthorizationError("Unauthorized: Admin role required");
-    }
-    next();
-};
+// Middleware for different roles
+const isUser = verifyScope("user");
+const isAdmin = verifyScope("admin");
+const isMentor = verifyScope("mentor");
+const isMentee = verifyScope("mentee");
 
-module.exports = { generateToken, isAdmin, isMentor, isMentee };
+module.exports = { generateToken, isUser, isAdmin, isMentor, isMentee };

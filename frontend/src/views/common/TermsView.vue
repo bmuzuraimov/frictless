@@ -752,7 +752,7 @@
   </div>
 </template>
 <script lang="ts">
-import NavbarComponent from '@/components/home/NavbarComponent.vue'
+import NavbarComponent from '@/components/common/home/NavbarComponent.vue'
 export default {
   components: {
     NavbarComponent

@@ -1,5 +1,5 @@
 <template>
-  <section class="py-8 sm:py-14">
+  <section class="py-8 sm:py-14" data-aos="fade-in" data-aos-easing="ease-in-sine" data-aos-duration="1000">
   <div class="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-6 lg:px-8">
     <div class="relative max-w-xl mx-auto text-center">
       <div class="relative z-10">

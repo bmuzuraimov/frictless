@@ -34,7 +34,7 @@
           :class="
             plan.isMostPop
               ? 'bg-white shadow-lg sm:border'
-              : 'backdrop-blur-sm bg-white/20 shadow-lg sm:border border-gray-100/50'
+              : 'backdrop-blur-sm bg-white/10 shadow-lg sm:border border-gray-100/40'
           "
         >
           <div class="p-4 py-6 space-y-3 border-b md:p-6">

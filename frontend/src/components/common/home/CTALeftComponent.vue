@@ -1,6 +1,6 @@
 <template>
-  <section class="relative max-w-screen-xl mx-auto py-6 px-4 sm:px-8">
-    <div class="absolute top-0 left-0 w-full h-full bg-white opacity-40"></div>
+  <section data-aos="fade-in" data-aos-easing="ease-in-sine" data-aos-duration="1000" class="relative max-w-screen-xl mx-auto py-6 px-4 sm:px-8">
+    <!-- <div class="absolute top-0 left-0 w-full h-full bg-white opacity-40"></div> -->
     <div class="relative z-10 gap-5 items-center lg:flex">
       <div class="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-xl lg:text-left">
         <h3 class="text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">Effortless Organization</h3>

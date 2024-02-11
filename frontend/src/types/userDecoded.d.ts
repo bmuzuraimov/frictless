@@ -5,6 +5,7 @@ declare module '@vue/runtime-core' {
     $userDecoded: {
         userId: string;
         name: string;
+        ios_userId: string;
         picture: string;
         locale: string;
         email: string;
