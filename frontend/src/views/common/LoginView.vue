@@ -25,6 +25,7 @@
               v-model="authStore.user.email"
               required
               class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-500 placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+              autocomplete="current-email"
             />
           </div>
           <div>
@@ -34,6 +35,7 @@
               v-model="authStore.user.password"
               required
               class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-500 placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+              autocomplete="current-password"
             />
           </div>
           <div>
@@ -90,7 +92,7 @@
 
 <script lang="ts">
 import ToastMessage from '@/components/common/home/ToastMessage.vue'
-import { useAuthStore } from '@/stores/common/auth';
+import { useAuthStore } from '@/stores/common/auth'
 
 export default {
   name: 'AuthForm',
@@ -99,20 +101,20 @@ export default {
   },
   data() {
     return {
-      authStore: useAuthStore(),
+      authStore: useAuthStore()
     }
   },
   mounted() {
     if (localStorage.getItem('token')) {
-      this.$router.push('/dashboard');
+      this.$router.push('/dashboard')
     }
   },
   methods: {
     authenticate() {
-      this.authStore.authenticate();
+      this.authStore.authenticate()
     },
     toggleSignup() {
-      this.authStore.toggleSignup();
+      this.authStore.toggleSignup()
     }
   }
 }

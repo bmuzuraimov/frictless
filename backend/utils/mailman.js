@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const { Resend } = require('resend');
 const { Encipher } = require("./cipherman");
 require("dotenv").config();
 
@@ -6,16 +7,17 @@ class EmailSender {
   constructor() {
     this.userEmail = process.env.SENDER_EMAIL;
     this.appPassword = process.env.EMAIL_PASSWORD;
-    this.transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: this.userEmail,
-        pass: this.appPassword,
-      },
-    });
+    this.resend = new Resend("re_J32VweuP_2aWKx5zrU3DpTeQiBVAdzvHY");
+    // this.transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: this.userEmail,
+    //     pass: this.appPassword,
+    //   },
+    // });
   }
 
-  sendEmail(email_to, confirm_code) {
+  async sendEmail(email_to, confirm_code) {
     const encoded_email = Encipher(email_to);
     const confirmationLink = `${
       process.env.FRONTEND_URL
@@ -27,16 +29,6 @@ class EmailSender {
       from: this.userEmail,
       to: email_to,
       subject: "Complete Your Registration",
-      text: `Hello,
-    
-    Thank you for registering with us. Please confirm your email address to complete your registration and get started.
-    
-    Confirm your email: ${confirmationLink}
-    
-    If you did not initiate this registration, please ignore this email or contact support if you have concerns.
-    
-    Best,
-    Acuella`,
       html: `
       <!DOCTYPE html>
       <html>
@@ -302,14 +294,15 @@ class EmailSender {
       </html>
     `,
     };
+    await this.resend.emails.send(mailOptions);
 
-    this.transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.error("Error sending email:", error); // Changed from alert to console.error for backend logging
-      } else {
-        console.log("Email sent:", info.response); // Changed from alert to console.log for backend logging
-      }
-    });
+    // this.transporter.sendMail(mailOptions, function (error, info) {
+    //   if (error) {
+    //     console.error("Error sending email:", error); // Changed from alert to console.error for backend logging
+    //   } else {
+    //     console.log("Email sent:", info.response); // Changed from alert to console.log for backend logging
+    //   }
+    // });
   }
 }
 
