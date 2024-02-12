@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { withDB, ObjectId } = require("../utils/db");
 const { isUser } = require("../utils/auth");
-const { asyncHandler } = require("../utils/error_handler");
+const { asyncHandler, NotFoundError, InternalServerError } = require("../utils/error_handler");
 const { validateNotionCallback } = require("../utils/validations");
 const { Decipher } = require("../utils/cipherman");
 const { EN_DB_NAMES } = require("../utils/constants/notion_db_names");
@@ -34,11 +34,11 @@ router.post(
           },
         }
       );
-      if (response.status !== 200) {
-        throw new InternalServerError(response.data);
+      if (!response.data.duplicated_template_id) {
+        res.json({success: false, message: "Please select provided templated by developer"});
       } else {
-        const access_token = response.access_token;
-        const parent_id = response.duplicated_template_id;
+        const access_token = response.data.access_token;
+        const parent_id = response.data.duplicated_template_id;
         const updateResult = await req.db.collection("users").updateOne(
           { _id: new ObjectId(userId) },
           {
@@ -46,9 +46,9 @@ router.post(
           }
         );
         if (updateResult.matchedCount === 0) {
-          throw new NotFoundError("User not found");
+          res.json({success: false, message: "User not found"});
         } else if (updateResult.modifiedCount === 0) {
-          throw new InternalServerError("Document not modified");
+          res.json({success: false, message: "Document not modified"});
         }
         res.json({
           success: true,
@@ -58,7 +58,7 @@ router.post(
         });
       }
     } catch (error) {
-      throw new InternalServerError(error.response.data);
+      throw new NotFoundError(error.response.data.message);
     }
   })
 );
@@ -129,19 +129,13 @@ router.post(
         email: user.email,
       },
     };
-    axios
-      .post(process.env.LAMBDA_SCHEDULE_URL, scheduleData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log("Lambda function called successfully");
-      })
-      .catch((error) => {
-        console.error("Error calling Lambda function", error);
-        throw new InternalServerError("Error calling Lambda function");
-      });
+    fetch(process.env.LAMBDA_SCHEDULE_URL, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(scheduleData),
+    });
     res.json({
       success: true,
       message: "Request accepted. Processing in the background.",

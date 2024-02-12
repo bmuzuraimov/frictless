@@ -23,20 +23,27 @@ export default {
   methods: {
     async getAccessToken() {
       try {
-        const response = await axios.post('/notion/callback', {
+        const token = localStorage.getItem('token');
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.post('/api/notion/callback', {
           userId: this.$userDecoded.userId,
           code: this.code,
           redirect_uri: import.meta.env.VITE_NOTION_REDIRECT_URI
-        })
+        }, config)
         const { success } = response.data;
         localStorage.setItem('notionAuthStatus', success ? 'success' : 'failed');
         localStorage.setItem('notionAuthTab', 'false');
         window.close()
-      } catch (error) {
+      } catch (error:any) {
+        console.log(error)
+        alert(error.response.data.message)
         localStorage.setItem('notionAuthStatus', 'failed');
         localStorage.setItem('notionAuthTab', 'false');
         window.close();
-        throw error
       }
     }
   }
