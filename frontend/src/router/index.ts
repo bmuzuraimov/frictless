@@ -1,97 +1,77 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import userRoutes from './user'
+import commonRoutes from './common'
+import axios from 'axios'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: () => import('@/views/HomeView.vue'),
-      meta: { requiresAuth: false }
-    },
-    {
-      path: '/privacy',
-      name: 'privacy',
-      component: () => import('@/views/PrivacyView.vue'),
-      meta: { requiresAuth: false }
-    },
-    {
-      path: '/terms',
-      name: 'terms',
-      component: () => import('@/views/TermsView.vue'),
-      meta: { requiresAuth: false }
-    },
-    {
-      path: '/story',
-      name: 'story',
-      component: () => import('@/views/StoryView.vue'),
-      meta: { requiresAuth: false }
-    },
-    {
-      path: '/guide',
-      name: 'guide',
-      component: () => import('@/views/GuideView.vue'),
-      meta: { requiresAuth: false }
-    },
-    {
-      path: '/mission',
-      name: 'mission',
-      component: () => import('@/views/MissionView.vue'),
-      meta: { requiresAuth: false }
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/LoginView.vue'),
-      meta: { requiresAuth: false }
-    },
-    {
-      path: '/confirm-code',
-      name: 'confirm-code',
-      component: () => import('@/views/ConfirmCodeView.vue'),
-      meta: { requiresAuth: false }
-    },
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('@/views/DashboardView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: () => import('@/views/ProfileView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/notion_callback',
-      name: 'notion_callback',
-      component: () => import('@/views/NotionCallbackView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/unauthorized',
-      name: 'unauthorized',
-      component: () => import('@/views/UnauthorizedView.vue'),
-      meta: { requiresAuth: false }
-    },
+    ...userRoutes,
+    ...commonRoutes,
     {
       path: '/:pathMatch(.*)*',
       name: '404',
-      component: () => import('@/views/404View.vue'),
+      component: () => import('@/views/common/404View.vue'),
       meta: { requiresAuth: false }
-    },
+    }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const isAuthenticated = localStorage.getItem('token'); // Or wherever you store your token
-  
+  AOS.init()
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
+  const isAuthenticated = localStorage.getItem('token')
   if (requiresAuth && !isAuthenticated) {
-    next('/unauthorized');
+    next('/unauthorized')
   } else {
-    next();
+    next()
+  }
+})
+
+router.beforeEach(async (to, from, next) => {
+  AOS.init();
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const scope = to.meta.scope;
+  const token = localStorage.getItem('token');
+  const lastCheckedTimestamp = localStorage.getItem('bbAB9HUN2Zdrerheh9yCsrLjOa9NOB7K'); // lastChecked datetime
+  const now = new Date();
+
+  if (requiresAuth && !token) {
+    next('/unauthorized');
+  } else if (requiresAuth && token) {
+    // Convert lastCheckedTimestamp from string to Date
+    const lastChecked = lastCheckedTimestamp ? new Date(parseInt(lastCheckedTimestamp)) : null;
+
+    // Check if the last verification was within the last 60 seconds (60000 ms)
+    if (lastChecked && now.getTime() - lastChecked.getTime() < 60000) {
+      // Skip verification, use the recent check as valid
+      next();
+    } else {
+      // Perform a new verification
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const route = '/api/auth/user_verify'; // Example API route
+        await axios.post(route, { scope }, config);
+
+        // Update lastChecked in localStorage
+        localStorage.setItem('bbAB9HUN2Zdrerheh9yCsrLjOa9NOB7K', now.getTime().toString());
+        
+        next();
+      } catch (error:any) {
+        // On error, clear token and lastChecked
+        localStorage.removeItem('token');
+        localStorage.removeItem('bbAB9HUN2Zdrerheh9yCsrLjOa9NOB7K');
+        next('/unauthorized');
+      }
+    }
+  } else {
+    next(); // No auth required, proceed as normal
   }
 });
 
