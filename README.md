@@ -1,5 +1,5 @@
 <a href="https://www.acuella.com">
-  <img alt="Acuella – AI Era Life Management" src="https://www.acuella.com/assets/logo.png">
+  <img alt="Acuella – AI Era Life Management" src="https://www.acuella.com/favicon.ico">
   <h1 align="center">Acuella</h1>
 </a>
 
