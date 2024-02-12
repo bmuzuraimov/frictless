@@ -1,7 +1,9 @@
-<a href="https://www.acuella.com">
-  <img alt="Acuella – AI Era Life Management" src="https://www.acuella.com/favicon.ico">
-  <h1 align="center">Acuella</h1>
-</a>
+<p align="center">
+  <a href="https://www.acuella.com">
+    <img alt="Acuella – AI Era Life Management" src="https://www.acuella.com/favicon.ico">
+  </a>
+</p>
+<h1 align="center">Acuella</h1>
 
 <p align="center">
   AI Era Life Management
