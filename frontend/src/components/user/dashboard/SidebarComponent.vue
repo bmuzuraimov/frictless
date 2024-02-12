@@ -1,9 +1,9 @@
 <template>
-  <aside class="md:h-full md:w-1/5 lg:w-1/6 border-r bg-white space-y-8">
+  <aside class="md:h-full md:w-1/5 lg:w-60 border-r bg-white space-y-8">
     <div class="flex flex-col md:h-full">
       <div class="py-2 flex items-center px-4 md:h-20">
         <router-link to="/" class="flex-none mx-auto md:block hidden">
-          <img src="@/assets/images/logo.png" width="140" class="" />
+          <img src="@/assets/images/logo.png" width="120" class="" />
         </router-link>
         <button
           class="text-gray-700 ml-auto outline-none p-2 md:hidden rounded-md focus:border-gray-400 focus:border"
@@ -116,24 +116,16 @@
             </li>
           </ul>
           <div class="py-4 px-4 border-t md:block hidden">
-            <div class="flex items-center gap-x-4">
-              <img
-                v-if="$userDecoded.picture"
-                :src="$userDecoded.picture"
-                class="w-12 h-12 rounded-full"
-              />
+            <div
+              class="flex items-center gap-x-2 cursor-pointer text-gray-600 rounded-lg hover:bg-gray-50 active:bg-gray-100 duration-150"
+            >
+              <img src="/favicon.ico" class="w-8 h-8 rounded-full" />
               <div>
                 <span class="block text-gray-700 text-sm font-semibold">
-                  <a :href="$userDecoded.name ? '/profile' : '/settings'" class="text-indigo-600">
-                    {{ $userDecoded.name ? $userDecoded.name : 'Set Your Profile' }}
-                  </a>
+                  <router-link to="/profile" class="text-indigo-600">
+                    {{ $userDecoded.email }}
+                  </router-link>
                 </span>
-                <a
-                  href="javascript:void(0)"
-                  class="block mt-px text-gray-600 hover:text-indigo-600 text-xs"
-                >
-                  View profile
-                </a>
               </div>
             </div>
           </div>
@@ -148,10 +140,17 @@ export default {
   name: 'SidebarComponent',
   data() {
     return {
-      notion_href: this.$userDecoded.notion_page_url ? this.$userDecoded.notion_page_url.replace(/-/g, '') : '',
+      notion_href: this.$userDecoded.notion_page_url
+        ? this.$userDecoded.notion_page_url.replace(/-/g, '')
+        : '',
       open: false,
       user: this.$userDecoded,
       navigation: [
+        // {
+        //   href: 'javascript:void(0)',
+        //   name: 'Overview',
+        //   icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-5 h-5"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.336"></g><g id="SVGRepo_iconCarrier"><path d="M4 9.5L.5 13H3v9h7v-6h4v6h7v-9h2.5L12 1.5l-4 4V3H4zM5 4h2v3.914l5-5L21.086 12H20v9h-5v-6H9v6H4v-9H2.914L5 9.914z"></path><path fill="none" d="M0 0h24v24H0z"></path></g></svg>`
+        // },
         {
           href: 'javascript:void(0)',
           name: 'Setup',
@@ -166,7 +165,7 @@ export default {
           href: 'javascript:void(0)',
           name: 'Achievements',
           icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>`
-        },
+        }
       ],
       navsFooter: [
         {

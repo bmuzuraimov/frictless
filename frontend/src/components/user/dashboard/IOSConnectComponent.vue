@@ -51,7 +51,7 @@
         </form>
         <div class="mt-4">
           <ol class="list-decimal pl-5 space-y-1 text-sm">
-            <li>Sign in to <a href="https://appleid.apple.com" class="text-blue-600 hover:underline">appleid.apple.com</a>.</li>
+            <li>Sign in to <a href="https://appleid.apple.com" target="_blank" class="text-blue-600 hover:underline">appleid.apple.com</a>.</li>
             <li>Select App-Specific Passwords in the Sign-In and Security section.</li>
             <li>Follow the steps on your screen to generate an app-specific password.</li>
             <li>Enter the app-specific password into the password field of the app.</li>

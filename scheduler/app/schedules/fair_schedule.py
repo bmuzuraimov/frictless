@@ -58,17 +58,21 @@ class FairSchedule(Schedule):
             for task in self.schedule
         ]
         self.schedule_db.update_schedule_by_week_day(self.schedule)
-        print(self.ios_username, self.ios_password)
-        if(self.ios_username and self.ios_password):
+
+        if self.ios_username and self.ios_password:
             self.clear_phone_calendar()
             for row in self.schedule:
-                dtstart = datetime.combine(datetime.today() + timedelta(days=1), row['start'].time())
-                adj_dtend = row['end'] - timedelta(minutes=1)
+                # Assuming the 'start' and 'end' in row are now strings, convert them back to datetime objects for calculation
+                # Parse the datetime strings back to datetime objects
+                dt_start_str = datetime.strptime(row['start'], '%Y-%m-%dT%H:%M:%S.000')
+                dt_end_str = datetime.strptime(row['end'], '%Y-%m-%dT%H:%M:%S.000')
+                
+                # Adjust the datetime objects as needed
+                dtstart = datetime.combine(datetime.today() + timedelta(days=1), dt_start_str.time())
+                adj_dtend = dt_end_str - timedelta(minutes=1)  # Adjust end time by subtracting one minute
                 dtend = datetime.combine(datetime.today() + timedelta(days=1), adj_dtend.time())
+                
                 self.phone_add_event(row['name'], dtstart, dtend)
-        else:
-            print('iOS username and password not found')
-            print(self.ios_username, self.ios_password)
 
     def adjust_tasks_to_avoid_overlap(self, todo):
         # TODO: ensure opposite tasks are not overlapped
