@@ -28,9 +28,7 @@ export default {
           code: this.code,
           redirect_uri: import.meta.env.VITE_NOTION_REDIRECT_URI
         })
-        const { success, access_token, parent_id } = response.data;
-        localStorage.setItem('notionAccessToken', access_token);
-        localStorage.setItem('notionParentId', parent_id);
+        const { success } = response.data;
         localStorage.setItem('notionAuthStatus', success ? 'success' : 'failed');
         localStorage.setItem('notionAuthTab', 'false');
         window.close()

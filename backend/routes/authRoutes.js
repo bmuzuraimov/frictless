@@ -1,17 +1,21 @@
 const express = require("express");
 const router = express.Router();
+const bcryptjs = require("bcryptjs");
 const { withDB } = require("../utils/db");
-const { generateToken } = require("../utils/auth");
+const { generateToken, isUser } = require("../utils/auth");
 const { asyncHandler, AuthenticationError, ValidationError } = require("../utils/error_handler");
+const { validateLogin, validateSignup } = require("../utils/validations");
 const { generateCode, verifyCode } = require("../utils/handle_confirmation");
 const { emailSender } = require("../utils/mailman");
 const { Encipher, Decipher } = require("../utils/cipherman");
-const bcryptjs = require("bcryptjs");
-const axios = require("axios");
+
+// Apply the withDB middleware globally to all routes in this router
 router.use(withDB);
 
+// Login endpoint
 router.post(
   "/login",
+  validateLogin,
   asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await req.db.collection("users").findOne({ email });
@@ -25,7 +29,6 @@ router.post(
     if (!match) {
       throw new AuthenticationError("Wrong credentials!");
     }
-    console.log(user._id);
     const token = generateToken({
       userId: user._id,
       name: user.name,
@@ -43,20 +46,31 @@ router.post(
   })
 );
 
+// User verification endpoint
+router.post(
+  "/user_verify",
+  isUser,
+  asyncHandler(async (req, res) => {
+    res.json({ success: true, message: "User is verified!" });
+  })
+);
+
+// Sign-up endpoint
 router.post(
   "/sign-up",
+  validateSignup,
   asyncHandler(async (req, res) => {
     const { email, password, timezone } = req.body;
     const existingUser = await req.db.collection("users").findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists!" });
+      throw new AuthenticationError("User already exists!");
     }
     const encryptedPassword = await bcryptjs.hash(password, 10);
     const newUser = await req.db.collection("users").insertOne({
       email,
       password: encryptedPassword,
       name: null,
-      picture: "@/assets/images/default-profile.png",
+      picture: "/src/assets/images/default-profile.png",
       timezone,
       locale: "en",
       is_ios_connected: null,
@@ -66,26 +80,16 @@ router.post(
       creationDate: new Date(),
       lastLogin: new Date(),
     });
-
     const confirmationCode = await generateCode(email);
     emailSender.sendEmail(email, confirmationCode);
-    const token = generateToken({
-      userId: newUser.insertedId,
-      name: null,
-      picture: null,
-      locale: "en",
-      is_ios_connected: null,
-      is_notion_connected: null,
-      notion_page_url: null,
-    });
     res.json({
       success: true,
       message: "Sign-up successful! Please confirm your email address.",
-      token: token,
     });
   })
 );
 
+// Confirm code endpoint
 router.post(
   "/confirm-code",
   asyncHandler(async (req, res) => {
@@ -99,14 +103,12 @@ router.post(
         await req.db
           .collection("users")
           .updateOne({ email }, { $set: { verified: true } });
-        res
-          .status(200)
-          .json({ success: true, message: "Code confirmed successfully" });
+        res.json({ success: true, message: "Code confirmed successfully" });
       } else {
-        res.status(400).json({ success: false, message: "Invalid code" });
+        throw new ValidationError("Invalid code");
       }
     } catch (error) {
-      res.status(500).json({ success: false, message: "Server error" });
+      throw new ValidationError("Server error");
     }
   })
 );

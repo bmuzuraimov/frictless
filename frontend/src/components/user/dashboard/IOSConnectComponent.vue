@@ -25,7 +25,7 @@
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
             <input
-              v-model="formData.ios_email"
+              v-model="useAppleCalendar.formData.ios_email"
               type="email"
               id="email"
               class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500"
@@ -35,7 +35,7 @@
           <div>
             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
             <input
-              v-model="formData.ios_password"
+              v-model="useAppleCalendar.formData.ios_password"
               type="password"
               id="password"
               class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500"
@@ -46,7 +46,7 @@
             type="submit"
             class="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            {{ useButtonStore.submitAppleCalendarButton.text }}
+            {{ useAppleCalendar.submitAppleCalendarButton.text }}
           </button>
         </form>
         <div class="mt-4">
@@ -63,7 +63,7 @@
   <!-- End of Modal for Apple Calendar -->
 </template>
 <script lang="ts">
-import { useButtonStore } from '@/stores/buttonStore'
+import { useAppleCalendar } from '@/stores/user/appleCalendar'
 export default{
   props: {
     isModal: {
@@ -72,32 +72,23 @@ export default{
     },
   },
   mounted() {
-    if(this.isModal){
-      this.get_ios_email();
-    }
+    this.get_ios_email();
   },
   data(){
     return {
-      formData: {
-        userId: '',
-        ios_email: '',
-        ios_password: '',
-      },
-      useButtonStore: useButtonStore(),
+      useAppleCalendar: useAppleCalendar(),
     }
   },
   methods: {
     async get_ios_email() {
-      this.formData.userId = this.$userDecoded.userId;
-      this.formData.ios_email = await this.useButtonStore.get_ios_email(this.$userDecoded.userId);
-      console.log(this.formData.ios_email);
+      await this.useAppleCalendar.get_ios_email(this.$userDecoded.userId);
     },
     closeModal() {
       this.$emit('close-modal');
     },
     async submitAppleCalendar() {
-      this.formData.userId = this.$userDecoded.userId;
-      this.useButtonStore.submitAppleCalendar(this.formData);
+      this.useAppleCalendar.formData.userId = this.$userDecoded.userId;
+      this.useAppleCalendar.submitAppleCalendar();
     },
   }
 }

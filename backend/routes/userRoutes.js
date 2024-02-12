@@ -2,20 +2,25 @@ const express = require("express");
 const router = express.Router();
 const { withDB, ObjectId } = require("../utils/db");
 const { isUser } = require("../utils/auth");
-const { asyncHandler } = require("../utils/error_handler");
-const axios = require("axios");
+const { Encipher, Decipher } = require("../utils/cipherman");
+const { validateIOS } = require("../utils/validations");
+const { asyncHandler, NotFoundError } = require("../utils/error_handler");
 router.use(withDB);
 
 router.post(
   "/calendar/apple",
   isUser,
+  validateIOS,
   asyncHandler(async (req, res) => {
     const { userId, ios_email, ios_password } = req.body;
+    if (!ObjectId.isValid(userId)) {
+      throw new BadRequestError("Invalid user ID");
+    }
     const result = await req.db
       .collection("users")
       .updateOne(
         { _id: new ObjectId(userId) },
-        { $set: { ios_email: ios_email, ios_password: ios_password } }
+        { $set: { ios_email: Encipher(ios_email), ios_password: Encipher(ios_password) } }
       );
     console.log(result);
     if (result.modifiedCount == 1) {
@@ -34,13 +39,17 @@ router.get(
   isUser,
   asyncHandler(async (req, res) => {
     const { userId } = req.query;
+    if (!userId && !ObjectId.isValid(userId)) {
+      throw new BadRequestError("Missing user ID");
+    }
     const user = await req.db
       .collection("users")
       .findOne({ _id: new ObjectId(userId) });
     if (!user) {
-      return res.json({ success: false, ios_email: "" });
+      throw new NotFoundError("User not found!");
     }
-    res.json({ success: true, ios_email: user.ios_email });
+    const ios_email = user.ios_email ? Decipher(user.ios_email) : '';
+    res.json({ success: true, ios_email: ios_email });
   })
 );
 

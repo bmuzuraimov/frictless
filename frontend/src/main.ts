@@ -27,6 +27,7 @@ if (token) {
     userId: '',
     name: '',
     picture: '',
+    ios_userId: '',
     locale: '',
     email: '',
     is_ios_connected: false,

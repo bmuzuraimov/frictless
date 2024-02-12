@@ -148,7 +148,7 @@ export default {
   name: 'SidebarComponent',
   data() {
     return {
-      notion_href: this.$userDecoded.notion_page_url.replace(/-/g, ''),
+      notion_href: this.$userDecoded.notion_page_url ? this.$userDecoded.notion_page_url.replace(/-/g, '') : '',
       open: false,
       user: this.$userDecoded,
       navigation: [

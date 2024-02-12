@@ -27,54 +27,8 @@ export const useButtonStore = defineStore('buttonStore', {
       text: 'Link Notion',
       disabled: false,
     },
-    submitAppleCalendarButton: {
-      text: 'Save',
-      disabled: false,
-      tw_class: [
-      ]
-    }
   }),
   actions: {
-    async submitAppleCalendar(formData: object) {
-        try{
-            this.submitAppleCalendarButton.disabled = true;
-            this.submitAppleCalendarButton.text = 'Saving...';
-            const token = localStorage.getItem('token');
-            const config = {
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
-            };
-            const response = await axios.post('/api/user/calendar/apple', formData, config);
-            if(response.data.success){
-                this.submitAppleCalendarButton.text = 'Saved';
-            }else{
-                this.submitAppleCalendarButton.disabled = false;
-                this.submitAppleCalendarButton.text = 'Save';
-              alert('Error saving to Apple Calendar');
-            }
-          }catch(e){
-            alert('Error saving to Apple Calendar');
-          }
-    },
-      async get_ios_email(userId: string) {
-        try{
-          const token = localStorage.getItem('token');
-          const config = {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          };
-            const response = await axios.get('/api/user/calendar/apple', { params: { userId } });
-            if(response.data.success){
-                return response.data.email;
-            }else{
-                return '';
-            }
-          }catch(e){
-            return '';
-          }
-    },
     async schedule(userId: string) {
       this.scheduleButton.disabled = true
       this.scheduleButton.text = 'Scheduling...'
@@ -86,7 +40,6 @@ export const useButtonStore = defineStore('buttonStore', {
             Authorization: `Bearer ${token}`
           }
         };
-        console.log(userId);
         const response = await axios.post('/api/notion/schedule', { userId }, config)
         if (response.data.success) {
           this.scheduleButton.tw_class = this.scheduleButton.tw_class.filter(

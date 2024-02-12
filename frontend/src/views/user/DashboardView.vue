@@ -1,5 +1,5 @@
 <template>
-  <ConnectAppleCalendarComponent :isModal="isModal" @close-modal="isModal = false" />
+  <IOSConnectComponent :isModal="isModal" @close-modal="isModal = false" />
   <div class="flex flex-col md:flex-row h-screen">
     <SidebarComponent />
     <main class="md:w-5/6 md:m-10 w-full">
@@ -61,6 +61,7 @@
           <v-card title="Step Three" flat>
             <div class="flex flex-col justify-center items-center py-4">
               <v-btn
+                @click="downloadShortcut"
                 density="comfortable"
                 size="x-large"
                 rounded="xl"
@@ -79,16 +80,24 @@
                 <img src="@/assets/images/siri.png" class="w-8 h-8 mr-2" />
                 Install IOS Shortcut
               </v-btn>
-              <p class="font-mont leading-normal my-2">Copy the code below and paste in the shortcut</p>
+              <p class="font-mont leading-normal my-2">
+                Copy the code below and paste in the shortcut
+              </p>
               <div class="flex flex-row items-center space-x-2">
                 <input
                   v-model="ios_userId"
-                  label="iOS User ID"
-                  outlined
-                  dense
-                  class="w-full p-2"
+                  placeholder="iOS User ID"
+                  class="w-full bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-transparent rounded-md text-gray-700 py-2 px-4 leading-tight transition duration-150 ease-in-out"
+                />
+
+                <v-btn
+                  color="outline"
+                  density="comfortable"
+                  rounded="lg"
+                  elevation="1"
+                  @click="copyToClipboard"
+                  >{{ copyBtnText }}</v-btn
                 >
-                <v-btn color="outline" density="comfortable" rounded="lg" elevation="1" @click="copyToClipboard">{{ copyBtnText }}</v-btn>
               </div>
             </div>
           </v-card>
@@ -133,14 +142,14 @@
 </template>
 <script lang="ts">
 import SidebarComponent from '@/components/user/dashboard/SidebarComponent.vue'
-import ConnectAppleCalendarComponent from '@/components/user/dashboard/ConnectAppleCalendarComponent.vue'
+import IOSConnectComponent from '@/components/user/dashboard/IOSConnectComponent.vue'
 import { useButtonStore } from '@/stores/buttonStore'
 import { useUserStore } from '@/stores/user'
 
 export default {
   components: {
     SidebarComponent,
-    ConnectAppleCalendarComponent
+    IOSConnectComponent
   },
   data() {
     return {
@@ -171,13 +180,19 @@ export default {
     }
   },
   methods: {
+    downloadShortcut() {
+      window.open(import.meta.env.VITE_BASE_URL + '/bro.shortcut', '_blank')
+    },
     copyToClipboard() {
       if (this.ios_userId) {
-        navigator.clipboard.writeText(this.ios_userId).then(() => {
-          this.copyBtnText = 'Copied'
-        }).catch(err => {
-          console.error('Failed to copy text: ', err);
-        });
+        navigator.clipboard
+          .writeText(this.ios_userId)
+          .then(() => {
+            this.copyBtnText = 'Copied'
+          })
+          .catch((err) => {
+            console.error('Failed to copy text: ', err)
+          })
       }
     },
     openModal() {
