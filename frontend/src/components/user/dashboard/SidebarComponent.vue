@@ -43,7 +43,7 @@
         <ul class="px-4 text-sm font-medium md:flex-1">
           <li v-if="$userDecoded.notion_page_url">
             <a
-              :href="notion_href"
+              :href="notion_href" target="_blank"
               class="flex items-center gap-x-2 text-gray-600 p-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 duration-150"
             >
               <div class="text-gray-500">

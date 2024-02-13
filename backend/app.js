@@ -3,17 +3,16 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+require('module-alias/register');
 var logger = require('morgan');
-var passport = require('passport');
 
-require('./config/passport')(passport); // Passport configuration
 require('dotenv').config();
 
 // Import routes
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/userRoutes');
-var authRouter = require('./routes/authRoutes');
-var notionRouter = require('./routes/notionRoutes');
+var indexRouter = require('@routes/index');
+var usersRouter = require('@routes/userRoutes');
+var authRouter = require('@routes/authRoutes');
+var notionRouter = require('@routes/notionRoutes');
 
 // Initialize Express app
 var app = express();

@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const bcryptjs = require("bcryptjs");
-const { withDB } = require("../utils/db");
-const { generateToken, isUser } = require("../utils/auth");
-const { asyncHandler, AuthenticationError, ValidationError } = require("../utils/error_handler");
-const { validateLogin, validateSignup } = require("../utils/validations");
-const { generateCode, verifyCode } = require("../utils/handle_confirmation");
-const { emailSender } = require("../utils/mailman");
-const { Encipher, Decipher } = require("../utils/cipherman");
+const { withDB } = require("@/config/mongodb");
+const { generateToken, isUser } = require("@/utils/auth");
+const { asyncHandler, AuthenticationError, ValidationError } = require("@/utils/error_handler");
+const { validateLogin, validateSignup } = require("@/utils/validations");
+const { generateCode, verifyCode } = require("@/utils/handle_confirmation");
+const { emailSender } = require("@/utils/mailman");
+const { Encipher, Decipher } = require("@/utils/cipherman");
 
 // Apply the withDB middleware globally to all routes in this router
 router.use(withDB);

@@ -1,30 +1,30 @@
-const nodemailer = require("nodemailer");
 const { Resend } = require('resend');
-const { Encipher } = require("./cipherman");
+const { Encipher } = require("@utils/cipherman");
 require("dotenv").config();
 
 class EmailSender {
   constructor() {
     this.userEmail = process.env.SENDER_EMAIL;
-    this.appPassword = process.env.EMAIL_PASSWORD;
-    this.resend = new Resend("re_J32VweuP_2aWKx5zrU3DpTeQiBVAdzvHY");
-    // this.transporter = nodemailer.createTransport({
-    //   service: "gmail",
-    //   auth: {
-    //     user: this.userEmail,
-    //     pass: this.appPassword,
-    //   },
-    // });
+    this.resend = new Resend(process.env.RESEND_API);
+    this.frontendUrl = process.env.FRONTEND_URL;
+    if(!this.frontendUrl) {
+      throw new Error('FRONTEND_URL is not defined in .env file');
+    }
+    if(!this.userEmail) {
+      throw new Error('SENDER_EMAIL is not defined in .env file');
+    }
+    if(!this.resend) {
+      throw new Error('RESEND_API is not defined in .env file');
+    }
+  }
+
+  generateConfirmationLink(email_to, confirm_code) {
+    const encoded_email = Encipher(email_to);
+    return `${this.frontendUrl}?code=${encodeURIComponent(confirm_code)}&email=${encodeURIComponent(encoded_email)}`;
   }
 
   async sendEmail(email_to, confirm_code) {
-    const encoded_email = Encipher(email_to);
-    const confirmationLink = `${
-      process.env.FRONTEND_URL
-    }?code=${encodeURIComponent(confirm_code)}&email=${encodeURIComponent(
-      encoded_email
-    )}`;
-
+    const confirmationLink = this.generateConfirmationLink(email_to, confirm_code);
     const mailOptions = {
       from: this.userEmail,
       to: email_to,
@@ -292,17 +292,9 @@ class EmailSender {
       
       </body>
       </html>
-    `,
+      `,
     };
     await this.resend.emails.send(mailOptions);
-
-    // this.transporter.sendMail(mailOptions, function (error, info) {
-    //   if (error) {
-    //     console.error("Error sending email:", error); // Changed from alert to console.error for backend logging
-    //   } else {
-    //     console.log("Email sent:", info.response); // Changed from alert to console.log for backend logging
-    //   }
-    // });
   }
 }
 
