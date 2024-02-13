@@ -1,5 +1,4 @@
-// Import the updated RedisSingleton
-const RedisSingleton = require('../config/redis');
+const RedisSingleton = require('@/config/redisdb');
 
 async function generateCode(email) {
     let redis_client = null;

@@ -1,16 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { withDB, ObjectId } = require("../utils/db");
-const { isUser } = require("../utils/auth");
+const { withDB, ObjectId } = require("@/config/mongodb");
+const { isUser } = require("@/utils/auth");
 const {
   asyncHandler,
   NotFoundError,
   InternalServerError,
-} = require("../utils/error_handler");
-const { validateNotionCallback } = require("../utils/validations");
-const { Decipher } = require("../utils/cipherman");
-const { EN_DB_NAMES } = require("../utils/constants/notion_db_names");
+} = require("@/utils/error_handler");
+const { validateNotionCallback } = require("@/utils/validations");
+const { Decipher } = require("@/utils/cipherman");
+const { EN_DB_NAMES } = require("@/utils/constants/notion_db_names");
 const axios = require("axios");
+const { snsPublisher } = require("@config/awsclient");
+
 router.use(withDB);
 
 router.post(
@@ -136,17 +138,11 @@ router.post(
         email: user.email,
       },
     };
-    try {
-      fetch(process.env.LAMBDA_SCHEDULE_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(scheduleData),
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    const params = {
+      Message: JSON.stringify(scheduleData),
+      TopicArn: process.env.SNS_SCHEDULE_TOPIC_ARN,
+    };
+    await snsPublisher.publishMessage(params);
     res.json({
       success: true,
       message: "Request accepted. Processing in the background.",
@@ -208,19 +204,11 @@ router.post(
         email: user.email,
       },
     };
-    axios
-      .post(process.env.LAMBDA_SCHEDULE_URL, scheduleData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log("Lambda function called successfully");
-      })
-      .catch((error) => {
-        console.error("Error calling Lambda function", error);
-        throw new InternalServerError("Error calling Lambda function");
-      });
+    const params = {
+      Message: JSON.stringify(scheduleData),
+      TopicArn: process.env.SNS_SCHEDULE_TOPIC_ARN,
+    };
+    await snsPublisher.publishMessage(params);
     res.json({
       success: true,
       message: "Request accepted. Processing in the background.",

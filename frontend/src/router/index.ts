@@ -45,7 +45,7 @@ router.beforeEach(async (to, from, next) => {
     const lastChecked = lastCheckedTimestamp ? new Date(parseInt(lastCheckedTimestamp)) : null;
 
     // Check if the last verification was within the last 60 seconds (60000 ms)
-    if (lastChecked && now.getTime() - lastChecked.getTime() < 60000) {
+    if (lastChecked && now.getTime() - lastChecked.getTime() < 1200000) {
       // Skip verification, use the recent check as valid
       next();
     } else {

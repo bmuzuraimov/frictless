@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { emailSender } = require("../utils/mailman");
+const { emailSender } = require("@/utils/mailman");
 
 router.get(
   "/server-time", (req, res) => {

@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const { ValidationError, asyncHandler } = require("./error_handler");
+const { ValidationError, asyncHandler } = require("@utils/error_handler");
 
 const validateLogin = asyncHandler(async (req, res, next) => {
   const loginSchema = Joi.object({

@@ -6,34 +6,25 @@ import traceback
 from dotenv import load_dotenv
 load_dotenv()
 logger = logging.getLogger()
-logger.setLevel(logging.ERROR)
-    
+logger.setLevel(logging.INFO)
+
 def lambda_handler(event, context):
-    if(event["httpMethod"] != "POST"):
-        return {
-            "statusCode": 405,
-            "body": "Method not allowed",
-        }
+    if 'Records' in event and len(event['Records']) > 0:
+        for record in event['Records']:
+            try:
+                if isinstance(record["Sns"]["Message"], str):
+                    parsed_data = json.loads(record["Sns"]["Message"])
+                    user_data = parsed_data.get("user_data")
+                    if 'date' in parsed_data:
+                        date = datetime.strptime(parsed_data.get("date"), "%d/%m/%Y, %H:%M:%S").date()
+                        tomorrow = date + timedelta(days=1)
+                        myschedule = FairSchedule(user_data)
+                        myschedule.organize_daily_schedule(tomorrow)
+                    else:
+                        logger.error("Date not found in user_data")
+            except Exception as e:
+                stack_trace = traceback.format_exc()
+                logger.error(f"Error processing record: {stack_trace}")
     else:
-        if isinstance(event["body"], str):
-            event["body"] = json.loads(event["body"])
-        user_data = event["body"].get("user_data")
-        date = datetime.strptime(event["body"].get("date"), "%d/%m/%Y, %H:%M:%S").date()
-        tomorrow = date + timedelta(days=1)
-        try:
-            myschedule = FairSchedule(user_data)
-            myschedule.organize_daily_schedule(tomorrow)
-            return {
-                "success": True,
-                "statusCode": 200,
-                "body": "Success!",
-            }
-        except Exception as e:
-            logger.error(e)
-            stack_trace = traceback.format_exc()
-            logger.error(stack_trace)
-            return {
-                "status": "error",
-                "statusCode": 500,
-                "body": "Internal server error",
-            }
+        logger.error("No records in event")
+

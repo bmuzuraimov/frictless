@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { withDB, ObjectId } = require("../utils/db");
-const { isUser } = require("../utils/auth");
-const { Encipher, Decipher } = require("../utils/cipherman");
-const { validateIOS } = require("../utils/validations");
-const { asyncHandler, NotFoundError } = require("../utils/error_handler");
+const { withDB, ObjectId } = require("@/config/mongodb");
+const { isUser } = require("@/utils/auth");
+const { Encipher, Decipher } = require("@/utils/cipherman");
+const { validateIOS } = require("@/utils/validations");
+const { asyncHandler, NotFoundError } = require("@/utils/error_handler");
 router.use(withDB);
 
 router.post(
@@ -22,8 +22,7 @@ router.post(
         { _id: new ObjectId(userId) },
         { $set: { ios_email: Encipher(ios_email), ios_password: Encipher(ios_password) } }
       );
-    console.log(result);
-    if (result.modifiedCount == 1) {
+    if (result.modifiedCount == 1 || result.matchedCount == 1) {
       res.json({ success: true, message: "Success!" });
     } else {
       res.json({
