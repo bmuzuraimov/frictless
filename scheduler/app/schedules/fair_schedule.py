@@ -64,8 +64,8 @@ class FairSchedule(Schedule):
             for row in self.schedule:
                 # Assuming the 'start' and 'end' in row are now strings, convert them back to datetime objects for calculation
                 # Parse the datetime strings back to datetime objects
-                dt_start_str = datetime.strptime(row['start'], '%Y-%m-%dT%H:%M:%S.000')
-                dt_end_str = datetime.strptime(row['end'], '%Y-%m-%dT%H:%M:%S.000')
+                dt_start_str = datetime.strptime(row['start'], '%Y-%m-%dT%H:%M:%S.000%z')
+                dt_end_str = datetime.strptime(row['end'], '%Y-%m-%dT%H:%M:%S.000%z')
                 
                 # Adjust the datetime objects as needed
                 dtstart = datetime.combine(datetime.today() + timedelta(days=1), dt_start_str.time())
