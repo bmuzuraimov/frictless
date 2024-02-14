@@ -106,7 +106,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem('token')) {
-      this.$router.push('/dashboard')
+      this.$router.push('/overview')
     }
   },
   methods: {

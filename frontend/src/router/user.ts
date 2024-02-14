@@ -1,8 +1,26 @@
 const userRoutes = [
   {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: () => import('@/views/user/DashboardView.vue'),
+    path: '/overview',
+    name: 'overview',
+    component: () => import('@/views/user/OverviewView.vue'),
+    meta: { 
+      requiresAuth: true,
+      scope: 'user'
+    }
+  },
+  {
+    path: '/agenda',
+    name: 'agenda',
+    component: () => import('@/views/user/AgendaView.vue'),
+    meta: { 
+      requiresAuth: true,
+      scope: 'user'
+    }
+  },
+  {
+    path: '/onboarding',
+    name: 'onboarding',
+    component: () => import('@/views/user/OnboardingView.vue'),
     meta: { 
       requiresAuth: true,
       scope: 'user'

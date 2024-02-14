@@ -7,6 +7,7 @@ export const useButtonStore = defineStore('buttonStore', {
       text: 'Schedule Plan',
       disabled: false,
       tw_class: [
+        'my-8',
         'flex',
         'relative',
         'flex-row',

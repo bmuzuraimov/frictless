@@ -31,7 +31,7 @@ export const useAuthStore = defineStore('auth', {
         } else if (!this.isSigningUp && response.data.success) {
           localStorage.setItem('token', response.data.token);
           setTimeout(() => {
-            window.location.href = '/dashboard';
+            window.location.href = '/overview';
           }, 1000);
         }
       } catch (error:any) {
