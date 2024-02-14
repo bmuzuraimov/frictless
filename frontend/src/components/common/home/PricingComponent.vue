@@ -21,8 +21,7 @@
         </h2>
         <div class="max-w-md sm:max-w-xl mx-auto">
           <p class="text-lg sm:text-xl font-ourfit leading-normal text-gray-600">
-            Whether you are a one student or CEO, we have a plan for everyone. Pause or cancel at
-            anytime.
+            Start for free. No credit cards required.
           </p>
         </div>
       </div>
@@ -49,7 +48,7 @@
             </p>
             <button
               @click="login"
-              class="px-4 py-2 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-secondary-700 hover:bg-secondary-500 active:bg-secondary-700"
+              class="px-4 py-2 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-secondary-700 hover:bg-secondary-500 active:bg-secondary-700 hover:pl-2"
             >
               {{ plan.buttonText }}
             </button>

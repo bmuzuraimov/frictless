@@ -4,16 +4,16 @@
   >
     <div class="space-y-4 sm:space-y-5 max-w-xl md:max-w-3xl lg:max-w-4xl mx-auto text-center">
       <h2 class="text-3xl sm:text-4xl md:text-5xl font-ourfit text-gray-800 font-semibold mx-auto">
-        Meet Acuella:
+        Tomorrow's
         <span
           class="text-transparent bg-clip-text bg-gradient-to-b from-primary-700 to-primary-300"
         >
-          The Simple Way to Become Better Version of Yourself
+        Priority Scheduler
         </span>
       </h2>
       <p class="text-sm sm:text-md font-ourfit leading-normal text-gray-600 mx-auto">
-        Got a lot in your life? We hear you. Life's busy, and your to-do list is never-ending.
-        Acuella is here to help you to sleep with a clear plan for tomorrow.
+        Got a lot in your life? We hear you. Life's busy, and your to-do list is never-ending.<br/>
+        Acuella is here to help you to wake up with a clear plan.
       </p>
       <p class="text-xs sm:text-sm text-indigo-600 font-medium">Clearer mind everyday</p>
       <div
@@ -21,7 +21,7 @@
       >
         <router-link
           to="/login"
-          class="animate-fade-in rounded-full border border-black bg-black px-4 py-1.5 text-xs sm:text-sm text-ourfit text-white transition-all hover:bg-white hover:text-black"
+          class="rounded-full border border-black bg-black px-4 py-1.5 text-xs sm:text-sm text-outfit text-white hover:bg-white hover:text-black"
         >
           Start for Free
         </router-link>
@@ -94,12 +94,11 @@ export default {
   },
   methods: {
     handleScroll() {
-      // this.scale = window.innerWidth > 768 ? 7 : 5
-      let start = 100;
-      let scale = 3;
+      let start = window.innerWidth > 768 ? 100 : 0;
+      let scale = (window.innerWidth > 768 ? 3 : 2);
       this.y_scroll = window.scrollY
       if (this.heroImageElement && this.y_scroll > start) {
-        const imageHeight = this.heroImageElement.clientHeight - 600
+        const imageHeight = this.heroImageElement.clientHeight - (window.innerWidth > 768 ? 600 : 300)
         let transform = Math.min((this.y_scroll - start) * scale, imageHeight)
         transform = Math.max(transform, 0)
         ;(this.heroImageElement as HTMLElement).style.transform = `translateY(-${transform}px)`

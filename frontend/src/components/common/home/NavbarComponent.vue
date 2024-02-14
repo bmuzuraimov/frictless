@@ -47,18 +47,26 @@
               {{ link?.title }}
             </a>
           </li>
-          <li
-            class="md:hidden text-gray-600 text-ourfit hover:text-black"
-          >
-            <router-link to="/login">
-              Login
+          <li v-if="!isAuthenticated" class="md:hidden text-gray-600 text-ourfit hover:text-black">
+            <router-link to="/login">Login </router-link>
+          </li>
+          <li class="md:hidden text-gray-600 text-ourfit hover:text-black">
+            <router-link
+              to='/overview'
+              v-if="isAuthenticated"
+              class="md:hidden text-gray-600 text-ourfit hover:text-black"
+            >
+              Dashboard
             </router-link>
+          </li>
+          <li class="md:hidden text-gray-600 text-ourfit hover:text-black">
+            <button @click="logout" v-if="isAuthenticated">Logout</button>
           </li>
         </ul>
       </div>
       <div class="hidden md:inline-block">
         <router-link
-          to="/dashboard"
+          to='/overview'
           v-if="isAuthenticated"
           class="animate-fade-in rounded-full border border-black bg-black px-4 py-1.5 text-sm text-ourfit text-white transition-all hover:bg-white hover:text-black"
         >
@@ -101,9 +109,9 @@ export default {
       this.open = !this.open
     },
     async logout() {
-      localStorage.removeItem('token');
-      this.isAuthenticated = false;
-      this.$router.push('/');
+      localStorage.removeItem('token')
+      this.isAuthenticated = false
+      this.$router.push('/')
     }
   }
 }

@@ -3,7 +3,7 @@
     <div class="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="max-w-2xl mx-auto sm:text-center">
         <h3 class="text-gray-800 text-2xl sm:text-3xl lg:text-4xl font-semibold">
-          What Winner Say
+          What Early Users Say
         </h3>
         <p class="mt-2 sm:mt-3 text-gray-600 text-base sm:text-lg">
           Hear it straight from the folks who've made their days better with Acuella. Less anxiety,
@@ -17,19 +17,9 @@
             :key="index"
             class="bg-white rounded-xl border shadow-sm overflow-hidden hover:shadow-md transition duration-300 ease-in-out"
           >
-            <div class="p-4">
-              <svg
-                class="w-8 h-8 text-gray-300"
-                viewBox="0 0 35 35"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <!-- SVG content -->
-              </svg>
-            </div>
             <figure>
               <blockquote>
-                <p class="text-lg font-ourfit leading-normal text-gray-600 px-4 py-2">
+                <p class="text-lg font-ourfit leading-normal text-gray-600 px-6 py-4">
                   {{ testimonial.feedback }}
                 </p>
               </blockquote>
@@ -40,7 +30,7 @@
                 />
                 <div>
                   <span class="block text-gray-800 font-semibold">{{ testimonial.name }}</span>
-                  <span class="block text-indigo-600 text-sm">Senior Software Engineer</span>
+                  <span class="block text-indigo-600 text-sm">{{ testimonial.role }}</span>
                 </div>
               </figcaption>
             </figure>
@@ -71,24 +61,24 @@ export default {
     return {
       testimonials: [
         {
-          name: 'Destiny Uche',
-          role: 'Senior Software Engineer',
+          name: 'Sarar WIN',
+          role: 'BSc Student',
           image: 'https://randomuser.me/api/portraits/men/91.jpg',
           feedback:
-            'Finding Acuella was a turning point for managing my academic and personal tasks.'
+            'Pending...'
         },
         {
           name: 'Nargiz Seisek',
           role: 'MSc Student',
           image: 'https://randomuser.me/api/portraits/women/79.jpg',
           feedback:
-            'Great product! I have been using Acuella for a while now and it elevated my productivity.'
+            'Pending...'
         },
         {
-          name: 'Andrew Wong',
-          role: 'UI/UX Designer',
+          name: 'Baiastan Muzuraimov',
+          role: 'MSc Student',
           image: 'https://randomuser.me/api/portraits/men/86.jpg',
-          feedback: 'Acuella is a game changer. It has helped me to be more organized and focused.'
+          feedback: 'Pending...'
         }
       ]
     }

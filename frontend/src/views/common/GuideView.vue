@@ -1,5 +1,10 @@
 <template>
   <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <v-breadcrumbs :items="items">
+      <template v-slot:title="{ item }">
+        {{ item.title }}
+      </template>
+    </v-breadcrumbs>
     <div class="text-center mb-12">
       <h1 class="text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">Guide to Using Our SaaS Platform</h1>
       <p class="mt-3 text-lg sm:text-xl font-ourfit leading-normal text-gray-600">Everything you need to know to get started and make the most of our platform.</p>
@@ -29,3 +34,21 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+  export default {
+    data: () => ({
+      items: [
+        {
+          title: 'Home',
+          disabled: false,
+          href: '/',
+        },
+        {
+          title: 'Guide',
+          disabled: true,
+          href: '/guide',
+        },
+      ],
+    }),
+  }
+</script>

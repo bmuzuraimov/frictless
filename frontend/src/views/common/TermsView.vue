@@ -1,6 +1,11 @@
 <template>
   <NavbarComponent />
-  <div class="container mx-auto p-5 p-16">
+  <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <v-breadcrumbs :items="items">
+      <template v-slot:title="{ item }">
+        {{ item.title }}
+      </template>
+    </v-breadcrumbs>
     <div class="max-w-4xl mx-auto px-4 py-8">
       <h1 class="text-4xl font-bold text-center mb-4">TERMS OF USE</h1>
       <h5 class="text-xl text-center mb-8">Last updated 05/02/2024</h5>
@@ -756,6 +761,20 @@ import NavbarComponent from '@/components/common/home/NavbarComponent.vue'
 export default {
   components: {
     NavbarComponent
-  }
+  },
+  data: () => ({
+    items: [
+      {
+        title: 'Home',
+        disabled: false,
+        href: '/'
+      },
+      {
+        title: 'Terms',
+        disabled: true,
+        href: '/terms'
+      }
+    ]
+  })
 }
 </script>
