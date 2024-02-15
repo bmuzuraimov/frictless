@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-export const useButtonStore = defineStore('buttonStore', {
+export const useSchedulerStore = defineStore('schedulerStore', {
   state: () => ({
     scheduleButton: {
       text: 'Schedule Plan',
@@ -19,10 +19,6 @@ export const useButtonStore = defineStore('buttonStore', {
         'hover:bg-gray-50',
         'overflow-hidden',
       ]
-    },
-    connectNotionButton: {
-      text: 'Link Notion',
-      disabled: false,
     },
   }),
   actions: {

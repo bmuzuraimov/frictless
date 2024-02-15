@@ -135,84 +135,93 @@ router.post(
         sports_dbid: user.sports_dbid,
         lecture_notes_dbid: user.lecture_notes_dbid,
         job_tasks_dbid: user.job_tasks_dbid,
-        email: user.email,
       },
     };
-    const params = {
-      Message: JSON.stringify(scheduleData),
-      TopicArn: process.env.SNS_SCHEDULE_TOPIC_ARN,
-    };
-    await snsPublisher.publishMessage(params);
-    res.json({
-      success: true,
-      message: "Request accepted. Processing in the background.",
-    });
+    console.log(JSON.stringify(scheduleData))
+    res.json({success: true, message: "Request accepted. Processing in the background."})
+    // const params = {
+    //   Message: JSON.stringify(scheduleData),
+    //   TopicArn: process.env.SNS_SCHEDULE_TOPIC_ARN,
+    // };
+    // await snsPublisher.publishMessage(params);
+    // res.json({
+    //   success: true,
+    //   message: "Request accepted. Processing in the background.",
+    // });
   })
 );
 
 router.post(
   "/ios_schedule",
-  isUser,
   asyncHandler(async (req, res) => {
     const { userId } = req.body;
+    const deciphered_userId = Decipher(userId);
+    console.log(deciphered_userId)
+    if (!ObjectId.isValid(deciphered_userId)) {
+      res.json({ success: false, message: "Invalid user id" });
+    }
     var user = await req.db
       .collection("users")
-      .findOne({ _id: new ObjectId(Decipher(userId)) });
-    const dbIdsRequired = [
-      "priorities_dbid",
-      "todo_dbid",
-      "schedule_dbid",
-      "jobs_dbid",
-      "courses_dbid",
-      "recurring_dbid",
-      "personal_dbid",
-      "routine_dbid",
-      "sports_dbid",
-      "lecture_notes_dbid",
-      "job_tasks_dbid",
-    ];
-    if (dbIdsRequired.some((dbId) => !user[dbId])) {
-      user = await update_notion_dbids(
-        req,
-        userId,
-        user.notion_access_token,
-        user.parent_id
-      );
+      .findOne({ _id: new ObjectId(deciphered_userId) });
+      console.log(user)
+    if (user) {
+      const dbIdsRequired = [
+        "priorities_dbid",
+        "todo_dbid",
+        "schedule_dbid",
+        "jobs_dbid",
+        "courses_dbid",
+        "recurring_dbid",
+        "personal_dbid",
+        "routine_dbid",
+        "sports_dbid",
+        "lecture_notes_dbid",
+        "job_tasks_dbid",
+      ];
       if (dbIdsRequired.some((dbId) => !user[dbId])) {
-        throw new InternalServerError("Not all Notion databases are linked.");
+        user = await update_notion_dbids(
+          req,
+          userId,
+          user.notion_access_token,
+          user.parent_id
+        );
+        if (dbIdsRequired.some((dbId) => !user[dbId])) {
+          throw new InternalServerError("Not all Notion databases are linked.");
+        }
       }
+      const scheduleData = {
+        date: formatDate(user.timezone),
+        time_zone: user.timezone,
+        user_data: {
+          uid: user._id,
+          access_token: user.notion_access_token,
+          IOS_USER: Decipher(user.ios_email),
+          IOS_PASSWORD: Decipher(user.ios_password),
+          priorities_dbid: user.priorities_dbid,
+          todo_dbid: user.todo_dbid,
+          schedule_dbid: user.schedule_dbid,
+          jobs_dbid: user.jobs_dbid,
+          courses_dbid: user.courses_dbid,
+          recurring_dbid: user.recurring_dbid,
+          personal_dbid: user.personal_dbid,
+          routine_dbid: user.routine_dbid,
+          sports_dbid: user.sports_dbid,
+          lecture_notes_dbid: user.lecture_notes_dbid,
+          job_tasks_dbid: user.job_tasks_dbid,
+        },
+      };
+      const params = {
+        Message: JSON.stringify(scheduleData),
+        TopicArn: process.env.SNS_SCHEDULE_TOPIC_ARN,
+      };
+      await snsPublisher.publishMessage(params);
+      res.json({
+        success: true,
+        message: "Request accepted. Processing in the background.",
+      });
+    } else {
+      res.json({ success: false, message: "Invalid user id" });
     }
-    const scheduleData = {
-      date: formatDate(user.timezone),
-      time_zone: user.timezone,
-      user_data: {
-        uid: user._id,
-        access_token: user.notion_access_token,
-        IOS_USER: Decipher(user.ios_email),
-        IOS_PASSWORD: Decipher(user.ios_password),
-        priorities_dbid: user.priorities_dbid,
-        todo_dbid: user.todo_dbid,
-        schedule_dbid: user.schedule_dbid,
-        jobs_dbid: user.jobs_dbid,
-        courses_dbid: user.courses_dbid,
-        recurring_dbid: user.recurring_dbid,
-        personal_dbid: user.personal_dbid,
-        routine_dbid: user.routine_dbid,
-        sports_dbid: user.sports_dbid,
-        lecture_notes_dbid: user.lecture_notes_dbid,
-        job_tasks_dbid: user.job_tasks_dbid,
-        email: user.email,
-      },
-    };
-    const params = {
-      Message: JSON.stringify(scheduleData),
-      TopicArn: process.env.SNS_SCHEDULE_TOPIC_ARN,
-    };
-    await snsPublisher.publishMessage(params);
-    res.json({
-      success: true,
-      message: "Request accepted. Processing in the background.",
-    });
   })
 );
 

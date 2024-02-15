@@ -52,6 +52,7 @@
           </div>
         </div>
       </section>
+      <!-- Eliminate and automated all redundancies associated with scheduling. Plug and play template -->
     </div>
   </div>
 </template>
