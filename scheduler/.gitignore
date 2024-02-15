@@ -9,3 +9,4 @@ deployment.zip
 .env
 .env.aws
 users.json
+lambda_runner.py

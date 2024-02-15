@@ -1,31 +1,34 @@
 const jwt = require("jsonwebtoken");
-const { AuthorizationError } = require("./error_handler");
+const { promisify } = require("util");
+const { AuthorizationError, asyncHandler } = require("./error_handler");
 
-const generateToken = function(user, scope = "user") {
-    const payload = {
-        ...user,
-        scope: scope,
-    };
-    return jwt.sign(payload, process.env.TOKEN_SECRET, {
-        expiresIn: 86400,
-    });
+// Promisify jwt.verify for use with async/await
+const verifyToken = promisify(jwt.verify);
+
+const generateToken = function (user, scope = "user") {
+  const payload = { ...user, scope };
+  return jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: 86400 });
 };
-const verifyScope = (expectedScope) => (req, res, next) => {
-    const bearerHeader = req.headers['authorization'];
-    if (!bearerHeader) {
-        throw new AuthorizationError('Unauthorized: No token provided');
-    }
-    const token = bearerHeader.split(' ')[1];
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            throw new AuthorizationError('Unauthorized: Token is invalid');
-        }
-        if (decoded.scope !== expectedScope) {
-            throw new AuthorizationError(`Unauthorized: ${expectedScope} role required`);
-        }
-        req.user = decoded;
-        next();
-    });
+
+const verifyScope = (expectedScope) => async (req, res, next) => {
+  const bearerHeader = req.headers["authorization"];
+  if (!bearerHeader) {
+    return res.status(403).json({ success: false, message: "Unauthorized: No token provided" });
+  }
+
+  if (!bearerHeader.startsWith("Bearer ")) {
+    return res.status(403).json({ success: false, message: "Unauthorized: Incorrect token format" });
+  }
+
+  const token = bearerHeader.split(" ")[1];
+  const decoded = await verifyToken(token, process.env.TOKEN_SECRET);
+
+  if (decoded.scope === expectedScope) {
+    req.user = decoded;
+    next();
+  } else {
+    return res.status(403).json({ success: false, message: `Unauthorized: ${expectedScope} role required` });
+  }
 };
 
 // Middleware for different roles

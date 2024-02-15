@@ -1,8 +1,8 @@
 <template>
-  <IOSConnectComponent :isModal="isModal" @close-modal="isModal = false" />
+  <IOSConnectComponent/>
   <div class="flex flex-col md:flex-row h-screen">
     <SidebarComponent />
-    <main class="md:w-5/6 md:p-16 lg:p-20 w-full overflow-y-scroll no-scrollbar">
+    <main class="p-4 md:w-5/6 md:p-16 lg:p-20 w-full overflow-y-scroll no-scrollbar">
       <ol class="relative border-s border-gray-200">
         <li class="mb-20 ms-6">
           <span
@@ -33,15 +33,7 @@
           <p class="mb-4 text-base font-normal text-gray-500">
             Connect your calendar to automatically check new plans as they are scheduled.
           </p>
-          <div
-            class="inline-flex items-center gap-x-4 px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-200 focus:text-blue-700"
-          >
-            <img src="@/assets/images/apple_cal.png" class="h-8 w-8 mr-1" />
-            <span class="flex items-center">Apple Calendar</span>
-            <v-btn variant="outlined" @click="openModal">{{
-              useButtonStore.connectAppleCalendarButton.text
-            }}</v-btn>
-          </div>
+          <CalendarBtnComponent/>
         </li>
         <li class="mb-20 ms-6">
           <span
@@ -169,56 +161,31 @@
           <time class="block mb-2 text-sm font-normal leading-none text-gray-400"
             >Last Scheduled on December 2nd, 2024</time
           >
-          <v-btn
-            density="comfortable"
-            size="x-large"
-            rounded="xl"
-            elevation="2"
-            :ripple="false"
-            @click="schedule"
-            :disabled="useButtonStore.scheduleButton.disabled"
-            :class="useButtonStore.scheduleButton.tw_class"
-          >
-            <img
-              v-show="!schedule_animation_2"
-              src="@/assets/images/schedule.png"
-              class="w-5 h-8 mr-4"
-              :style="
-                schedule_animation_1 ? { animation: 'spinRocket 1s ease-in-out forwards' } : {}
-              "
-            />
-            <img
-              v-show="schedule_animation_2"
-              src="@/assets/images/schedule-action.gif"
-              class="w-5 h-12 rotate-90"
-              :style="
-                schedule_animation_2 ? { animation: 'moveRight 2s ease-in-out forwards' } : {}
-              "
-            />
-            <span class="text-lg fonr-mont">{{ useButtonStore.scheduleButton.text }}</span>
-          </v-btn>
+          <SchedulerComponent/>
         </li>
       </ol>
     </main>
   </div>
 </template>
 <script lang="ts">
-import SidebarComponent from '@/components/user/dashboard/SidebarComponent.vue'
-import IOSConnectComponent from '@/components/user/dashboard/IOSConnectComponent.vue'
+import CalendarBtnComponent from '@/components/user/onboarding/CalendarBtnComponent.vue'
+import SchedulerComponent from '@/components/user/SchedulerBtnComponent.vue'
+import SidebarComponent from '@/components/user/SidebarComponent.vue'
+import IOSConnectComponent from '@/components/user/onboarding/IOSConnectComponent.vue'
 import { useButtonStore } from '@/stores/buttonStore'
 import { useUserStore } from '@/stores/user'
 
 export default {
   components: {
+    CalendarBtnComponent,
     SidebarComponent,
-    IOSConnectComponent
-  },
+    IOSConnectComponent,
+    SchedulerComponent
+},
   data() {
     return {
       copyBtnText: 'Copy',
       ios_userId: this.$userDecoded.ios_userId,
-      schedule_animation_1: false,
-      schedule_animation_2: false,
       formData: {
         userId: '',
         ios_email: '',
@@ -232,10 +199,6 @@ export default {
     }
   },
   mounted() {
-    if (this.$userDecoded.is_ios_connected) {
-      this.useButtonStore.connectAppleCalendarButton.text = 'Connected'
-      this.useButtonStore.connectAppleCalendarButton.disabled = true
-    }
     if (this.$userDecoded.is_notion_connected) {
       this.useButtonStore.connectNotionButton.text = 'Linked'
       this.useButtonStore.connectNotionButton.disabled = true
@@ -256,20 +219,6 @@ export default {
             console.error('Failed to copy text: ', err)
           })
       }
-    },
-    openModal() {
-      this.isModal = true
-    },
-    async schedule() {
-      this.schedule_animation_1 = true
-      setTimeout(() => {
-        this.schedule_animation_1 = false // Assuming you want to reset the first animation state
-        this.schedule_animation_2 = true
-        setTimeout(() => {
-          this.schedule_animation_2 = false
-        }, 3000)
-      }, 3000)
-      this.useButtonStore.schedule(this.$userDecoded.userId)
     },
     async handleNotionOauth2() {
       if (this.is_linked) return
@@ -298,26 +247,3 @@ export default {
   }
 }
 </script>
-
-<style>
-@keyframes spinRocket {
-  0% {
-    transform: rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: rotate(90deg);
-    opacity: 0.8;
-  }
-}
-@keyframes moveRight {
-  0% {
-    transform: translateX(-5px) rotate(90deg);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateX(180px) rotate(90deg);
-    opacity: 1;
-  }
-}
-</style>

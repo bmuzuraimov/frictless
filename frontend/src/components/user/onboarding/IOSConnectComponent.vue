@@ -2,8 +2,8 @@
   <!-- Modal for Apple Calendar -->
   <div
     :class="{
-      'hidden': !isModal,
-      'fixed inset-0 z-50 flex items-center justify-center bg-grey opacity-90': isModal
+      'hidden': !is_modal,
+      'fixed inset-0 z-50 flex items-center justify-center bg-grey opacity-90': is_modal
     }"
   >
     <div class="w-full max-w-md p-6 opacity-100 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -64,19 +64,20 @@
 </template>
 <script lang="ts">
 import { useAppleCalendar } from '@/stores/user/appleCalendar'
-export default{
-  props: {
-    isModal: {
-      type: Boolean,
-      default: false
-    },
-  },
+import { useCalendarStore } from '@/stores/user/calendarStore';
+export default {
   mounted() {
     this.get_ios_email();
   },
-  data(){
+  computed: {
+    is_modal() {
+      return useCalendarStore().is_modal;
+    }
+  },
+  data() {
     return {
       useAppleCalendar: useAppleCalendar(),
+      useCalendarStore: useCalendarStore(),
     }
   },
   methods: {
@@ -84,7 +85,7 @@ export default{
       await this.useAppleCalendar.get_ios_email(this.$userDecoded.userId);
     },
     closeModal() {
-      this.$emit('close-modal');
+      this.useCalendarStore.toggleModal()
     },
     async submitAppleCalendar() {
       this.useAppleCalendar.formData.userId = this.$userDecoded.userId;

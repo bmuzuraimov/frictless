@@ -21,10 +21,18 @@ def lambda_handler(event, context):
                         myschedule = FairSchedule(user_data)
                         myschedule.organize_daily_schedule(tomorrow)
                     else:
-                        logger.error("Date not found in user_data")
+                        print("Date not found in user_data")
+                elif isinstance(record["Sns"]["Message"], dict):
+                    user_data = record["Sns"]["Message"].get("user_data")
+                    if 'date' in record["Sns"]["Message"]:
+                        date = datetime.strptime(record["Sns"]["Message"].get("date"), "%d/%m/%Y, %H:%M:%S").date()
+                        tomorrow = date + timedelta(days=1)
+                        myschedule = FairSchedule(user_data)
+                        myschedule.organize_daily_schedule(tomorrow)
+                    else:
+                        print("Date not found in user_data")
             except Exception as e:
                 stack_trace = traceback.format_exc()
-                logger.error(f"Error processing record: {stack_trace}")
+                print(f"Error processing record: {stack_trace}")
     else:
-        logger.error("No records in event")
-
+        print("No records in event")

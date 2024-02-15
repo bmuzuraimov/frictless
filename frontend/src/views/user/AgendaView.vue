@@ -58,7 +58,7 @@
   </div>
 </template>
 <script lang="ts">
-import SidebarComponent from '@/components/user/dashboard/SidebarComponent.vue'
+import SidebarComponent from '@/components/user/SidebarComponent.vue'
 
 export default {
   components: {
