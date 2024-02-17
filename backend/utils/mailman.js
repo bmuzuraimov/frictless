@@ -147,7 +147,7 @@ class EmailSender {
                 <tr>
                   <td align="center" valign="top" style="padding: 36px 24px;">
                     <a href="https://www.blogdesire.com" target="_blank" style="display: inline-block;">
-                      <img src="https://www.acuella.com/favicon.ico" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
+                      <img src="https://www.frictless.com/favicon.ico" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
                     </a>
                   </td>
                 </tr>
@@ -198,7 +198,7 @@ class EmailSender {
                 <!-- start copy -->
                 <tr>
                   <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                    <p style="margin: 0;">Tap the button below to confirm your email address. If you didn't create an account with <a href="https://www.acuella.com">Acuella</a>, you can safely delete this email.</p>
+                    <p style="margin: 0;">Tap the button below to confirm your email address. If you didn't create an account with <a href="https://www.frictless.com">Acuella</a>, you can safely delete this email.</p>
                   </td>
                 </tr>
                 <!-- end copy -->
@@ -271,7 +271,7 @@ class EmailSender {
                 <!-- start unsubscribe -->
                 <tr>
                   <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-                    <p style="margin: 0;">To stop receiving these emails, you can <a href="https://www.acuella.com" target="_blank">unsubscribe</a> at any time.</p>
+                    <p style="margin: 0;">To stop receiving these emails, you can <a href="https://www.frictless.com" target="_blank">unsubscribe</a> at any time.</p>
                     <p style="margin: 0;">Acuella.com</p>
                   </td>
                 </tr>

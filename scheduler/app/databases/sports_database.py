@@ -67,7 +67,8 @@ class SportsDatabase(Database):
             if start_date <= date_str and (end_date is None or end_date >= date_str):
                 new_task = {
                     'name': self.get_attribute_value(task, 'name'),
-                    'detail': self.get_attribute_value(task, 'detail'),
+                    # 'detail': self.get_attribute_value(task, 'detail'),
+                    'detail': None,
                     'duration': self.get_attribute_value(task, 'duration'),
                     'start': None,
                     'end': None,

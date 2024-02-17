@@ -1,4 +1,5 @@
 from typing import Dict, List
+from datetime import datetime, timedelta
 from app.core.database import Database
 
 class ScheduleDatabase(Database):
@@ -40,23 +41,72 @@ class ScheduleDatabase(Database):
                 'end': self.get_attribute_value(task, 'end'),
                 'progress': self.get_attribute_value(task, 'progress'),
                 'display': self.get_attribute_value(task, 'display'),
+                'created_time': self.get_attribute_value(task, 'created_time'),
+                'last_edited_time': self.get_attribute_value(task, 'last_edited_time'),
             } 
             for task in results]
         return output
 
-    def update_progress(self):
-        # TODO: store the latest schedule in mongodb and use linkages of tasks to update the progress
-        # fetch latest schedule from mongodb for fast retrieval
-        query_params = {}
-        latest_scheduled_tasks = self.query(**query_params)
-        self.mongo_db['schedule_ndb_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': latest_scheduled_tasks}}, upsert=True)
-        # TODO: update progress in the task page_id
-        # for task in latest_scheduled_tasks:
-        #     if(self.get_attribute_value(task, 'Progress') == '100%' and self.get_attribute_value(task, 'task_details')):
-        #         task_page_id = self.get_attribute_value(task, 'task_details')
-        #         new_properties = {'To do': {'checkbox': False}} # don't define 'properties'
-        #         self.update_page(task_page_id, new_properties)
+    def refresh_schedule_progress(self):
+        # Initialize an empty list for tasks not completed
+        uncompleted_tasks = []
 
+        # Retrieve the latest scheduled tasks
+        latest_scheduled_tasks = self.query()
+        # Update MongoDB with the latest tasks, using upsert to insert if not exists
+        self.mongo_db['schedule_ndb_cache'].update_one(
+            {'uid': self.uid},
+            {'$set': {'uid': self.uid, 'results': latest_scheduled_tasks}},
+            upsert=True
+        )
+
+        # Iterate over tasks to process their details and progress
+        for task in latest_scheduled_tasks:
+            name = self.get_attribute_value(task, 'name')
+            detail = self.get_attribute_value(task, 'detail')
+            start_date = datetime.strptime(self.get_attribute_value(task, 'start'), "%Y-%m-%dT%H:%M:%S.%f%z")
+            end_date = datetime.strptime(self.get_attribute_value(task, 'end'), "%Y-%m-%dT%H:%M:%S.%f%z")
+            last_edited_time = datetime.strptime(self.get_attribute_value(task, 'last_edited_time'), "%Y-%m-%dT%H:%M:%S.%f%z")
+            
+            # Calculate duration based on conditions
+            duration_in_minutes = (min(end_date, max(last_edited_time, start_date)) - start_date).total_seconds() / 60
+            
+            # Map progress percentages to their respective calculation factors
+            progress_factor_map = {
+                '75%': 0.25,
+                '50%': 0.5,
+                '25%': 0.75,
+                '0%': 1
+            }
+            progress = self.get_attribute_value(task, 'progress')
+            
+            # Check if the task has a detail and a recognized progress value
+            if detail and progress in progress_factor_map:
+                task_page_id = detail.split('-')[-1] if detail else None
+
+                if progress == '100%' and task_page_id:
+                    self.update_page(task_page_id, {'To do': {'checkbox': False }})
+                    continue
+                else:
+                    adjusted_duration = self.round_duration(duration_in_minutes * progress_factor_map[progress])
+                    uncompleted_tasks.append({
+                        'name': name,
+                        'detail': detail,
+                        'duration': adjusted_duration,
+                        'start': None,
+                        'end': None,
+                        'progress': progress,
+                        'is_fixed': False
+                    })
+                    self.update_page(task_page_id, {'To do': {'checkbox': False }})
+                
+        return uncompleted_tasks
+
+    def round_duration(self, duration):
+        duration = round(duration)
+        if duration % 5 != 0:
+            duration += (5 - duration % 5)
+        return duration
 
     def remove_dict(self, lst, target_dict):
         if target_dict in lst:

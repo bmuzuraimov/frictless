@@ -16,7 +16,7 @@
         Isanova St., Bishkek, Chui 720000.
       </p>
       <p class="mb-4">
-        We operate the website http://www.acuella.com (the "Site"), as well as any other related
+        We operate the website http://www.frictless.com (the "Site"), as well as any other related
         products and services that refer or link to these legal terms (the "Legal Terms")
         (collectively, the "Services").
       </p>
@@ -532,7 +532,7 @@
 
       <p class="mb-4">
         We care about data privacy and security. Please review our Privacy Policy:
-        http://www.acuella.com/privacy. By using the Services, you agree to be bound by our Privacy
+        http://www.frictless.com/privacy. By using the Services, you agree to be bound by our Privacy
         Policy, which is incorporated into these Legal Terms. Please be advised the Services are
         hosted in Singapore. If you access the Services from any other region of the world with laws
         or other requirements governing personal data collection, use, or disclosure that differ

@@ -137,17 +137,15 @@ router.post(
         job_tasks_dbid: user.job_tasks_dbid,
       },
     };
-    console.log(JSON.stringify(scheduleData))
-    res.json({success: true, message: "Request accepted. Processing in the background."})
-    // const params = {
-    //   Message: JSON.stringify(scheduleData),
-    //   TopicArn: process.env.SNS_SCHEDULE_TOPIC_ARN,
-    // };
-    // await snsPublisher.publishMessage(params);
-    // res.json({
-    //   success: true,
-    //   message: "Request accepted. Processing in the background.",
-    // });
+    const params = {
+      Message: JSON.stringify(scheduleData),
+      TopicArn: process.env.SNS_SCHEDULE_TOPIC_ARN,
+    };
+    await snsPublisher.publishMessage(params);
+    res.json({
+      success: true,
+      message: "Request accepted. Processing in the background.",
+    });
   })
 );
 
