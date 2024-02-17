@@ -70,7 +70,8 @@ class RecurringDatabase(Database):
                 new_task = {
                     'id': self.get_attribute_value(task, 'id'),
                     'name': self.get_attribute_value(task, 'name'),
-                    'detail': self.get_attribute_value(task, 'detail'),
+                    # 'detail': self.get_attribute_value(task, 'detail'),
+                    'detail': None,
                     'duration': self.get_attribute_value(task, 'duration'),
                     'start': None,
                     'end': None,

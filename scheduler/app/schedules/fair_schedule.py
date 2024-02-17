@@ -13,9 +13,22 @@ class FairSchedule(Schedule):
 
     def organize_daily_schedule(self, date: datetime) -> None:
         # TODO: see if subjects have table view to lecture notes. Add if doesn't exist.
-        self.schedule_db.update_progress()
+        uncompleted_tasks = self.schedule_db.refresh_schedule_progress()
+        self.counter = 0
         self.schedule = self.routine_db.get_week_day_routine(date)
+        self.current_activities = uncompleted_tasks
+        self.remaining_tasks = self.current_activities.copy()
+        for index, task in enumerate(self.current_activities):
+            task['index'] = index
+            shortest_task_duration = min(self.remaining_tasks, key=lambda x: x['duration'])['duration']
+            self.schedule = self.fit_task_into_schedule(self.schedule, task, shortest_task_duration)
+            if(self.is_schedule_full):
+                break
+        self.current_activities = None
+        self.remaining_tasks = None
+
         self.all_tasks = {
+                            'uncompleted': uncompleted_tasks,
                             'to do': self.todo_db.get_tasks(date),
                             'jobs': self.schedule_jobs_within_available_times(date, self.job_tasks_db.get_job_tasks(), self.jobs_db.get_jobs(date.strftime('%A'))),
                             'lecture notes': self.distribute_tasks_round_robin(self.lecture_notes_db.get_lecture_notes()),

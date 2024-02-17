@@ -62,7 +62,8 @@ class ToDoDatabase(Database):
             {
                 'id': self.get_attribute_value(task, 'id'),
                 'name': self.get_attribute_value(task, 'name'),
-                'detail': self.get_attribute_value(task, 'detail'),
+                # 'detail': self.get_attribute_value(task, 'detail'),
+                'detail': None,
                 'start': datetime.fromisoformat(self.get_attribute_value(task, 'start')).replace(tzinfo=None),
                 'end': datetime.fromisoformat(self.get_attribute_value(task, 'end')).replace(tzinfo=None),
                 'progress': '0%',

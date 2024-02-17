@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://www.acuella.com">
-    <img alt="Acuella – AI Era Life Management" src="https://www.acuella.com/favicon.ico">
+  <a href="https://www.frictless.com">
+    <img alt="Acuella – AI Era Life Management" src="https://www.frictless.com/favicon.ico">
   </a>
 </p>
 <h1 align="center">Acuella</h1>
@@ -13,8 +13,8 @@
   <a href="https://twitter.com/BMuzuraimov">
     <img src="https://img.shields.io/twitter/follow/BMuzuraimov?style=flat&label=BMuzuraimov&logo=twitter&color=0bf&logoColor=fff" alt="Baiel Muzuraimov Twitter follower count" />
   </a>
-  <a href="https://github.com/bmuzuraimov/acuella">
-    <img src="https://img.shields.io/github/stars/bmuzuraimov/acuella?label=bmuzuraimov%2FAcuella" alt="Acuella repo star count" />
+  <a href="https://github.com/bmuzuraimov/frictless">
+    <img src="https://img.shields.io/github/stars/bmuzuraimov/frictless?label=bmuzuraimov%2FAcuella" alt="Acuella repo star count" />
   </a>
 </p>
 
@@ -32,7 +32,7 @@ Acuella is a task automation tool designed to manage life with priorities.
 To get started:
 
 ```bash
-git clone "https://github.com/bmuzuraimov/acuella"
+git clone "https://github.com/bmuzuraimov/frictless"
 ```
 
 Then, install the dependencies:
@@ -50,7 +50,7 @@ pnpm install
 
 ## Tech Stack & Features
 
-![Acuella Demo](https://www.acuella.com/assets/demo.gif)
+![Acuella Demo](https://www.frictless.com/assets/demo.gif)
 
 ### Frameworks
 

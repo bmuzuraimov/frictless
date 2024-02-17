@@ -99,8 +99,8 @@
       <li>
         <p>
           <strong>Website</strong> refers to Acuella, accessible from
-          <a href="https://www.acuella.com" rel="external nofollow noopener" target="_blank"
-            >https://www.acuella.com</a
+          <a href="https://www.frictless.com" rel="external nofollow noopener" target="_blank"
+            >https://www.frictless.com</a
           >
         </p>
       </li>
