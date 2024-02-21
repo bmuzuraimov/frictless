@@ -73,10 +73,10 @@ class ScheduleDatabase(Database):
             
             # Map progress percentages to their respective calculation factors
             progress_factor_map = {
-                '75%': 0.25,
-                '50%': 0.5,
-                '25%': 0.75,
-                '0%': 1
+                '75%': 25,
+                '50%': 50,
+                '25%': 75,
+                '0%': 100
             }
             progress = self.get_attribute_value(task, 'progress')
             
@@ -85,10 +85,17 @@ class ScheduleDatabase(Database):
                 task_page_id = detail.split('-')[-1] if detail else None
 
                 if progress == '100%' and task_page_id:
+                    # 'Read times': {'number': value} get value from MongoDB cache
                     self.update_page(task_page_id, {'To do': {'checkbox': False }})
                     continue
                 else:
-                    adjusted_duration = self.round_duration(duration_in_minutes * progress_factor_map[progress])
+                    if progress != '0%':
+                        adjusted_duration = self.round_duration(
+                            (duration_in_minutes / int(progress.split('%')[0]))
+                            * progress_factor_map[progress]
+                        )
+                    else:
+                        adjusted_duration = duration_in_minutes
                     uncompleted_tasks.append({
                         'name': name,
                         'detail': detail,

@@ -4,17 +4,17 @@ from datetime import datetime, timedelta
 from icalendar import Event, Alarm
 from notion_client.errors import APIResponseError
 
-from app.databases.todo_database import ToDoDatabase
-from app.databases.routine_database import RoutineDatabase
-from app.databases.schedule_database import ScheduleDatabase
-from app.databases.courses_database import CoursesDatabase
-from app.databases.recurring_database import RecurringDatabase
-from app.databases.personal_database import PersonalDatabase
-from app.databases.sports_database import SportsDatabase
-from app.databases.priorities_database import PriorityDatabase
-from app.databases.jobs_database import JobsDatabase
-from app.databases.lecture_notes_database import LectureNotesDatabase
-from app.databases.job_tasks_database import JobTasksDatabase
+from app.repositories.todo_database import ToDoDatabase
+from app.repositories.routine_database import RoutineDatabase
+from app.repositories.schedule_database import ScheduleDatabase
+from app.repositories.courses_database import CoursesDatabase
+from app.repositories.recurring_database import RecurringDatabase
+from app.repositories.personal_database import PersonalDatabase
+from app.repositories.sports_database import SportsDatabase
+from app.repositories.priorities_database import PriorityDatabase
+from app.repositories.jobs_database import JobsDatabase
+from app.repositories.lecture_notes_database import LectureNotesDatabase
+from app.repositories.job_tasks_database import JobTasksDatabase
 
 
 
@@ -186,8 +186,3 @@ class Schedule:
 
         except Exception as e:
             logging.error(f"Failed to clear phone calendar: {e}")
-
-
-
-
-

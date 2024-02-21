@@ -1,88 +1,11 @@
-from typing import Dict, List
-import os
-import json
-from app.core.database import Database
+import unittest
+from app.repositories.job_tasks_database import JobTasksDatabase
 
-class JobTasksDatabase(Database):
-    def __init__(self,  uid, database_id: str, notion_key: str):
-        select_schema: Dict[str, List] = {
-            'id': self.__get_attr__(None, 'id'),
-            'name': self.__get_attr__('Name', 'title'),
-            'detail': self.__get_attr__(None, 'page_url'),
-            'to_do': self.__get_attr__('To do', 'checkbox'),
-            'job': self.__get_attr__('Job', 'relation'),
-            'duration': self.__get_attr__('Duration', 'number'),
-            'created_time': self.__get_attr__(None, 'created_time'),
-            'last_edited_time': self.__get_attr__(None, 'last_edited_time')
-        }
-        insert_schema: Dict[str, List] = {
-            'id': self.__set_attr__(None, 'id'),
-            'name': self.__set_attr__('Name', 'title'),
-            'to_do': self.__set_attr__('To do', 'checkbox'),
-            'job': self.__set_attr__('Job', 'relation'),
-            'duration': self.__set_attr__('Duration', 'number'),
-            'created_time': self.__set_attr__(None, 'created_time'),
-            'last_edited_time': self.__set_attr__(None, 'last_edited_time')
-        }
-        super().__init__(uid, database_id, notion_key, select_schema, insert_schema)
+class TestJobTasksDatabase(unittest.TestCase):
+    def test_sum(self):
+        priority_db = JobTasksDatabase("65c3323a0b257baa2e14a3df", "80fa58ba-a250-4169-882e-8f169691b0b5", "secret_OzVkNiwCKHY0M3uMeC3tosi1pfFUjTcvGnoJ7WmJ9VJ")
+        sample_answer = [{'id': '1c419016-3af5-4fec-9468-36e62efeca0a', 'name': 'To do', 'priority': 100}, {'id': 'aa01e740-b997-44f6-8f37-6df45e3de6ab', 'name': 'Jobs', 'priority': 80}, {'id': 'f7819c43-82dd-469d-b774-f055daa2bad7', 'name': 'Lecture notes', 'priority': 60}, {'id': 'a916e171-6e49-4041-89b3-50b6df930639', 'name': 'Recurring activities', 'priority': 40}, {'id': '77f1f220-8f09-48b0-9865-ea1ed1da43a6', 'name': 'Personal projects', 'priority': 20}, {'id': 'd77b4690-7896-4b17-beb6-65d5e934d0b0', 'name': 'Sports', 'priority': 10}]
+        self.assertEqual(priority_db.get_priorities(), sample_answer, 'The priority is wrong')
 
-    def get_job_tasks(self) -> Dict[str, List]:
-        output:Dict[str, List] = {}
-        if(os.environ.get('STAGE') == 'dev'):
-            results = self.mongo_db['job_tasks_ndb_test_cache'].find_one({'uid': self.uid})['results']
-        else:
-            query_params = {
-                'filter': {
-                    'and': [
-                        {
-                            'property': 'To do',
-                            'checkbox': {
-                                'equals': True
-                            }
-                        },
-                        {
-                            'property': 'Job',  # Assuming 'Job' is the name of the relation property
-                            'relation': {
-                                'is_not_empty': True
-                            }
-                        }
-                    ]
-                },
-                'sorts': [
-                    {
-                        'property': 'Name',
-                        'direction': 'ascending',
-                        'timestamp': 'last_edited_time'
-                    }
-                ],
-                'property_select': [
-                    'id',
-                    'Name',
-                    'Course',
-                    'Document',
-                    'Duration',
-                    'Min. per page'
-                ]
-            }
-            results = self.query(**query_params)
-            # self.mongo_db['job_tasks_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
-        for detail in results:
-            job = self.get_attribute_value(detail, 'job')
-            duration = self.get_attribute_value(detail, 'duration')
-            if duration is None:
-                continue
-            if job not in output:
-                output[job] = []
-            output[job].append({
-                'id': self.get_attribute_value(detail, 'id'),
-                'name': self.get_attribute_value(detail, 'name'),
-                'detail': self.get_attribute_value(detail, 'detail'),
-                'start': None,
-                'end': None,
-                'duration': duration,
-                'progress': '0%',
-                'display': True,
-                'task_details': job,
-                'is_fixed': False,
-            })
-        return output
+if __name__ == '__main__':
+    unittest.main()
