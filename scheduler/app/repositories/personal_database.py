@@ -60,7 +60,7 @@ class PersonalDatabase(Database):
                 ]
             }
             results = self.query(**query_params)
-            # self.mongo_db['personal_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
+            self.mongo_db['personal_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
         for row in results:
             start_date = self.get_attribute_value(row, 'start')
             end_date = self.get_attribute_value(row, 'end')
@@ -69,7 +69,8 @@ class PersonalDatabase(Database):
                 new_row = {
                     'id': self.get_attribute_value(row, 'id'),
                     'name': self.get_attribute_value(row, 'name'),
-                    'detail': self.get_attribute_value(row, 'detail'),
+                    # 'detail': self.get_attribute_value(row, 'detail'),
+                    'detail': None,
                     'duration': self.get_attribute_value(row, 'duration'),
                     'start': None,
                     'end': None,

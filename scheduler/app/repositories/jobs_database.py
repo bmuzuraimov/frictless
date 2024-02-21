@@ -39,7 +39,7 @@ class JobsDatabase(Database):
                 }
             }
             results = self.query(**query)
-            # self.mongo_db['jobs_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': { 'uid': self.uid, 'weekday': weekday, 'results': results }}, upsert=True)
+            self.mongo_db['jobs_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': { 'uid': self.uid, 'weekday': weekday, 'results': results }}, upsert=True)
         results: List[Dict[str, Union[str, List]]] = {
                         self.get_attribute_value(row, 'id'): { 
                             'name': self.get_attribute_value(row, 'name'),

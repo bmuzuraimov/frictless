@@ -1,4 +1,4 @@
-from scheduler.app.strategies.priority_strategy import PriorityStrategy
+from app.strategies.priority_strategy import PriorityStrategy
 import json
 import logging
 from datetime import datetime, timedelta

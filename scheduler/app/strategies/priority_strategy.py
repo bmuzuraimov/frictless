@@ -1,11 +1,11 @@
 import os
 from typing import Dict, List
 from datetime import timedelta, datetime
-from app.core.schedule import Schedule
+from app.core.strategy import Strategy
 from app.utils.scheduling import adjust_tasks_to_avoid_overlap, schedule_jobs_within_available_times, distribute_tasks_round_robin, has_no_smaller_duration_task
 
 
-class PriorityStrategy(Schedule):
+class PriorityStrategy(Strategy):
     def __init__(self, user_data: Dict) -> None:
         super().__init__(user_data)
         self.is_schedule_full = False
@@ -75,8 +75,8 @@ class PriorityStrategy(Schedule):
         ]
         self.schedule_db.update_schedule_by_week_day(self.schedule)
 
-        if self.ios_username and self.ios_password:
-            self.clear_phone_calendar()
+        if self.caldav_client:
+            self.caldav_client.clear_phone_calendar()
             for row in self.schedule:
                 # Assuming the 'start' and 'end' in row are now strings, convert them back to datetime objects for calculation
                 # Parse the datetime strings back to datetime objects
@@ -93,7 +93,7 @@ class PriorityStrategy(Schedule):
                 dtend = datetime.combine(
                     datetime.today() + timedelta(days=1), adj_dtend.time())
 
-                self.phone_add_event(row['name'], dtstart, dtend)
+                self.caldav_client.phone_add_event(row['name'], dtstart, dtend)
         return 'scheduled'
 
     def remove_task_from_queue(self, index: int) -> None:

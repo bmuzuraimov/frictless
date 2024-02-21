@@ -65,7 +65,7 @@ class JobTasksDatabase(Database):
                 ]
             }
             results = self.query(**query_params)
-            # self.mongo_db['job_tasks_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
+            self.mongo_db['job_tasks_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
         for detail in results:
             job = self.get_attribute_value(detail, 'job')
             duration = self.get_attribute_value(detail, 'duration')
@@ -76,7 +76,8 @@ class JobTasksDatabase(Database):
             output[job].append({
                 'id': self.get_attribute_value(detail, 'id'),
                 'name': self.get_attribute_value(detail, 'name'),
-                'detail': self.get_attribute_value(detail, 'detail'),
+                # 'detail': self.get_attribute_value(detail, 'detail'),
+                'detail': None,
                 'start': None,
                 'end': None,
                 'duration': duration,

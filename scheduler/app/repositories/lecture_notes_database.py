@@ -99,7 +99,7 @@ class LectureNotesDatabase(Database):
                 ]
             }
             results = self.query(**query_params)
-            # self.mongo_db['lecture_notes_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
+            self.mongo_db['lecture_notes_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
         for task in results:
             id = self.get_attribute_value(task, 'id')
             min_per_page = self.get_attribute_value(task, 'min_page')

@@ -36,6 +36,6 @@ class CoursesDatabase(Database):
         else:
             query = {}
             results = self.query(**query)
-            # self.mongo_db['courses_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
+            self.mongo_db['courses_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
         results_id = {self.get_attribute_value(row, 'id'): [] for row in results}
         return results_id
