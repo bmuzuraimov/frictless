@@ -1,6 +1,6 @@
 <template>
   <h3 class="text-center text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">
-    How Much Time Can Acuella Save You?
+    How Much Time Can Frictless Save You?
   </h3>
   <section
     class="flex flex-col justify-center md:flex-row mb-8 sm:mb-12 lg:mb-16 sm:mx-6 md:mx-12 lg:mx-24 py-4 sm:py-6 lg:py-8 rounded-lg shadow-md bg-white hover:shadow-lg transition duration-300 ease-in-out"
@@ -51,17 +51,17 @@
         ${{ time * renumeration * 30 }}
       </h2>
       <div class="flex justify-between my-2 text-xs sm:text-sm md:text-base">
-        <span>Acuella can save you</span>
+        <span>Frictless can save you</span>
         <span class="text-warning-700">{{ time * 30 }} hours per month.</span>
       </div>
 
       <div class="flex justify-between my-2 text-xs sm:text-sm md:text-base">
-        <span>Acuella can save you</span>
+        <span>Frictless can save you</span>
         <span class="text-warning-700">${{ time * renumeration }} per day.</span>
       </div>
 
       <div class="flex justify-between my-2 text-xs sm:text-sm md:text-base">
-        <span>Acuella monthly cost</span>
+        <span>Frictless monthly cost</span>
         <span class="text-success-700">$49.99.</span>
       </div>
 

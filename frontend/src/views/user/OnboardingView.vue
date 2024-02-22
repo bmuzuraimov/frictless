@@ -61,7 +61,7 @@
             rounded="xl"
             variant="outlined"
             elevation="2"
-            :disabled="useButtonStore.connectNotionButton.disabled"
+            
             @click="handleNotionOauth2()"
             :class="[
               'flex',

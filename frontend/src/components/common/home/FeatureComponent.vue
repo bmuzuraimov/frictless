@@ -49,14 +49,14 @@ export default {
                   <path strokeLinecap='round' strokeLinejoin='round' d='M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z' />
               </svg>`,
           title: 'One-Click Planning',
-          desc: 'Simplify your task management with a single click. Acuella turns overwhelming lists into a structured plan for today and tomorrow.'
+          desc: 'Simplify your task management with a single click. Frictless turns overwhelming lists into a structured plan for today and tomorrow.'
         },
         {
           icon: `<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' class='w-6 h-6'>
               <path strokeLinecap='round' strokeLinejoin='round' d='M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z' />
           </svg>`,
           title: 'Dynamic Adaptability',
-          desc: 'As your day changes, Acuella changes with you. Adjust your tasks and priorities on-the-go, ensuring that you\'re always focused on what matters most, no matter what the day throws at you.'
+          desc: 'As your day changes, Frictless changes with you. Adjust your tasks and priorities on-the-go, ensuring that you\'re always focused on what matters most, no matter what the day throws at you.'
         },
         {
           icon: `<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='1.5' stroke='currentColor' class='w-6 h-6'>
@@ -77,7 +77,7 @@ export default {
                   <path strokeLinecap='round' strokeLinejoin='round' d='M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3' />
               </svg>`,
           title: 'Intuitive Prioritization',
-          desc: 'Easily decide what needs your attention first. With Acuella, you can highlight immediate tasks and plan ahead for what\'s coming, making sure you\'re always a step ahead.'
+          desc: 'Easily decide what needs your attention first. With Frictless, you can highlight immediate tasks and plan ahead for what\'s coming, making sure you\'re always a step ahead.'
         },
         {
           icon: `<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='1.5' stroke='currentColor' class='w-6 h-6'>
@@ -86,7 +86,7 @@ export default {
 0a11.959 11.959 0 00-8.402-3.714V2.714z' />
               </svg>`,
           title: 'Customizable Schedules',
-          desc: 'Tailor your day to fit your unique rhythm. Acuella adapts to your life, helping you slot tasks into the best times, so you\'re working efficiently and effectively.'
+          desc: 'Tailor your day to fit your unique rhythm. Frictless adapts to your life, helping you slot tasks into the best times, so you\'re working efficiently and effectively.'
         },
       ],
     }

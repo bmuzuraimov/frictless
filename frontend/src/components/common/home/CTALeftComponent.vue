@@ -5,7 +5,7 @@
       <div class="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-xl lg:text-left">
         <h3 class="text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">Effortless Organization</h3>
         <p class="mt-2 sm:mt-3 text-lg sm:text-xl font-ourfit leading-normal text-gray-600">
-          Visualize your priorities for today and tomorrow with ease. Acuella simplifies your planning, so you can spend more time achieving and less time organizing.
+          Visualize your priorities for today and tomorrow with ease. Frictless simplifies your planning, so you can spend more time achieving and less time organizing.
         </p>
         <router-link
           class="mt-4 sm:mt-5 px-4 py-2 text-ourfit hover:text-primary-400 font-medium bg-primary-50 bg-opacity-50 rounded-full inline-flex items-center"
@@ -29,7 +29,7 @@
         </router-link>
       </div>
       <div class="flex-1 rounded-xl sm:order-first order-last mt-4 sm:mt-5 mx-auto sm:w-9/12 lg:mt-0 lg:w-auto">
-        <img src="@/assets/images/cta-left.png" alt="Acuella Interface" class="w-full rounded-xl" />
+        <img src="@/assets/images/cta-left.png" alt="Frictless Interface" class="w-full rounded-xl" />
       </div>
     </div>
   </section>

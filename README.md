@@ -1,9 +1,9 @@
 <p align="center">
   <a href="https://www.frictless.com">
-    <img alt="Acuella – AI Era Life Management" src="https://www.frictless.com/favicon.ico">
+    <img alt="Frictless – AI Era Life Management" src="https://www.frictless.com/favicon.ico">
   </a>
 </p>
-<h1 align="center">Acuella</h1>
+<h1 align="center">Frictionless</h1>
 
 <p align="center">
   AI Era Life Management
@@ -14,7 +14,7 @@
     <img src="https://img.shields.io/twitter/follow/BMuzuraimov?style=flat&label=BMuzuraimov&logo=twitter&color=0bf&logoColor=fff" alt="Baiel Muzuraimov Twitter follower count" />
   </a>
   <a href="https://github.com/bmuzuraimov/frictless">
-    <img src="https://img.shields.io/github/stars/bmuzuraimov/frictless?label=bmuzuraimov%2FAcuella" alt="Acuella repo star count" />
+    <img src="https://img.shields.io/github/stars/bmuzuraimov/frictless?label=bmuzuraimov%Frictless" alt="Frictless repo star count" />
   </a>
 </p>
 
@@ -27,7 +27,7 @@
 
 ## Introduction
 
-Acuella is a task automation tool designed to manage life with priorities.
+Frictless is a task automation tool designed to manage life with priorities.
 
 To get started:
 
@@ -50,7 +50,7 @@ pnpm install
 
 ## Tech Stack & Features
 
-![Acuella Demo](https://www.frictless.com/assets/demo.gif)
+![Frictless Demo](https://www.frictless.com/assets/demo.gif)
 
 ### Frameworks
 

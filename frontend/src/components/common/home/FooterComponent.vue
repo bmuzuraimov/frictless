@@ -4,7 +4,7 @@
       <!-- <img src="@/assets/images/logo.png" class="w-32 mx-auto" /> -->
       <h2 class="text-gray-800 text-2xl sm:text-3xl lg:text-3xl">Life 2.0. Available Now.</h2>
       <p class="leading-relaxed mt-2 text-[15px]">
-        <!-- Stay connected with Acuella for the latest updates, tips, and more. Follow us on our social media channels and subscribe to our newsletter for productivity insights delivered straight to your inbox. -->
+        <!-- Stay connected with Frictless for the latest updates, tips, and more. Follow us on our social media channels and subscribe to our newsletter for productivity insights delivered straight to your inbox. -->
         Life is defined by our actions.
 Everything counts. Books you've read, kilometers you've run, every cup of coffee, every takeoff and every landing, every workout, every headspace session, every movie, every night out, and every glass of water the next morning. Everything counts. And everything that counts - shapes us
       </p>
@@ -18,7 +18,7 @@ Everything counts. Books you've read, kilometers you've run, every cup of coffee
     </ul>
     <div class="flex flex-col sm:flex-row items-center justify-between mt-8">
       <div>
-        &copy; 2024 Acuella All rights reserved.
+        &copy; 2024 Frictless All rights reserved.
       </div>
       <div class="flex items-center space-x-4 mt-4 sm:mt-0">
         <li v-for="icon in socialIcons" :key="icon.id" class="w-10 h-10 rounded-full flex items-center justify-center">

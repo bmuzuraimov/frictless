@@ -45,7 +45,7 @@
       <li>
         <p>
           <strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;,
-          &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to Acuella Ltd., 224 Waterloo
+          &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to Frictless Ltd., 224 Waterloo
           Rd, Kowloon Tong .
         </p>
       </li>
@@ -98,7 +98,7 @@
       </li>
       <li>
         <p>
-          <strong>Website</strong> refers to Acuella, accessible from
+          <strong>Website</strong> refers to Frictless, accessible from
           <a href="https://www.frictless.com" rel="external nofollow noopener" target="_blank"
             >https://www.frictless.com</a
           >

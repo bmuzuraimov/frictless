@@ -6,7 +6,7 @@
           What Early Users Say
         </h3>
         <p class="mt-2 sm:mt-3 text-gray-600 text-base sm:text-lg">
-          Hear it straight from the folks who've made their days better with Acuella. Less anxiety,
+          Hear it straight from the folks who've made their days better with Frictless. Less anxiety,
           more doing.
         </p>
       </div>

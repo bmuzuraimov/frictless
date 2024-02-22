@@ -57,19 +57,19 @@ export default {
       selectedFaq: -1,
       faqs: [
         {
-          q: 'Why Acuella?',
-          a: "Amidst the noise of endless tasks and deadlines, the essence of your goals can get lost. Acuella is here to ensure they don't. By transforming your overwhelming schedules into a structured symphony of daily and tomorrow's tasks, Acuella lets you focus on what truly matters—achieving remarkable outcomes."
+          q: 'Why Frictless?',
+          a: "Amidst the noise of endless tasks and deadlines, the essence of your goals can get lost. Frictless is here to ensure they don't. By transforming your overwhelming schedules into a structured symphony of daily and tomorrow's tasks, Frictless lets you focus on what truly matters—achieving remarkable outcomes."
         },
         {
           q: 'Who\'s It For?',
-          a: "Students, freelancers, professionals—anyone who's tired of feeling swamped by their schedule. If you're looking for a way to cut through the chaos and get your priorities straight, Acuella's here for you."
+          a: "Students, freelancers, professionals—anyone who's tired of feeling swamped by their schedule. If you're looking for a way to cut through the chaos and get your priorities straight, Frictless's here for you."
         },
         {
-          q: 'Why Choose Acuella?',
+          q: 'Why Choose Frictless?',
           a: "No More Overwhelm, Focus on Today and Tomorrow, Tailored to You: Your day, your tasks. We fit them into your time, not the other way around."
         },
         {
-          q: 'Real Talk: Why Acuella Rocks',
+          q: 'Real Talk: Why Frictless Rocks',
           a: 'No fluff, no fuss—just a straightforward way to get your tasks in order.'
         },
       ],
