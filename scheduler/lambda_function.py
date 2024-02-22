@@ -1,4 +1,4 @@
-from app.schedules.fair_schedule import FairSchedule
+from app.strategies.priority_strategy import PriorityStrategy
 import json
 import logging
 from datetime import datetime, timedelta
@@ -18,7 +18,7 @@ def lambda_handler(event, context):
                     if 'date' in parsed_data:
                         date = datetime.strptime(parsed_data.get("date"), "%d/%m/%Y, %H:%M:%S").date()
                         tomorrow = date + timedelta(days=1)
-                        myschedule = FairSchedule(user_data)
+                        myschedule = PriorityStrategy(user_data)
                         myschedule.organize_daily_schedule(tomorrow)
                     else:
                         print("Date not found in user_data")
@@ -27,7 +27,7 @@ def lambda_handler(event, context):
                     if 'date' in record["Sns"]["Message"]:
                         date = datetime.strptime(record["Sns"]["Message"].get("date"), "%d/%m/%Y, %H:%M:%S").date()
                         tomorrow = date + timedelta(days=1)
-                        myschedule = FairSchedule(user_data)
+                        myschedule = PriorityStrategy(user_data)
                         myschedule.organize_daily_schedule(tomorrow)
                     else:
                         print("Date not found in user_data")

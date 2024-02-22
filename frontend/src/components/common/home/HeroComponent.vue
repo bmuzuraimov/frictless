@@ -13,7 +13,7 @@
       </h2>
       <p class="text-sm sm:text-md font-ourfit leading-normal text-gray-600 mx-auto">
         Got a lot in your life? We hear you. Life's busy, and your to-do list is never-ending.<br/>
-        Acuella is here to help you to wake up with a clear plan.
+        Frictless is here to help you to wake up with a clear plan.
       </p>
       <p class="text-xs sm:text-sm text-indigo-600 font-medium">Clearer mind everyday</p>
       <div
@@ -67,7 +67,7 @@
           id="hero-image"
           src="@/assets/images/hero-demo.png"
           class="w-full w-full object-cover object-center transform ease-in-out transition-transform duration-400"
-          alt="A demo showing Acuella app interface"
+          alt="A demo showing Frictless app interface"
         />
         <div
           class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 to-transparent h-1/2"

@@ -64,7 +64,7 @@ class RoutineDatabase(Database):
                 ],
             }
             results = self.query(**query_params)
-            # self.mongo_db['routine_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
+            self.mongo_db['routine_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
         for task in results:
             start_time_str = self.get_attribute_value(task, 'start')
             end_time_str = self.get_attribute_value(task, 'end')

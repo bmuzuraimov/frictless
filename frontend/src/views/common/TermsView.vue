@@ -12,7 +12,7 @@
 
       <h3 class="text-2xl font-semibold mb-3">AGREEMENT TO OUR LEGAL TERMS</h3>
       <p class="mb-4">
-        We are Acuella Ltd. ("Company," "we," "us," "our"), a company registered in Kyrgyzstan at
+        We are Frictless Ltd. ("Company," "we," "us," "our"), a company registered in Kyrgyzstan at
         Isanova St., Bishkek, Chui 720000.
       </p>
       <p class="mb-4">
@@ -21,7 +21,7 @@
         (collectively, the "Services").
       </p>
       <p class="mb-4">
-        Acuella helps manage time and tasks. It uses scheduling algorithms and voice interaction to
+        Frictless helps manage time and tasks. It uses scheduling algorithms and voice interaction to
         organize both academic and personal tasks. Users can add tasks using voice commands, and the
         app schedules these tasks by considering their priority, deadlines, and duration. Nodeon
         integrates with Notion to display tasks, course materials, and schedules in one place. It
@@ -35,7 +35,7 @@
       </p>
       <p class="mb-4">
         These Legal Terms constitute a legally binding agreement made between you, whether
-        personally or on behalf of an entity ("you"), and Acuella Ltd., concerning your access to
+        personally or on behalf of an entity ("you"), and Frictless Ltd., concerning your access to
         and use of the Services. You agree that by accessing the Services, you have read,
         understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL
         OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST
@@ -580,7 +580,7 @@
       <h2 class="text-2xl font-semibold mb-3">19. GOVERNING LAW</h2>
 
       <p class="mb-4">
-        These Legal Terms shall be governed by and defined following the laws of Hong Kong. Acuella
+        These Legal Terms shall be governed by and defined following the laws of Hong Kong. Frictless
         Ltd. and yourself irrevocably consent that the courts of Hong Kong shall have exclusive
         jurisdiction to resolve any dispute which may arise in connection with these Legal Terms.
       </p>
@@ -747,7 +747,7 @@
         regarding use of the Services, please contact us at:
       </p>
       <ul>
-        <li>Acuella Ltd.</li>
+        <li>Frictless Ltd.</li>
         <li>224 Waterloo Rd, Kowloon Tong</li>
         <li>Kowloon</li>
         <li>Hong Kong</li>

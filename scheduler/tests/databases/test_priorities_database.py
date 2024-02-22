@@ -1,47 +1,11 @@
-from typing import Dict, List, Union
-from app.core.database import Database
-from datetime import datetime
-import json
-import os
+import unittest
+from app.repositories.priorities_database import PriorityDatabase
 
-class PriorityDatabase(Database):
-    def __init__(self, uid, database_id: str, notion_key: str) -> None:
-        select_schema: Dict[str, List] = {
-            'id': self.__get_attr__(None, 'id'),
-            'name': self.__get_attr__('Name', 'title'),
-            'priority': self.__get_attr__('Priority', 'select'),
-            'created_time': self.__get_attr__(None, 'created_time'),
-            'last_edited_time': self.__get_attr__(None, 'last_edited_time')
-        }
-        insert_schema: Dict[str, List] = {
-            'id': self.__set_attr__(None, 'id'),
-            'name': self.__set_attr__('Name', 'title'),
-            'priority': self.__set_attr__('Priority', 'select'),
-            'created_time': self.__set_attr__(None, 'created_time'),
-            'last_edited_time': self.__set_attr__(None, 'last_edited_time')
-        }
-        super().__init__(uid, database_id, notion_key, select_schema, insert_schema)
+class TestPriorityDatabase(unittest.TestCase):
+    def test_sum(self):
+        priority_db = PriorityDatabase("65c3323a0b257baa2e14a3df", "80fa58ba-a250-4169-882e-8f169691b0b5", "secret_OzVkNiwCKHY0M3uMeC3tosi1pfFUjTcvGnoJ7WmJ9VJ")
+        sample_answer = [{'id': '1c419016-3af5-4fec-9468-36e62efeca0a', 'name': 'To do', 'priority': 100}, {'id': 'aa01e740-b997-44f6-8f37-6df45e3de6ab', 'name': 'Jobs', 'priority': 80}, {'id': 'f7819c43-82dd-469d-b774-f055daa2bad7', 'name': 'Lecture notes', 'priority': 60}, {'id': 'a916e171-6e49-4041-89b3-50b6df930639', 'name': 'Recurring activities', 'priority': 40}, {'id': '77f1f220-8f09-48b0-9865-ea1ed1da43a6', 'name': 'Personal projects', 'priority': 20}, {'id': 'd77b4690-7896-4b17-beb6-65d5e934d0b0', 'name': 'Sports', 'priority': 10}]
+        self.assertEqual(priority_db.get_priorities(), sample_answer, 'The priority is wrong')
 
-    def get_priorities(self) -> List[Dict[str, Union[str, datetime, int]]]:
-        output: List[Dict[str, Union[str, datetime, int]]] = []
-        if(os.environ.get('STAGE') == 'dev'):
-            results = self.mongo_db['priorities_ndb_test_cache'].find_one({'uid': self.uid})['results']
-        else:
-            query_params: Dict[str, List[Dict[str, str]]] = {
-                "sorts": [
-                    {
-                        "property": "Priority",
-                        "direction": "descending"
-                    }
-                ]
-            }
-            results = self.query(**query_params)
-            # self.mongo_db['priorities_ndb_test_cache'].update_one({'uid': self.uid}, {'$set': {'uid': self.uid, 'results': results}}, upsert=True)
-        for priority in results:
-            new_priority: Dict[str, Union[str, datetime]] = {}
-            new_priority['id'] = self.get_attribute_value(priority, 'id')
-            new_priority['name'] = self.get_attribute_value(priority, 'name')
-            new_priority['priority'] = int(self.get_attribute_value(priority, 'priority'))
-            output.append(new_priority)
-        output.sort(key=lambda x: x['priority'], reverse=True)
-        return output
+if __name__ == '__main__':
+    unittest.main()
