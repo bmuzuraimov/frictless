@@ -10,9 +10,9 @@
           />
       </div>
       <div class="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-xl lg:text-left">
-        <h3 class="text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">Focus Where It Counts</h3>
+        <h3 class="text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">Plan Today, Achieve More Tomorrow</h3>
         <p class="mt-2 sm:mt-3 text-lg sm:text-xl font-ourfit leading-normal text-gray-600">
-          Merge your tasks with your calendar seamlessly. Frictless brings clarity to your day, helping you prioritize and focus on what truly moves the needle.
+          Discover Frictless's one-click planning solution. Visualize and adjust your priorities for today and tomorrow effortlessly. Reduce planning time by 50% and reclaim hours for what matters.
         </p>
         <router-link
             to="/guide"

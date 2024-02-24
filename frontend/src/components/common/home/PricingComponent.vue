@@ -108,6 +108,7 @@ export default {
             'Statistics',
             'Daily auto schedule',
             'Ad free',
+            'Extra revive points',
             '24/7 priority support'
           ],
           buttonText: 'Join Now'

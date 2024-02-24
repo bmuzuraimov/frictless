@@ -2,7 +2,7 @@
   <footer class="text-gray-500 bg-white/30 backdrop-blur-md px-4 py-5 max-w-screen-xl mx-auto">
     <div class="max-w-lg mx-auto text-center">
       <!-- <img src="@/assets/images/logo.png" class="w-32 mx-auto" /> -->
-      <h2 class="text-gray-800 text-2xl sm:text-3xl lg:text-3xl">Life 2.0. Available Now.</h2>
+      <h2 class="text-gray-800 text-2xl sm:text-3xl lg:text-3xl">Life 2.0. Available soon.</h2>
       <p class="leading-relaxed mt-2 text-[15px]">
         <!-- Stay connected with Frictless for the latest updates, tips, and more. Follow us on our social media channels and subscribe to our newsletter for productivity insights delivered straight to your inbox. -->
         Life is defined by our actions.

@@ -22,6 +22,8 @@
     <FAQComponent />
     <!-- Testimonials -->
     <TestimonialsComponent />
+    <!-- Join waitinglist -->
+    <WaitlistComponent />
     <!-- Footer -->
     <FooterComponent />
   </div>
@@ -40,6 +42,7 @@ import TimeCalculatorComponent from '@/components/common/home/TimeCalculatorComp
 import FooterComponent from '@/components/common/home/FooterComponent.vue'
 import FAQComponent from '@/components/common/home/FAQComponent.vue'
 import TestimonialsComponent from '@/components/common/home/TestimonialsComponent.vue'
+import WaitlistComponent from '@/components/common/home/WaitlistComponent.vue'
 
 export default {
   components: {
@@ -54,7 +57,8 @@ export default {
     TimeCalculatorComponent,
     FooterComponent,
     FAQComponent,
-    TestimonialsComponent
+    TestimonialsComponent,
+    WaitlistComponent,
   },
 }
 </script>

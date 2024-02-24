@@ -4,18 +4,17 @@
   >
     <div class="space-y-4 sm:space-y-5 max-w-xl md:max-w-3xl lg:max-w-4xl mx-auto text-center">
       <h2 class="text-3xl sm:text-4xl md:text-5xl font-ourfit text-gray-800 font-semibold mx-auto">
-        Tomorrow's
+        Make Every 
         <span
           class="text-transparent bg-clip-text bg-gradient-to-b from-primary-700 to-primary-300"
         >
-        Priority Scheduler
+        Day Productive Without the Effort
         </span>
       </h2>
       <p class="text-sm sm:text-md font-ourfit leading-normal text-gray-600 mx-auto">
-        Got a lot in your life? We hear you. Life's busy, and your to-do list is never-ending.<br/>
-        Frictless is here to help you to wake up with a clear plan.
+        Frictless transforms your Notion workspace into an intelligent daily planner, prioritizing your tasks and optimizing your schedule with just a whisper to Siri or a click.
       </p>
-      <p class="text-xs sm:text-sm text-indigo-600 font-medium">Clearer mind everyday</p>
+      <p class="text-xs sm:text-sm text-indigo-600 font-medium">No credit card required - experience the ease today!</p>
       <div
         class="flex flex-col sm:flex-row items-center justify-center gap-x-3 gap-y-3 sm:space-y-0"
       >
@@ -23,7 +22,7 @@
           to="/login"
           class="rounded-full border border-black bg-black px-4 py-1.5 text-xs sm:text-sm text-outfit text-white hover:bg-white hover:text-black"
         >
-          Start for Free
+        Start Simplifying My Day
         </router-link>
         <router-link
           to="/guide"

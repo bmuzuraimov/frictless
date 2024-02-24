@@ -8,6 +8,23 @@ const { asyncHandler, NotFoundError } = require("@/utils/error_handler");
 router.use(withDB);
 
 router.post(
+  "/waitlist",
+  asyncHandler(async (req, res) => {
+    const { email } = req.body;
+    const result = await req.db
+      .collection("waitlist").insertOne({ 
+        email,
+        created_at: new Date()
+      });
+    if (result.insertedId) {
+      res.json({ success: true, message: "Success!" });
+    }else{
+      res.json({ success: false, message: "Failed!" });
+    }
+  })
+);
+
+router.post(
   "/calendar/apple",
   isUser,
   validateIOS,

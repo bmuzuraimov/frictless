@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import userRoutes from './user'
+import notionRoutes from './notion'
 import commonRoutes from './common'
 import axios from 'axios'
 import AOS from 'aos'
@@ -10,6 +11,7 @@ const router = createRouter({
   routes: [
     ...userRoutes,
     ...commonRoutes,
+    ...notionRoutes,
     {
       path: '/:pathMatch(.*)*',
       name: '404',

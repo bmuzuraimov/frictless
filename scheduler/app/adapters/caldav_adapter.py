@@ -73,16 +73,11 @@ class CalDAVAdapter:
     @ensure_client_connected
     def clear_phone_calendar(self):
         try:
-            principal = self._connect_to_caldav()
-            calendar = principal.calendars()[0]
-
-            # Fetch all events from the calendar.
-            # Depending on the library you're using, you might need a different method to fetch all events.
-            events = calendar.events()
+            events = self.calendar.events()
             print(events)
             for event in events:
                 print(f"Deleting event: {event}")
                 event.delete()
 
         except Exception as e:
-            logging.error(f"Failed to clear phone calendar: {e}")
+            print(f"Failed to clear phone calendar: {e}")
