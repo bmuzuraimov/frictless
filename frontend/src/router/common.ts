@@ -51,7 +51,7 @@ const commonRoutes = [
       },
       {
         path: '/unauthorized',
-        name: 'unauthorized',
+        name: 'access-denied',
         component: () => import('@/views/common/UnauthorizedView.vue'),
         meta: { requiresAuth: false }
       },

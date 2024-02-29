@@ -3,16 +3,16 @@ import os
 from typing import Dict, List
 import itertools
 
-def adjust_tasks_to_avoid_overlap(todo, schedule=None, overwrite=False):
+def adjust_tasks_to_avoid_overlap(todo_tasks, schedule_tasks=None, overwrite=False):
     """
     Adjusts the scheduled tasks to avoid overlap with the todo tasks.
     """
-    if schedule is None:
-        return todo
+    if schedule_tasks is None:
+        return todo_tasks
     adjusted_schedule = []  # To hold adjusted scheduled tasks
-    for index, scheduled_task in enumerate(schedule):
+    for index, scheduled_task in enumerate(schedule_tasks):
         overlap_found = False
-        for todo_task in todo:
+        for todo_task in todo_tasks:
             # Check if the scheduled task overlaps with the todo task
             if scheduled_task['start'] < todo_task['end'] and todo_task['start'] < scheduled_task['end'] and not scheduled_task['is_fixed']:
                 overlap_found = True
@@ -38,7 +38,7 @@ def adjust_tasks_to_avoid_overlap(todo, schedule=None, overwrite=False):
             adjusted_schedule.append(scheduled_task)
 
     # Combine and sort todo and adjusted schedule tasks by start time
-    combined_tasks = todo + adjusted_schedule
+    combined_tasks = todo_tasks + adjusted_schedule
     combined_tasks.sort(key=lambda x: x['start'])
 
     return combined_tasks

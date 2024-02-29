@@ -110,28 +110,6 @@
               </a>
             </li>
           </ul>
-          <div class="pl-2 pb-2 border-t md:block hidden">
-            <div
-              class="flex items-center gap-x-2 cursor-pointer text-gray-600 p-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 duration-150"
-            >
-              <div
-                class="w-6 h-6 rounded-full flex items-center justify-center bg-primary-600 text-white"
-              >
-                {{ $userDecoded.email.charAt(0).toUpperCase() }}
-              </div>
-              <div>
-                <span class="block text-gray-700 text-sm font-semibold">
-                  <router-link to="/profile" class="text-primary-600">
-                    {{
-                      $userDecoded.email.length > 14
-                        ? $userDecoded.email.slice(0, 14) + '...'
-                        : $userDecoded.email
-                    }}
-                  </router-link>
-                </span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

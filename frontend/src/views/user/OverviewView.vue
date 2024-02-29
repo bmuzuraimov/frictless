@@ -1,18 +1,279 @@
 <template>
-  <div class="flex flex-col md:flex-row h-screen">
-    <SidebarComponent />
-    <main class="md:w-5/6 md:m-10 w-full">
-      <h1 class="text-4xl font-extrabold leading-tight tracking-tight text-gray-900">Overview</h1>
-      
+<UserLayout>
+  <main>
+      <div class="p-4 sm:ml-64">
+        <div
+          class="p-4 border-2 border-gray-200 border-dashed rounded-lg  mt-14"
+        >
+          <div class="grid grid-cols-3 gap-4 mb-4">
+            <div class="flex items-center justify-center h-24 rounded bg-gray-50 ">
+              <p class="text-2xl text-gray-400 ">
+                <svg
+                  class="w-3.5 h-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex items-center justify-center h-24 rounded bg-gray-50 ">
+              <p class="text-2xl text-gray-400 ">
+                <svg
+                  class="w-3.5 h-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex items-center justify-center h-24 rounded bg-gray-50 ">
+              <p class="text-2xl text-gray-400 ">
+                <svg
+                  class="w-3.5 h-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 "
+          >
+            <p class="text-2xl text-gray-400 ">
+              <svg
+                class="w-3.5 h-3.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 18 18"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 1v16M1 9h16"
+                />
+              </svg>
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="flex items-center justify-center rounded bg-gray-50 h-28 ">
+              <p class="text-2xl text-gray-400 ">
+                <svg
+                  class="w-3.5 h-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex items-center justify-center rounded bg-gray-50 h-28 ">
+              <p class="text-2xl text-gray-400 ">
+                <svg
+                  class="w-3.5 h-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex items-center justify-center rounded bg-gray-50 h-28 ">
+              <p class="text-2xl text-gray-400 ">
+                <svg
+                  class="w-3.5 h-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex items-center justify-center rounded bg-gray-50 h-28 ">
+              <p class="text-2xl text-gray-400 ">
+                <svg
+                  class="w-3.5 h-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 "
+          >
+            <p class="text-2xl text-gray-400 ">
+              <svg
+                class="w-3.5 h-3.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 18 18"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 1v16M1 9h16"
+                />
+              </svg>
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="flex items-center justify-center rounded bg-gray-50 h-28 ">
+              <p class="text-2xl text-gray-400 ">
+                <svg
+                  class="w-3.5 h-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex items-center justify-center rounded bg-gray-50 h-28 ">
+              <p class="text-2xl text-gray-400 ">
+                <svg
+                  class="w-3.5 h-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex items-center justify-center rounded bg-gray-50 h-28 ">
+              <p class="text-2xl text-gray-400 ">
+                <svg
+                  class="w-3.5 h-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+            <div class="flex items-center justify-center rounded bg-gray-50 h-28 ">
+              <p class="text-2xl text-gray-400 ">
+                <svg
+                  class="w-3.5 h-3.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 18"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 1v16M1 9h16"
+                  />
+                </svg>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
-  </div>
+</UserLayout>
 </template>
+
 <script lang="ts">
-import SidebarComponent from '@/components/user/SidebarComponent.vue'
+import UserLayout from '@/views/layout/UserLayout.vue';
 
 export default {
   components: {
-    SidebarComponent,
+    UserLayout,
   },
 }
 </script>
