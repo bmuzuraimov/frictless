@@ -51,25 +51,25 @@
   </section>
 </template>
 <script lang="ts">
+import { ref } from 'vue'
 import axios from 'axios';
 export default {
-  data() {
-    return {
-      email: ''
-    }
-  },
-  methods: {
-    submitWaitinglist() {
-      // submit the email to the backend at /api/user/waitlist
-      axios.post('/api/user/waitlist', { email: this.email })
+  setup(){
+    const email = ref('');
+    const submitWaitinglist = () => {
+      axios.post('/api/user/waitlist', { email: email.value })
         .then(() => {
-          this.email = '';
+          email.value = '';
           alert('You have been added to the waitlist');
         })
         .catch((err) => {
           console.error(err);
           alert('An error occurred. Please try again');
         });
+    }
+    return {
+      email,
+      submitWaitinglist
     }
   }
 }

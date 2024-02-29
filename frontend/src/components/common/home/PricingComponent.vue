@@ -47,11 +47,11 @@
               {{ plan.desc }}
             </p>
             <button
-              @click="login"
+              @click="$router.push('/login')"
               class="px-4 py-2 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-secondary-700 hover:bg-secondary-500 active:bg-secondary-700 hover:pl-2"
             >
               {{ plan.buttonText }}
-            </button>
+          </button>
           </div>
           <ul class="p-4 py-6 space-y-2 md:p-6">
             <li class="pb-1 text-gray-800 font-medium text-base">Features</li>
@@ -77,10 +77,11 @@
   </section>
 </template>
 <script lang="ts">
+import { ref } from 'vue'
+
 export default {
-  data() {
-    return {
-      plans: [
+  setup(){
+    const plans = ref([
         {
           name: 'Freemium',
           desc: 'Jumpstart your new life for free.',
@@ -113,15 +114,8 @@ export default {
           ],
           buttonText: 'Join Now'
         }
-      ]
-    }
-  },
-  methods: {
-    login() {
-      this.$router.push('/login')
-    }
+      ])
+    return { plans }
   }
 }
 </script>
-
-<style></style>

@@ -1,8 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
-const { AuthorizationError, asyncHandler } = require("./error_handler");
 
-// Promisify jwt.verify for use with async/await
 const verifyToken = promisify(jwt.verify);
 
 const generateToken = function (user, scope = "user") {

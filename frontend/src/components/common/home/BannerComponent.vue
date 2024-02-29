@@ -25,10 +25,10 @@
           </div>
           <p class="py-2 font-medium">
             We just launched our new product! Check out
-            <a
-              href="javascript:void(0)"
+            <router-link
+              to="/login"
               class="font-semibold underline duration-150 hover:text-indigo-100"
-              >all features</a
+              >all features</router-link
             >.
           </p>
         </div>
@@ -53,21 +53,21 @@
 </template>
 
 <script lang="ts">
+import { ref } from 'vue';
+
 export default {
   name: 'BannerComponent',
-  data() {
-    return {
-      show: localStorage.getItem('banner') !== 'false',
-    }
+  setup() {
+    const show = ref(localStorage.getItem('banner') !== 'false');
+
+    const close = () => {
+      show.value = false;
+      localStorage.setItem('banner', 'false');
+    };
+
+    return { show, close };
   },
-  methods: {
-    close() {
-      this.show = false
-      localStorage.setItem('banner', 'false')
-    },
-  },
-  mounted() {}
-}
+};
 </script>
 
 <style>

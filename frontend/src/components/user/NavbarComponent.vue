@@ -39,11 +39,6 @@
                 @click="toggleDropdown"
               >
                 <span class="sr-only">Open user menu</span>
-                <!-- <img
-                  class="w-8 h-8 rounded-full"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjl3amxnEjLAx4ge4gTVA8LVUMAoixrVZLboSwdNuJJA&s"
-                  alt="user photo"
-                /> -->
                 <div
                   class="w-8 h-8 rounded-full flex items-center justify-center bg-primary-600 text-white"
                 >
@@ -55,7 +50,7 @@
               class="absolute right-0 top-6 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow"
               v-if="isOpen"
             >
-              <div class="py-1" role="none">
+              <div class="py-1">
                 <router-link
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   to="/profile"
@@ -67,28 +62,25 @@
                   }}
                 </router-link>
               </div>
-              <ul class="py-1" role="none">
+              <ul class="py-1">
                 <li>
-                  <a
-                    href="#"
+                  <router-link
+                    to="overview"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    role="menuitem"
-                    >Dashboard</a
+                    >Overview</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
+                    to="/settings"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >Settings</router-link
                   >
                 </li>
                 <li>
                   <a
                     href="#"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    role="menuitem"
-                    >Settings</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    role="menuitem"
                     >Notion</a
                   >
                 </li>
@@ -96,7 +88,6 @@
                   <a
                     href="#"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    role="menuitem"
                     >Sign out</a
                   >
                 </li>

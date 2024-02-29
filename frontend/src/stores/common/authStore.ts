@@ -55,12 +55,10 @@ export const useAuthStore = defineStore('authStore', {
         this.token = data.token
         localStorage.setItem('token', this.token)
         this.status = 'success'
-        // take user to /overview route
         window.location.href = '/overview'
       } catch (error) {
         this.status = 'error'
         localStorage.removeItem('token')
-        throw error
       }
     },
     async register(credentials: any) {
@@ -80,6 +78,7 @@ export const useAuthStore = defineStore('authStore', {
       this.token = ''
       this.status = ''
       localStorage.removeItem('token')
+      window.location.href = '/'
     }
   }
 })

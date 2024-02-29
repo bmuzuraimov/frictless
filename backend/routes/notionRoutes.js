@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { withDB, ObjectId } = require("@/config/mongodb");
-const { isUser } = require("@/utils/auth");
+const { isUser } = require("@/utils/guard");
 const {
   asyncHandler,
   NotFoundError,
@@ -9,7 +9,7 @@ const {
 } = require("@/utils/error_handler");
 const { validateNotionCallback } = require("@/utils/validations");
 const { Decipher } = require("@/utils/cipherman");
-const { EN_DB_NAMES } = require("@/utils/constants/notion_db_names");
+const { EN_DB_NAMES } = require("@/constants/notion_db_names");
 const axios = require("axios");
 const { snsPublisher } = require("@config/awsclient");
 
@@ -71,6 +71,7 @@ router.post(
     }
   })
 );
+
 const formatDate = (time_zone) => {
   const options = {
     timeZone: time_zone,

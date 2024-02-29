@@ -4,8 +4,8 @@ import axios from 'axios'
 const apiClient = axios.create({
   timeout: 10000, // Request timeout
   headers: {
-    'Content-Type': 'application/json'
-    // Additional headers
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
   }
 })
 
@@ -31,12 +31,20 @@ apiClient.interceptors.response.use(
     return response
   },
   (error) => {
-    // Handle errors
-    if (error.response && error.response.status === 401) {
-        // For instance, logout the user or redirect to login if unauthorized
-        alert('Unauthenticated')
+    if (error.response && error.response.status === 400) {
+      alert(error.response.data.message)
+    } else if (error.response && error.response.status === 401) {
+      alert(error.response.data.message)
+    } else if (error.response && error.response.status === 403) {
+      alert(error.response.data.message)
+    } else if (error.response && error.response.status === 404) {
+      alert(error.response.data.message)
+    } else if (error.response && error.response.status === 405) {
+      alert(error.response.data.message)
+    } else if (error.response && error.response.status === 500) {
+      alert(error.response.data.message)
     }
-    return Promise.reject(error)
+    return Promise.reject(error.response.data.message)
   }
 )
 
