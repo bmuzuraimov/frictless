@@ -1,30 +1,28 @@
 import logging
-import caldav
-from datetime import datetime, timedelta
-from icalendar import Event, Alarm
 from notion_client.errors import APIResponseError
 
-from app.repositories.todo_database import ToDoDatabase
-from app.repositories.routine_database import RoutineDatabase
-from app.repositories.schedule_database import ScheduleDatabase
-from app.repositories.courses_database import CoursesDatabase
-from app.repositories.recurring_database import RecurringDatabase
-from app.repositories.personal_database import PersonalDatabase
-from app.repositories.sports_database import SportsDatabase
-from app.repositories.priorities_database import PriorityDatabase
-from app.repositories.jobs_database import JobsDatabase
-from app.repositories.lecture_notes_database import LectureNotesDatabase
-from app.repositories.job_tasks_database import JobTasksDatabase
+from app.notion_dbs.todo_database import ToDoDatabase
+from app.notion_dbs.routine_database import RoutineDatabase
+from app.notion_dbs.schedule_database import ScheduleDatabase
+from app.notion_dbs.courses_database import CoursesDatabase
+from app.notion_dbs.recurring_database import RecurringDatabase
+from app.notion_dbs.personal_database import PersonalDatabase
+from app.notion_dbs.sports_database import SportsDatabase
+from app.notion_dbs.priorities_database import PriorityDatabase
+from app.notion_dbs.jobs_database import JobsDatabase
+from app.notion_dbs.lecture_notes_database import LectureNotesDatabase
+from app.notion_dbs.job_tasks_database import JobTasksDatabase
 
 from app.adapters.caldav_adapter import CalDAVAdapter
 
-
+from app.adapters.mongodb_adapter import mongodb_instance
 
 class Strategy:
     def __init__(self, user_data):
         self.user_data = user_data
         self.uid = user_data.get("uid", None)
         self.caldav_client = CalDAVAdapter('https://caldav.icloud.com', user_data.get("IOS_USER", None), user_data.get("IOS_PASSWORD", None))
+        self.mongo_db = mongodb_instance
         self._db_cache = {}
 
     def _get_or_create_database(self, db_type, db_id):

@@ -1,5 +1,5 @@
 import unittest
-from app.repositories.jobs_database import JobsDatabase
+from app.notion_dbs.jobs_database import JobsDatabase
 
 class TestJobsDatabase(unittest.TestCase):
     def test_sum(self):

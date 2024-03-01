@@ -1,5 +1,5 @@
 from typing import Dict, List, Union
-from app.core.mongo_db import mongo_db
+from app.adapters.mongodb_adapter import mongodb_instance
 import logging
 from notion_client import Client
 from notion_client.errors import APIResponseError
@@ -22,7 +22,7 @@ class Database:
         self.database_id = database_id
         self.notion_key = notion_key
         self._database = None
-        self.mongo_db = mongo_db
+        self.mongo_db = mongodb_instance
         self.select_schema = select_schema
         self.insert_schema = insert_schema
 
