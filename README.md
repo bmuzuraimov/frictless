@@ -32,200 +32,208 @@
 
 Frictless is a task automation tool designed to manage life with priorities.
 
-### Frontend structure
-```bash
-./frontend
-```bash
-├── README.md
-├── index.html
-├── node_modules
-├── package-lock.json
-├── package.json
-├── postcss.config.js
-├── public
-│   ├── ... (image files)
-├── src
-│   ├── App.vue
-│   ├── assets
-│   │   └── ... (image files)
-│   ├── components
-│   │   ├── common
-│   │   │   └── home
-│   │   │       ├── BannerComponent.vue
-│   │   │       ├── CTALeftComponent.vue
-│   │   │       ├── CTARightComponent.vue
-│   │   │       ├── FAQComponent.vue
-│   │   │       ├── FeatureComponent.vue
-│   │   │       ├── FooterComponent.vue
-│   │   │       ├── HeroComponent.vue
-│   │   │       ├── NavbarComponent.vue
-│   │   │       ├── PricingComponent.vue
-│   │   │       ├── StatsComponent.vue
-│   │   │       ├── TestimonialsComponent.vue
-│   │   │       ├── TimeCalculatorComponent.vue
-│   │   │       └── WaitlistComponent.vue
-│   │   ├── notion
-│   │   │   └── SchedulerBtnComponent.vue
-│   │   └── user
-│   │       ├── NavbarComponent.vue
-│   │       ├── SchedulerBtnComponent.vue
-│   │       ├── SidebarComponent.vue
-│   │       ├── agenda
-│   │       ├── onboarding
-│   │       │   ├── CalendarBtnComponent.vue
-│   │       │   ├── IOSConnectComponent.vue
-│   │       │   └── NotionBtnComponent.vue
-│   │       └── overview
-│   ├── index.css
-│   ├── main.ts
-│   ├── router
-│   │   ├── common.ts
-│   │   ├── index.ts
-│   │   ├── notion.ts
-│   │   └── user.ts
-│   ├── services
-│   │   ├── authService.ts
-│   │   ├── commonService.ts
-│   │   ├── notionService.ts
-│   │   └── userService.ts
-│   ├── stores
-│   │   ├── buttonStore.ts
-│   │   ├── common
-│   │   │   └── authStore.ts
-│   │   ├── notion
-│   │   │   └── useNotionStore.ts
-│   │   ├── user
-│   │   │   ├── appleCalendar.ts
-│   │   │   ├── calendarStore.ts
-│   │   │   └── schedulerStore.ts
-│   │   └── user.ts
-│   ├── types
-│   │   ├── env.d.ts
-│   │   ├── shims-vue.d.ts
-│   │   ├── tokenVerificationCache.d.ts
-│   │   ├── userDecoded.d.ts
-│   │   └── vue-jwt-decode.d.ts
-│   ├── utils
-│   │   └── api.ts
-│   └── views
-│       ├── common
-│       │   ├── 404View.vue
-│       │   ├── ConfirmCodeView.vue
-│       │   ├── GuideView.vue
-│       │   ├── HomeView.vue
-│       │   ├── LoginView.vue
-│       │   ├── MissionView.vue
-│       │   ├── PrivacyView.vue
-│       │   ├── StoryView.vue
-│       │   ├── TermsView.vue
-│       │   └── UnauthorizedView.vue
-│       ├── layout
-│       │   └── UserLayout.vue
-│       ├── notion
-│       │   └── NotionSchedulerView.vue
-│       └── user
-│           ├── AgendaView.vue
-│           ├── NotionCallbackView.vue
-│           ├── OnboardingView.vue
-│           ├── OverviewView.vue
-│           ├── ProfileView.vue
-│           └── SettingsView.vue
-├── tailwind.config.js
-└── tsconfig.json
-```
+<details>
+  <summary>Frontend structure</summary>
 
-### Backend structure
-```bash
-./backend
-├── README.md
-├── __tests__
-│   ├── ... (test files)
-├── app.js
-├── bin
-│   └── www
-├── config
-│   ├── awsclient.js
-│   ├── emailclient.js
-│   ├── mongodb.js
-│   └── redisdb.js
-├── constants
-│   └── notion_db_names.js
-├── index.js
-├── models
-│   └── User.js
-├── node_modules (omitted)
-├── package-lock.json
-├── package.json
-├── routes
-│   ├── authRoutes.js
-│   ├── calendarRoutes.js
-│   ├── index.js
-│   ├── notionRoutes.js
-│   └── userRoutes.js
-├── scripts
-│   ├── deploy-apigateway.sh
-│   ├── deploy-backend.sh
-│   └── expressjs_apigateway_template.json
-└── utils
-    ├── cipherman.js
-    ├── error_handler.js
-    ├── guard.js
-    ├── handle_confirmation.js
-    ├── mailman.js
-    └── validations
-        ├── authValidations.js
-        ├── calendarValidations.js
-        ├── index.js
-        ├── notionValidations.js
-        └── userValidations.js
-```
+  ```bash
+  ./frontend
+  ├── README.md
+  ├── index.html
+  ├── node_modules
+  ├── package-lock.json
+  ├── package.json
+  ├── postcss.config.js
+  ├── public
+  │   ├── ... (image files)
+  ├── src
+  │   ├── App.vue
+  │   ├── assets
+  │   │   └── ... (image files)
+  │   ├── components
+  │   │   ├── common
+  │   │   │   └── home
+  │   │   │       ├── BannerComponent.vue
+  │   │   │       ├── CTALeftComponent.vue
+  │   │   │       ├── CTARightComponent.vue
+  │   │   │       ├── FAQComponent.vue
+  │   │   │       ├── FeatureComponent.vue
+  │   │   │       ├── FooterComponent.vue
+  │   │   │       ├── HeroComponent.vue
+  │   │   │       ├── NavbarComponent.vue
+  │   │   │       ├── PricingComponent.vue
+  │   │   │       ├── StatsComponent.vue
+  │   │   │       ├── TestimonialsComponent.vue
+  │   │   │       ├── TimeCalculatorComponent.vue
+  │   │   │       └── WaitlistComponent.vue
+  │   │   ├── notion
+  │   │   │   └── SchedulerBtnComponent.vue
+  │   │   └── user
+  │   │       ├── NavbarComponent.vue
+  │   │       ├── SchedulerBtnComponent.vue
+  │   │       ├── SidebarComponent.vue
+  │   │       ├── agenda
+  │   │       ├── onboarding
+  │   │       │   ├── CalendarBtnComponent.vue
+  │   │       │   ├── IOSConnectComponent.vue
+  │   │       │   └── NotionBtnComponent.vue
+  │   │       └── overview
+  │   ├── index.css
+  │   ├── main.ts
+  │   ├── router
+  │   │   ├── common.ts
+  │   │   ├── index.ts
+  │   │   ├── notion.ts
+  │   │   └── user.ts
+  │   ├── services
+  │   │   ├── authService.ts
+  │   │   ├── commonService.ts
+  │   │   ├── notionService.ts
+  │   │   └── userService.ts
+  │   ├── stores
+  │   │   ├── buttonStore.ts
+  │   │   ├── common
+  │   │   │   └── authStore.ts
+  │   │   ├── notion
+  │   │   │   └── useNotionStore.ts
+  │   │   ├── user
+  │   │   │   ├── appleCalendar.ts
+  │   │   │   ├── calendarStore.ts
+  │   │   │   └── schedulerStore.ts
+  │   │   └── user.ts
+  │   ├── types
+  │   │   ├── env.d.ts
+  │   │   ├── shims-vue.d.ts
+  │   │   ├── tokenVerificationCache.d.ts
+  │   │   ├── userDecoded.d.ts
+  │   │   └── vue-jwt-decode.d.ts
+  │   ├── utils
+  │   │   └── api.ts
+  │   └── views
+  │       ├── common
+  │       │   ├── 404View.vue
+  │       │   ├── ConfirmCodeView.vue
+  │       │   ├── GuideView.vue
+  │       │   ├── HomeView.vue
+  │       │   ├── LoginView.vue
+  │       │   ├── MissionView.vue
+  │       │   ├── PrivacyView.vue
+  │       │   ├── StoryView.vue
+  │       │   ├── TermsView.vue
+  │       │   └── UnauthorizedView.vue
+  │       ├── layout
+  │       │   └── UserLayout.vue
+  │       ├── notion
+  │       │   └── NotionSchedulerView.vue
+  │       └── user
+  │           ├── AgendaView.vue
+  │           ├── NotionCallbackView.vue
+  │           ├── OnboardingView.vue
+  │           ├── OverviewView.vue
+  │           ├── ProfileView.vue
+  │           └── SettingsView.vue
+  ├── tailwind.config.js
+  └── tsconfig.json
+  ```
+</details>
 
-### Scheduler structure
-```bash
-./scheduler
-├── Dockerfile
-├── README.md
-├── app
-│   ├── adapters
-│   │   ├── __init__.py
-│   │   ├── caldav_adapter.py
-│   │   └── mongodb_adapter.py
-│   ├── core
-│   │   ├── __init__.py
-│   │   ├── database.py
-│   │   ├── database_factory.py
-│   │   ├── mongo_db.py
-│   │   └── strategy.py
-│   ├── notion_dbs
-│   │   ├── __init__.py
-│   │   ├── courses_database.py
-│   │   ├── job_tasks_database.py
-│   │   ├── jobs_database.py
-│   │   ├── lecture_notes_database.py
-│   │   ├── personal_database.py
-│   │   ├── priorities_database.py
-│   │   ├── recurring_database.py
-│   │   ├── routine_database.py
-│   │   ├── schedule_database.py
-│   │   ├── sports_database.py
-│   │   └── todo_database.py
-│   ├── strategies
-│   │   ├── __init__.py
-│   │   ├── priority_strategy.py
-│   └── utils
-│   │   ├── __init__.py
-│   │   └── scheduling.py
-├── lambda_function.py
-├── lambda_runner.py
-├── logs
-│   └── errors.log
-├── requirements.txt
-├── scheduler-local.sh
-├── tests
-│   ├── __init__.py
-│   ├── ... (test files)
-└── venv (omitted)
-```
+<details>
+  <summary>Backend structure</summary>
+
+  ```bash
+  ./backend
+  ├── README.md
+  ├── __tests__
+  │   ├── ... (test files)
+  ├── app.js
+  ├── bin
+  │   └── www
+  ├── config
+  │   ├── awsclient.js
+  │   ├── emailclient.js
+  │   ├── mongodb.js
+  │   └── redisdb.js
+  ├── constants
+  │   └── notion_db_names.js
+  ├── index.js
+  ├── models
+  │   └── User.js
+  ├── node_modules (omitted)
+  ├── package-lock.json
+  ├── package.json
+  ├── routes
+  │   ├── authRoutes.js
+  │   ├── calendarRoutes.js
+  │   ├── index.js
+  │   ├── notionRoutes.js
+  │   └── userRoutes.js
+  ├── scripts
+  │   ├── deploy-apigateway.sh
+  │   ├── deploy-backend.sh
+  │   └── expressjs_apigateway_template.json
+  └── utils
+      ├── cipherman.js
+      ├── error_handler.js
+      ├── guard.js
+      ├── handle_confirmation.js
+      ├── mailman.js
+      └── validations
+          ├── authValidations.js
+          ├── calendarValidations.js
+          ├── index.js
+          ├── notionValidations.js
+          └── userValidations.js
+  ```
+</details>
+
+<details>
+  <summary>Scheduler structure</summary>
+  
+  ```bash
+  ./scheduler
+  ├── Dockerfile
+  ├── README.md
+  ├── app
+  │   ├── adapters
+  │   │   ├── __init__.py
+  │   │   ├── caldav_adapter.py
+  │   │   └── mongodb_adapter.py
+  │   ├── core
+  │   │   ├── __init__.py
+  │   │   ├── database.py
+  │   │   ├── database_factory.py
+  │   │   ├── mongo_db.py
+  │   │   └── strategy.py
+  │   ├── notion_dbs
+  │   │   ├── __init__.py
+  │   │   ├── courses_database.py
+  │   │   ├── job_tasks_database.py
+  │   │   ├── jobs_database.py
+  │   │   ├── lecture_notes_database.py
+  │   │   ├── personal_database.py
+  │   │   ├── priorities_database.py
+  │   │   ├── recurring_database.py
+  │   │   ├── routine_database.py
+  │   │   ├── schedule_database.py
+  │   │   ├── sports_database.py
+  │   │   └── todo_database.py
+  │   ├── strategies
+  │   │   ├── __init__.py
+  │   │   ├── priority_strategy.py
+  │   └── utils
+  │   │   ├── __init__.py
+  │   │   └── scheduling.py
+  ├── lambda_function.py
+  ├── lambda_runner.py
+  ├── logs
+  │   └── errors.log
+  ├── requirements.txt
+  ├── scheduler-local.sh
+  ├── tests
+  │   ├── __init__.py
+  │   ├── ... (test files)
+  └── venv (omitted)
+  ```
+</details>
 
 ## Features
 
