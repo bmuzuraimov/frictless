@@ -2,3 +2,4 @@
 *.sh
 .vercel
 /backend/expressjs_apigateway_template.json
+backend/scripts/.env.production.local
