@@ -4,7 +4,7 @@
   </div>
 </template>
 <script lang="ts">
-import SchedulerComponent from '@/components/notion/SchedulerBtnComponent.vue'
+import SchedulerComponent from '@/components/notion/ScheduleBtnComponent.vue'
 export default {
   components: {
     SchedulerComponent

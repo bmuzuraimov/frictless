@@ -6,7 +6,7 @@
     elevation="2"
     :ripple="false"
     @click="schedule"
-    :class="notionStore.notionButton.tw_class"
+    :class="schedulerStore.button.tw_class"
   >
     <img
       v-show="!schedule_animation_2"
@@ -20,16 +20,16 @@
       class="w-5 h-12 rotate-90"
       :style="schedule_animation_2 ? { animation: 'moveRight 2s ease-in-out forwards' } : {}"
     />
-    <span class="text-lg fonr-mont">{{ notionStore.notionButton.text }}</span>
+    <span class="text-lg fonr-mont">{{ schedulerStore.button.text }}</span>
   </v-btn>
 </template>
 
 <script lang="ts">
 import { ref } from 'vue'
-import { useNotionStore } from '@/stores/notion/useNotionStore'
+import { useSchedulerStore } from '@/stores/user/schedulerStore'
 
 export default {
-  name: 'SchedulerComponent',
+  name: 'ScheduleBtnComponent',
   props: {
     userId: {
       type: String,
@@ -39,7 +39,7 @@ export default {
   setup(props) {
     const schedule_animation_1 = ref(false)
     const schedule_animation_2 = ref(false)
-    const notionStore = useNotionStore()
+    const schedulerStore = useSchedulerStore()
 
     const schedule = async () => {
       if (props.userId == null) {
@@ -53,11 +53,11 @@ export default {
           schedule_animation_2.value = false
         }, 1500)
       }, 2500)
-      notionStore.schedule(props.userId)
+      schedulerStore.schedule(props.userId)
     }
 
     return {
-      notionStore,
+      schedulerStore,
       schedule_animation_1,
       schedule_animation_2,
       schedule
