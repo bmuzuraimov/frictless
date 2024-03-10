@@ -42,7 +42,7 @@
                 <div
                   class="w-8 h-8 rounded-full flex items-center justify-center bg-primary-600 text-white"
                 >
-                  {{ $userDecoded.email.charAt(0).toUpperCase() }}
+                  {{ authStore.user.email.charAt(0).toUpperCase() }}
                 </div>
               </button>
             </div>
@@ -56,9 +56,9 @@
                   to="/profile"
                 >
                   {{
-                    $userDecoded.email.length > 14
-                      ? $userDecoded.email.slice(0, 14) + '...'
-                      : $userDecoded.email
+                    authStore.user.email.length > 14
+                      ? authStore.user.email.slice(0, 14) + '...'
+                      : authStore.user.email
                   }}
                 </router-link>
               </div>
@@ -101,12 +101,13 @@
 </template>
 
 <script lang="ts">
+import { useAuthStore } from '@/stores/common/authStore'
 export default {
   name: 'NavbarComponent',
   data() {
     return {
+      authStore: useAuthStore(),
       isOpen: false,
-      user: this.$userDecoded
     }
   },
   methods: {

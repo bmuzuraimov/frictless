@@ -102,7 +102,7 @@ router.post(
 );
 
 router.post(
-  "/calendar/apple",
+  "/calendar/ios",
   isUser,
   validateIOS,
   asyncHandler(async (req, res) => {
@@ -114,7 +114,7 @@ router.post(
       .collection("users")
       .updateOne(
         { _id: new ObjectId(userId) },
-        { $set: { ios_email: Encipher(ios_email), ios_password: Encipher(ios_password) } }
+        { $set: { 'ios_device.email': Encipher(ios_email), 'ios_device.password': Encipher(ios_password), 'ios_device.connected_on': new Date() } }
       );
     if (result.modifiedCount == 1 || result.matchedCount == 1) {
       res.json({ success: true, message: "Success!" });

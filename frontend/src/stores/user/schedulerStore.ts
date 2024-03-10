@@ -45,7 +45,7 @@ export const useSchedulerStore = defineStore('schedulerStore', {
         this.scheduleButton.text = 'Schedule Plan'
         this.scheduleButton.tw_class.push('border-red-500')
         this.scheduleButton.disabled = false
-        alert('Error scheduling plan');
+        console.log(error)
       }
     }
   }

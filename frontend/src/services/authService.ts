@@ -1,17 +1,27 @@
 import apiClient from '@/utils/api'
 
 interface credentialInterface {
-    email: string;
-    password: string;
+  email: string
+  password: string
+}
+
+interface confirmFormInterface {
+  confirm_code: string
+  crypted_email: string
 }
 
 export default {
-    async login(credentials: credentialInterface) {
-        const response = await apiClient.post('/api/auth/login', credentials)
-        return response.data
-    },
-    async register(credential: credentialInterface) {
-        const response = await apiClient.post('/api/auth/sign-up', credential)
-        return response.data
-    },
+  async login(credentials: credentialInterface) {
+    return await apiClient.post('/api/auth/login', credentials)
+  },
+  async register(credential: credentialInterface) {
+    return await apiClient.post('/api/auth/register', credential)
+  },
+  async confirm_email(form: confirmFormInterface) {
+    return await apiClient.post('/api/auth/confirm-code', form)
+  },
+  async setReferral(ref: string) {
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    return await apiClient.post('/api/auth/referral', { ref, timezone })
+  }
 }

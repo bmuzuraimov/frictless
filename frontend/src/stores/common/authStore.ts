@@ -51,11 +51,16 @@ export const useAuthStore = defineStore('authStore', {
     async login(credentials: any) {
       try {
         this.status = 'loading'
-        const data = await authService.login(credentials)
-        this.token = data.token
-        localStorage.setItem('token', this.token)
-        this.status = 'success'
-        window.location.href = '/overview'
+        const response = await authService.login(credentials)
+        if(response.data.success) {
+          this.token = response.data.token
+          localStorage.setItem('token', this.token)
+          this.status = 'success'
+          window.location.href = '/overview'
+        }else{
+          alert(response.data.message)
+          this.status = 'error'
+        }
       } catch (error) {
         this.status = 'error'
         localStorage.removeItem('token')
@@ -64,21 +69,34 @@ export const useAuthStore = defineStore('authStore', {
     async register(credentials: any) {
       try {
         this.status = 'loading'
-        const data = await authService.register(credentials)
-        this.token = data.token
-        localStorage.setItem('token', this.token)
-        this.status = 'success'
+        const response = await authService.register(credentials)
+        if (response.data.success) {
+          alert(response.data.message)
+          this.status = 'success'
+        } else {
+          alert(response.data.message)
+          this.status = 'error'
+        }
       } catch (error) {
         this.status = 'error'
         localStorage.removeItem('token')
         throw error
       }
     },
+    async confirm_email(form: any) {
+      const response = await authService.confirm_email(form)
+      return response.data
+    },
     logout() {
       this.token = ''
       this.status = ''
       localStorage.removeItem('token')
       window.location.href = '/'
-    }
+    },
+    // miscalaneous functions
+    async setReferral(ref: string) {
+      localStorage.setItem('ref', ref)
+      await authService.setReferral(ref);
+    },
   }
 })

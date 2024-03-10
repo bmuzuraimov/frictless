@@ -4,36 +4,39 @@
   >
     <img src="@/assets/images/apple_cal.png" class="h-8 w-8 mr-1" />
     <span class="flex items-center">Apple Calendar</span>
-    <v-btn variant="outlined" @click="openModal">{{
+    <v-btn 
+    variant="outlined" @click="openModal">{{
       calendarStore.connectAppleCalendarButton.text
     }}</v-btn>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { useCalendarStore } from '@/stores/user/calendarStore';
+import { defineComponent, ref, onMounted } from 'vue'
+import { useAuthStore } from '@/stores/common/authStore'
+import { useCalendarStore } from '@/stores/user/calendarStore'
 
 export default defineComponent({
   setup() {
-    const calendarStore = useCalendarStore();
-    const userDecoded = ref<any>(null);
+    const calendarStore = useCalendarStore()
+    const authStore = useAuthStore()
+    const userDecoded = ref<any>(null)
 
     onMounted(() => {
-      if (userDecoded.value && userDecoded.value.is_ios_connected) {
-        calendarStore.connectAppleCalendarButton.text = 'Connected';
-        calendarStore.connectAppleCalendarButton.disabled = true;
+      if (authStore.user.ios_device?.email && authStore.user.ios_device?.password) {
+        calendarStore.connectAppleCalendarButton.text = 'Connected'
+        calendarStore.connectAppleCalendarButton.disabled = true
       }
-    });
+    })
 
     const openModal = () => {
-      calendarStore.toggleModal();
-    };
+      calendarStore.toggleModal()
+    }
 
     return {
       calendarStore,
       userDecoded,
       openModal
-    };
+    }
   }
-});
+})
 </script>

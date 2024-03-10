@@ -2,7 +2,6 @@ import './index.css'
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import VueJwtDecode from 'vue-jwt-decode'
 import App from './App.vue'
 import router from './router'
 
@@ -18,24 +17,6 @@ const vuetify = createVuetify({
 });
 
 const app = createApp(App);
-const token = localStorage.getItem('token');
-
-if (token) {
-  app.config.globalProperties.$userDecoded = VueJwtDecode.decode(token);
-} else {
-  app.config.globalProperties.$userDecoded = {
-    userId: '',
-    name: '',
-    picture: '',
-    ios_userId: '',
-    locale: '',
-    email: '',
-    is_ios_connected: false,
-    is_notion_connected: false,
-    notion_page_url: '',
-    isAuthenticated: false
-  };
-}
 
 app.use(createPinia());
 app.use(vuetify);

@@ -3,8 +3,6 @@ import userRoutes from './user'
 import notionRoutes from './notion'
 import commonRoutes from './common'
 import { useAuthStore } from '@/stores/common/authStore';
-import AOS from 'aos'
-import 'aos/dist/aos.css'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,9 +19,18 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  AOS.init();
+function handleReferral(ref: string | null) {
   const authStore = useAuthStore();
+  if(ref && !localStorage.getItem('ref') && localStorage.getItem('ref') !== ref){
+    localStorage.setItem('ref', ref);
+    authStore.setReferral(ref);
+  }
+}
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  const ref = String(to.query.ref || localStorage.getItem('ref'));
+  handleReferral(ref);
   const requiresAuth = to.meta.requiresAuth;
   const scope = to.meta.scope;
 

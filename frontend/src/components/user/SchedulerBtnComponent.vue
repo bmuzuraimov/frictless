@@ -27,11 +27,12 @@
 
 <script lang="ts">
 import { useSchedulerStore } from '@/stores/user/schedulerStore'
-
+import { useAuthStore } from '@/stores/common/authStore'
 export default {
   name: 'SchedulerComponent',
   data() {
     return {
+      useAuthStore: useAuthStore(),
       schedule_animation_1: false,
       schedule_animation_2: false,
       useSchedulerStore: useSchedulerStore(),
@@ -47,7 +48,7 @@ export default {
           this.schedule_animation_2 = false
         }, 1500)
       }, 2500)
-      this.useSchedulerStore.schedule(this.$userDecoded.userId)
+      this.useSchedulerStore.schedule(this.useAuthStore.user._id)
     }
   }
 }

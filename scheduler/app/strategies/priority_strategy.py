@@ -53,11 +53,10 @@ class PriorityStrategy(Strategy):
             }
             for task in self.schedule
         ]
-
         self.schedule_db.update_schedule_by_week_day(self.schedule)
 
 
-        self.caldav_client.add_events(self.uid, self.schedule)
+        self.caldav_client.add_events(self.uid, date, self.schedule)
 
         return 'scheduled'
 

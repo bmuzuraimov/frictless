@@ -3,8 +3,12 @@ const router = express.Router();
 const bcryptjs = require("bcryptjs");
 const { withDB } = require("@/config/mongodb");
 const { generateToken, isUser } = require("@/utils/guard");
-const { asyncHandler, AuthenticationError, ValidationError } = require("@/utils/error_handler");
-const { validateLogin, validateSignup } = require("@/utils/validations");
+const {
+  asyncHandler,
+  AuthenticationError,
+  ValidationError,
+} = require("@/utils/error_handler");
+const { validateLogin, validateRegister } = require("@/utils/validations");
 const { generateCode, verifyCode } = require("@/utils/handle_confirmation");
 const { emailSender } = require("@/utils/mailman");
 const { Encipher, Decipher } = require("@/utils/cipherman");
@@ -29,20 +33,26 @@ router.post(
     if (!match) {
       throw new AuthenticationError("Wrong credentials!");
     }
-    const token = generateToken({
-      userId: user._id,
-      name: user.name,
-      ios_userId: Encipher(user._id.toString()),
-      picture: user.picture,
-      locale: user.locale,
-      is_ios_connected: !!user.ios_email && !!user.ios_password,
-      is_notion_connected: !!user.parent_id && !!user.notion_access_token,
-      notion_page_url: user.parent_id
-        ? "https://www.notion.so/" + user.parent_id
-        : null,
-      email: user.email,
-    });
+    delete user.password;
+    await req.db.collection("users").updateOne({ email }, { $set: { loginAt: new Date() } });
+    user.ios_device.email = Decipher(user.ios_device.email);
+    user.ios_device.password = Decipher(user.ios_device.password);
+    const token = generateToken(user);
     res.json({ success: true, token, message: "Success!" });
+  })
+);
+
+router.post(
+  "/referral",
+  asyncHandler(async (req, res) => {
+    const { ref, timezone } = req.body;
+    data = {
+      ref,
+      timezone,
+      createdAt: new Date(),
+    };
+    const referral = await req.db.collection("referral").insertOne({ ...data });
+    res.json({ success: true, message: "Referral code saved!" });
   })
 );
 
@@ -57,35 +67,74 @@ router.post(
 
 // Sign-up endpoint
 router.post(
-  "/sign-up",
-  validateSignup,
+  "/register",
+  validateRegister,
   asyncHandler(async (req, res) => {
     const { email, password, timezone } = req.body;
     const existingUser = await req.db.collection("users").findOne({ email });
     if (existingUser) {
       throw new AuthenticationError("User already exists!");
     }
-    const encryptedPassword = await bcryptjs.hash(password, 10);
-    const newUser = await req.db.collection("users").insertOne({
+    const new_user = {
       email,
-      password: encryptedPassword,
-      name: null,
-      picture: "/src/assets/images/default-profile.png",
+      password: await bcryptjs.hash(password, 10),
+      verified: false,
       timezone,
       locale: "en",
-      is_ios_connected: null,
-      is_notion_connected: null,
-      notion_page_url: null,
-      verified: false,
-      creationDate: new Date(),
-      lastLogin: new Date(),
-    });
-    const confirmationCode = await generateCode(email);
-    emailSender.sendEmail(email, confirmationCode);
-    res.json({
-      success: true,
-      message: "Sign-up successful! Please confirm your email address.",
-    });
+      scope: "user",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      loginAt: null,
+      ios_device: {
+        email: null,
+        password: null,
+        shortcut_id: null,
+        connected_on: null,
+        shortcutInstalledAt: null,
+      },
+      notion: {
+        secret_key: null,
+        template_id: null,
+        template_url: null,
+        connected_on: null,
+        courses_dbid: null,
+        job_tasks_dbid: null,
+        jobs_dbid: null,
+        lecture_notes_dbid: null,
+        personal_dbid: null,
+        priorities_dbid: null,
+        recurring_dbid: null,
+        routine_dbid: null,
+        schedule_dbid: null,
+        sports_dbid: null,
+        todo_dbid: null,
+      },
+      name: null,
+      picture: "/src/assets/images/user-profile.png",
+    };
+    const newUser = await req.db.collection("users").insertOne(new_user);
+    await req.db
+      .collection("users")
+      .updateOne(
+        { email },
+        {
+          $set: {
+            "ios_device.shortcut_id": await Encipher(
+              newUser.insertedId.toString()
+            ),
+          },
+        }
+      );
+    // const confirmationCode = await generateCode(email);
+    // await emailSender.sendEmail(email, confirmationCode);
+    if (newUser.insertedId) {
+      res.json({
+        success: true,
+        message: "Sign-up successful! Please confirm your email address.",
+      });
+    } else {
+      throw new ValidationError("Sign-up failed!");
+    }
   })
 );
 
@@ -99,6 +148,10 @@ router.post(
       throw new ValidationError("Missing email or code");
     }
     try {
+      const user = await req.db.collection("users").findOne({ email });
+      if (user && user.verified) {
+        throw new ValidationError("Email already verified");
+      }
       if (await verifyCode(email, confirm_code)) {
         await req.db
           .collection("users")
@@ -108,7 +161,7 @@ router.post(
         throw new ValidationError("Invalid code");
       }
     } catch (error) {
-      throw new ValidationError("Server error");
+      throw new ValidationError(error.message);
     }
   })
 );

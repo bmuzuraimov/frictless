@@ -1,6 +1,6 @@
 <template>
   <UserLayout>
-    <IOSConnectComponent />
+    <IOSFormComponent />
     <main>
       <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg mt-14">
@@ -23,18 +23,16 @@
               </span>
               <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900">
                 Sync Your Calendar
-                <span
-                  class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded ms-3"
-                  >Latest</span
-                >
               </h3>
-              <time class="block mb-2 text-sm font-normal leading-none text-gray-400"
-                >Subscribed Since January 13th, 2022</time
+              <time v-if="ios_connected_on" class="block mb-2 text-sm font-normal leading-none text-gray-400"
+                >Subscribed since {{ ios_connected_on }}</time
               >
+              <time v-else class="block mb-2 text-sm font-normal leading-none text-gray-400"
+                >Not connected</time>
               <p class="mb-4 text-base font-normal text-gray-500">
                 Connect your calendar to automatically check new plans as they are scheduled.
               </p>
-              <CalendarBtnComponent />
+              <IOSBtnComponent />
             </li>
             <li class="mb-20 ms-6">
               <span
@@ -53,31 +51,12 @@
                 </svg>
               </span>
               <h3 class="mb-1 text-lg font-semibold text-gray-900">Get Notion Template</h3>
-              <time class="block mb-2 text-sm font-normal leading-none text-gray-400"
-                >Linked on December 7th, 2024</time
+              <time v-if="notion_connected_on" class="block mb-2 text-sm font-normal leading-none text-gray-400"
+                >Linked on {{ notion_connected_on }}</time
               >
-              <v-btn
-                density="comfortable"
-                size="x-large"
-                rounded="xl"
-                variant="outlined"
-                elevation="2"
-                @click="handleNotionOauth2()"
-                :class="[
-                  'flex',
-                  'mt-4',
-                  'flex-row',
-                  'items-center',
-                  'justify-center',
-                  'p-5',
-                  'rounded-lg',
-                  'border',
-                  'hover:bg-gray-50'
-                ]"
-              >
-                <img src="@/assets/images/notion.png" class="w-8 h-8 mr-2" />
-                <span class="text-lg fonr-mont">{{ useButtonStore.connectNotionButton.text }}</span>
-              </v-btn>
+              <time v-else class="block mb-2 text-sm font-normal leading-none text-gray-400"
+                >Not connected yet</time>
+              <NotionBtnComponent />
             </li>
             <li class="mb-20 ms-6">
               <span
@@ -126,7 +105,8 @@
                 </p>
                 <div class="flex flex-row items-center space-x-2">
                   <input
-                    v-model="ios_userId"
+                    disabled="true"
+                    v-model="authStore.user.ios_device.shortcut_id"
                     placeholder="iOS User ID"
                     class="bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-transparent rounded-md text-gray-700 py-2 px-4 leading-tight transition duration-150 ease-in-out"
                   />
@@ -172,81 +152,54 @@
 
 <script lang="ts">
 import UserLayout from '@/views/layout/UserLayout.vue'
-import CalendarBtnComponent from '@/components/user/onboarding/CalendarBtnComponent.vue'
+import IOSBtnComponent from '@/components/user/onboarding/IOSBtnComponent.vue'
 import SchedulerComponent from '@/components/user/SchedulerBtnComponent.vue'
-import IOSConnectComponent from '@/components/user/onboarding/IOSConnectComponent.vue'
+import NotionBtnComponent from '@/components/user/onboarding/NotionBtnComponent.vue'
+import IOSFormComponent from '@/components/user/onboarding/IOSFormComponent.vue'
 import { useButtonStore } from '@/stores/buttonStore'
-import { useUserStore } from '@/stores/user'
+import { useAuthStore } from '@/stores/common/authStore';
 
 export default {
   components: {
     UserLayout,
-    CalendarBtnComponent,
-    IOSConnectComponent,
+    IOSBtnComponent,
+    IOSFormComponent,
+    NotionBtnComponent,
     SchedulerComponent
   },
   data() {
     return {
       copyBtnText: 'Copy',
-      ios_userId: this.$userDecoded.ios_userId,
-      formData: {
-        userId: '',
-        ios_email: '',
-        ios_password: ''
-      },
-      isModal: false,
       error: '',
       is_linked: false,
+      authStore: useAuthStore(),
       useButtonStore: useButtonStore(),
-      useUserStore: useUserStore()
     }
   },
-  mounted() {
-    if (this.$userDecoded.is_notion_connected) {
-      this.useButtonStore.connectNotionButton.text = 'Linked'
-      this.useButtonStore.connectNotionButton.disabled = true
-    }
+  computed: {
+    ios_connected_on() {
+      return this.authStore.user?.ios_device.connected_on
+    },
+    notion_connected_on() {
+      return this.authStore.user?.notion.connected_on
+    },
   },
   methods: {
     downloadShortcut() {
       window.open(import.meta.env.VITE_BASE_URL + '/bro.shortcut', '_blank')
     },
     copyToClipboard() {
-      if (this.ios_userId) {
+      if (this.authStore.user?.ios_device?.shortcut_id) {
         navigator.clipboard
-          .writeText(this.ios_userId)
+          .writeText(this.authStore.user?.ios_device?.shortcut_id)
           .then(() => {
             this.copyBtnText = 'Copied'
           })
           .catch((err) => {
-            console.error('Failed to copy text: ', err)
+            alert('Failed to copy text')
           })
       }
     },
-    async handleNotionOauth2() {
-      if (this.is_linked) return
-      this.error = ''
-      window.open(import.meta.env.VITE_NOTION_TEMPLATE_URL, '_blank')
-      const start = new Date().getTime()
-      while (
-        localStorage.getItem('notionAuthTab') == 'true' ||
-        localStorage.getItem('notionAuthStatus') == 'pending'
-      ) {
-        await new Promise((r) => setTimeout(r, 1000))
-        if (new Date().getTime() - start > 60000) {
-          localStorage.setItem('notionAuthStatus', 'failed')
-          localStorage.setItem('notionAuthTab', 'false')
-          this.is_linked = false
-          break
-        }
-      }
-      if (localStorage.getItem('notionAuthStatus') == 'success') {
-        this.is_linked = true
-      } else {
-        localStorage.removeItem('notionAuthStatus')
-        this.error = 'Something went wrong. Please try again.'
-      }
-    }
   }
 }
 </script>

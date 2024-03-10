@@ -1,52 +1,86 @@
-import { defineStore } from 'pinia'
-import axios from 'axios'
+import { defineStore } from 'pinia';
+import notionService from '@/services/notionService';
+
+interface ButtonState {
+  text: string;
+  disabled: boolean;
+}
+
+interface PollingState {
+  active: boolean;
+  intervalId: number | null;
+}
+
+interface AccessCode {
+  userId: string;
+  code: string;
+  redirect_uri: string;
+}
 
 export const useNotionStore = defineStore('notionStore', {
-  state: () => ({
-    notionButton: {
-      text: 'Schedule Plan',
+  state: (): {
+    button: ButtonState;
+    polling: PollingState;
+  } => ({
+    button: {
+      text: 'Link Notion',
       disabled: false,
-      tw_class: [
-        'my-8',
-        'flex',
-        'relative',
-        'flex-row',
-        'items-center',
-        'justify-center',
-        'p-5',
-        'rounded-lg',
-        'border',
-        'hover:bg-gray-50',
-        'overflow-hidden',
-      ]
+    },
+    polling: {
+      active: false,
+      intervalId: null,
     },
   }),
   actions: {
-    async schedule(userId: string) {
-      this.notionButton.disabled = true
-      this.notionButton.text = 'Scheduling...'
-      this.notionButton.tw_class.push('bg-grey-50')
+    async getAccessToken(form: AccessCode) {
       try {
-        const token = localStorage.getItem('token');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        };
-        const response = await axios.post('/api/notion/ios_schedule', { userId }, config)
+        const response = await notionService.getAccessToken(form);
         if (response.data.success) {
-          this.notionButton.tw_class = this.notionButton.tw_class.filter(
-            (className) => className !== 'bg-grey-50'
-          )
-          this.notionButton.text = 'Plan Scheduled'
-          this.notionButton.tw_class.push('border-green-500')
+          localStorage.setItem('notionLinked', 'true');
+          window.close();
+        }else{
+          alert(response.data.message);
         }
+      } catch (error: any) {
+        alert(error.response.data.message);
+        localStorage.setItem('notionAuthStatus', 'failed');
+        localStorage.setItem('notionAuthTab', 'false');
+        window.close();
+      }
+    },
+    checkNotionLinkStatus() {
+      const isLinked = localStorage.getItem('notionLinked');
+      if (isLinked) {
+        this.button.text = 'Linked';
+        this.button.disabled = true;
+        localStorage.removeItem('notionLinked');
+        if (this.polling.active) {
+          if (this.polling.intervalId !== null) {
+            clearInterval(this.polling.intervalId);
+          }
+          this.polling.active = false;
+        }
+      }
+    },
+    handleNotionOauth2() {
+      this.button.disabled = true;
+      this.button.text = 'Linking...';
+      try {
+        window.open(import.meta.env.VITE_NOTION_TEMPLATE_URL, '_blank');
+        if (this.polling.active && this.polling.intervalId !== null) {
+          clearInterval(this.polling.intervalId);
+        }
+        this.polling.intervalId = setInterval(() => this.checkNotionLinkStatus(), 1000) as unknown as number;
+        this.polling.active = true;
       } catch (error) {
-        this.notionButton.text = 'Schedule Plan'
-        this.notionButton.tw_class.push('border-red-500')
-        this.notionButton.disabled = false
-        alert('Error scheduling plan');
+        console.error('Error linking Notion', error);
+        this.button.text = 'Link Notion';
+        this.button.disabled = false;
+        if (this.polling.active && this.polling.intervalId !== null) {
+          clearInterval(this.polling.intervalId);
+        }
+        this.polling.active = false;
       }
     }
   }
-})
+});

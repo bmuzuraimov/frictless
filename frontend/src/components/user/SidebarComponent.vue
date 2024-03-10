@@ -50,7 +50,7 @@
               {{ item.name }}
             </router-link>
           </li>
-          <li v-if="$userDecoded.notion_page_url">
+          <li v-if="notion_href">
             <a
               :href="notion_href"
               target="_blank"
@@ -124,9 +124,9 @@ export default {
   name: 'SidebarComponent',
   setup() {
     const open = ref(false)
-    const user = useAuthStore().user
+    const authStore = useAuthStore()
     const notion_href = ref(
-      user.notion_page_url ? user.notion_page_url.replace(/-/g, '') : ''
+      authStore.user.notion.template_url ? authStore.user.notion.template_url : ''
     )
     const navigation = ref([
       {
@@ -179,7 +179,6 @@ export default {
     }
     return {
       open,
-      user,
       notion_href,
       navigation,
       navsFooter,

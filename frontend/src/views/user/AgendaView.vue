@@ -12,8 +12,8 @@
 
             <div class="mt-4">
               <a
-                v-if="$userDecoded.notion_page_url"
-                :href="$userDecoded.notion_page_url"
+                v-if="authStore.user.notion.template_url"
+                :href="authStore.user.notion.template_url"
                 title=""
                 class="inline-flex items-center text-lg font-medium text-primary-600 hover:underline"
               >
@@ -60,14 +60,15 @@
 </template>
 <script lang="ts">
 import UserLayout from '@/views/layout/UserLayout.vue';
-
+import { useAuthStore } from '@/stores/common/authStore';
 export default {
   components: {
     UserLayout
   },
   data() {
     return {
-      notion_href: this.$userDecoded.notion_page_url,
+      authStore: useAuthStore(),
+      notion_href: useAuthStore().user.notion.template_url,
       agenda: [
         {
           title: 'Bathroom',

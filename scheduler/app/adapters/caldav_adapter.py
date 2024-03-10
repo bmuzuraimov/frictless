@@ -76,25 +76,26 @@ class CalDAVAdapter:
     def clear_phone_calendar(self, uid):
         try:
             events = mongodb_instance['caldav_uids'].find({'uid': uid, 'date': (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')})
-            # results = mongodb_instance['caldav_uids'].delete_many({'uid': uid, 'date': (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')})
+            results = mongodb_instance['caldav_uids'].delete_many({'uid': uid, 'date': (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')})
             for event in events:
                 self.calendar.event_by_url(event['ical_url']).delete()
         except Exception as e:
             print(f"Failed to clear phone calendar: {e}")
 
     @ensure_client_connected
-    def add_events(self, uid, events):
+    def add_events(self, uid, date, events):
         self.clear_phone_calendar(uid)
+        print(date)
         for event in events:
             dt_start_str = datetime.strptime(
             event['start'], '%Y-%m-%dT%H:%M:%S.000%z')
             dt_end_str = datetime.strptime(
                 event['end'], '%Y-%m-%dT%H:%M:%S.000%z')
             dtstart = datetime.combine(
-                datetime.today() + timedelta(days=1), dt_start_str.time())
+                date, dt_start_str.time())
             adj_dtend = dt_end_str - timedelta(minutes=1)
             dtend = datetime.combine(
-                datetime.today() + timedelta(days=1), adj_dtend.time())
+                date, adj_dtend.time())
             
             caldav_uid = 'frictless_uid-' + event['name'] + event['start'] + event['end']
             ical_url = self.phone_add_event(caldav_uid, event['name'], dtstart, dtend)

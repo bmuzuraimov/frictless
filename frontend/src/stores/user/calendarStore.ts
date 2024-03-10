@@ -11,7 +11,6 @@ export const useCalendarStore = defineStore('calendarStore', {
   actions: {
     toggleModal(){
         this.is_modal = !this.is_modal;
-        console.log(this.is_modal);
     },
   }
 })
