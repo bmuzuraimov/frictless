@@ -52,20 +52,19 @@
 </template>
 <script lang="ts">
 import { ref } from 'vue'
-import axios from 'axios';
+import { useAuthStore } from '@/stores/common/authStore'
 export default {
-  setup(){
-    const email = ref('');
-    const submitWaitinglist = () => {
-      axios.post('/api/user/waitlist', { email: email.value })
-        .then(() => {
-          email.value = '';
-          alert('You have been added to the waitlist');
-        })
-        .catch((err) => {
-          console.error(err);
-          alert('An error occurred. Please try again');
-        });
+  setup() {
+    const authStore = useAuthStore()
+    const email = ref('')
+    const submitWaitinglist = async () => {
+      const status = await authStore.setWaitlist(email.value)
+      if (status) {
+        email.value = ''
+        alert('You have been added to the waitlist')
+      } else {
+        alert('An error occurred. Please try again')
+      }
     }
     return {
       email,

@@ -88,6 +88,7 @@ router.post(
   "/waitlist",
   asyncHandler(async (req, res) => {
     const { email } = req.body;
+    console.log(req.body)
     const result = await req.db
       .collection("waitlist").insertOne({ 
         email,

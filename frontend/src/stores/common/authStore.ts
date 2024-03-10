@@ -13,22 +13,23 @@ export const useAuthStore = defineStore('authStore', {
     isAuthenticated: (state) => !!state.token,
     user: (state) => {
       try {
-        return state.token ? VueJwtDecode.decode(state.token) : {
-          userId: '',
-          name: '',
-          picture: '',
-          ios_userId: '',
-          locale: '',
-          email: '',
-          is_ios_connected: false,
-          is_notion_connected: false,
-          notion_page_url: '',
-          scope: '',
-          iat: 0,
-          exp: 0
-        };
+        return state.token
+          ? VueJwtDecode.decode(state.token)
+          : {
+              userId: '',
+              name: '',
+              picture: '',
+              ios_userId: '',
+              locale: '',
+              email: '',
+              is_ios_connected: false,
+              is_notion_connected: false,
+              notion_page_url: '',
+              scope: '',
+              iat: 0,
+              exp: 0
+            }
       } catch (error) {
-        console.error('Error decoding token:', error);
         return {
           userId: '',
           name: '',
@@ -42,9 +43,9 @@ export const useAuthStore = defineStore('authStore', {
           scope: '',
           iat: 0,
           exp: 0
-        };
+        }
       }
-    },
+    }
   },
 
   actions: {
@@ -52,12 +53,12 @@ export const useAuthStore = defineStore('authStore', {
       try {
         this.status = 'loading'
         const response = await authService.login(credentials)
-        if(response.data.success) {
+        if (response.data.success) {
           this.token = response.data.token
           localStorage.setItem('token', this.token)
           this.status = 'success'
           window.location.href = '/overview'
-        }else{
+        } else {
           alert(response.data.message)
           this.status = 'error'
         }
@@ -96,7 +97,11 @@ export const useAuthStore = defineStore('authStore', {
     // miscalaneous functions
     async setReferral(ref: string) {
       localStorage.setItem('ref', ref)
-      await authService.setReferral(ref);
+      await authService.setReferral(ref)
     },
+    async setWaitlist(email: string) {
+      const response = await authService.setWaitlist(email)
+      return response.data.success
+    }
   }
 })

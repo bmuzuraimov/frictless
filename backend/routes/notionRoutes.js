@@ -4,7 +4,6 @@ const { withDB, ObjectId } = require("@/config/mongodb");
 const { isUser } = require("@/utils/guard");
 const {
   asyncHandler,
-  NotFoundError,
   InternalServerError,
 } = require("@/utils/error_handler");
 const { validateNotionCallback } = require("@/utils/validations");
@@ -87,146 +86,96 @@ const formatDate = (time_zone) => {
   return new Intl.DateTimeFormat("en-GB", options).format(new Date());
 };
 
-router.post(
-  "/schedule",
-  isUser,
-  asyncHandler(async (req, res) => {
-    const { userId } = req.body;
-    var user = await req.db
-      .collection("users")
-      .findOne({ _id: new ObjectId(userId) });
-    const dbIdsRequired = [
-      "notion.priorities_dbid",
-      "notion.todo_dbid",
-      "notion.schedule_dbid",
-      "notion.jobs_dbid",
-      "notion.courses_dbid",
-      "notion.recurring_dbid",
-      "notion.personal_dbid",
-      "notion.routine_dbid",
-      "notion.sports_dbid",
-      "notion.lecture_notes_dbid",
-      "notion.job_tasks_dbid",
-    ];
-    console.log(user);
+router.post("/schedule", isUser, asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+  let user = await req.db.collection("users").findOne({ _id: new ObjectId(userId) });
+  
+  user = await ensureNotionDbIds(user, req);
+  const scheduleData = prepareScheduleData(user);
+  await publishScheduleMessage(scheduleData);
+  
+  res.json({
+    success: true,
+    message: "Request accepted. Processing in the background.",
+  });
+}));
 
-    if (dbIdsRequired.some((dbId) => !user[dbId])) {
-      user = await update_notion_dbids(
-        req,
-        userId,
-        user.notion.secret_key,
-        user.notion.template_id
-      );
-      if (dbIdsRequired.some((dbId) => !user[dbId])) {
-        throw new InternalServerError("Not all Notion databases are linked.");
-      }
-    }
-    const scheduleData = {
-      date: formatDate(user.timezone),
-      time_zone: user.timezone,
-      user_data: {
-        uid: user._id,
-        access_token: user.notion.secret_key,
-        IOS_USER: Decipher(user.ios_device.email),
-        IOS_PASSWORD: Decipher(user.ios_device.password),
-        priorities_dbid: user.notion.priorities_dbid,
-        todo_dbid: user.notion.todo_dbid,
-        schedule_dbid: user.notion.schedule_dbid,
-        jobs_dbid: user.notion.jobs_dbid,
-        courses_dbid: user.notion.courses_dbid,
-        recurring_dbid: user.notion.recurring_dbid,
-        personal_dbid: user.notion.personal_dbid,
-        routine_dbid: user.notion.routine_dbid,
-        sports_dbid: user.notion.sports_dbid,
-        lecture_notes_dbid: user.notion.lecture_notes_dbid,
-        job_tasks_dbid: user.notion.job_tasks_dbid,
-      },
-    };
-    const params = {
-      Message: JSON.stringify(scheduleData),
-      TopicArn: process.env.SNS_SCHEDULE_TOPIC_ARN,
-    };
-    await snsPublisher.publishMessage(params);
-    res.json({
-      success: true,
-      message: "Request accepted. Processing in the background.",
-    });
-  })
-);
+async function ensureNotionDbIds(user, req) {
+  const dbIdsRequired = [
+    "priorities_dbid", "todo_dbid", "schedule_dbid", "jobs_dbid",
+    "courses_dbid", "recurring_dbid", "personal_dbid", "routine_dbid",
+    "sports_dbid", "lecture_notes_dbid", "job_tasks_dbid",
+  ];
 
-router.post(
-  "/ios_schedule",
-  asyncHandler(async (req, res) => {
-    const { userId } = req.body;
-    const deciphered_userId = Decipher(userId);
-    console.log(deciphered_userId);
-    if (!ObjectId.isValid(deciphered_userId)) {
-      res.json({ success: false, message: "Invalid user id" });
-    }
-    var user = await req.db
-      .collection("users")
-      .findOne({ _id: new ObjectId(deciphered_userId) });
-    console.log(user);
-    if (user) {
-      const dbIdsRequired = [
-        "priorities_dbid",
-        "todo_dbid",
-        "schedule_dbid",
-        "jobs_dbid",
-        "courses_dbid",
-        "recurring_dbid",
-        "personal_dbid",
-        "routine_dbid",
-        "sports_dbid",
-        "lecture_notes_dbid",
-        "job_tasks_dbid",
-      ];
-      if (dbIdsRequired.some((dbId) => !user[dbId])) {
-        user = await update_notion_dbids(
-          req,
-          userId,
-          user.notion_access_token,
-          user.parent_id
-        );
-        if (dbIdsRequired.some((dbId) => !user[dbId])) {
-          throw new InternalServerError("Not all Notion databases are linked.");
-        }
-      }
-      const scheduleData = {
-        date: formatDate(user.timezone),
-        time_zone: user.timezone,
-        user_data: {
-          uid: user._id,
-          access_token: user.notion_access_token,
-          IOS_USER: Decipher(user.ios_email),
-          IOS_PASSWORD: Decipher(user.ios_password),
-          priorities_dbid: user.priorities_dbid,
-          todo_dbid: user.todo_dbid,
-          schedule_dbid: user.schedule_dbid,
-          jobs_dbid: user.jobs_dbid,
-          courses_dbid: user.courses_dbid,
-          recurring_dbid: user.recurring_dbid,
-          personal_dbid: user.personal_dbid,
-          routine_dbid: user.routine_dbid,
-          sports_dbid: user.sports_dbid,
-          lecture_notes_dbid: user.lecture_notes_dbid,
-          job_tasks_dbid: user.job_tasks_dbid,
-        },
-      };
-      const params = {
-        Message: JSON.stringify(scheduleData),
-        TopicArn: process.env.SNS_SCHEDULE_TOPIC_ARN,
-      };
-      await snsPublisher.publishMessage(params);
-      res.json({
-        success: true,
-        message: "Request accepted. Processing in the background.",
-      });
-    } else {
-      res.json({ success: false, message: "Invalid user id" });
-    }
-  })
-);
+  if (dbIdsRequired.some(dbId => !user.notion[dbId])) {
+    return await update_notion_dbids(
+      req,
+      user._id.toString(),
+      user.notion.secret_key,
+      user.notion.template_id
+    );
+  }
+  return user;
+}
+
+
+function prepareScheduleData(user) {
+  return {
+    date: formatDate(user.timezone),
+    time_zone: user.timezone,
+    user_data: {
+      uid: user._id,
+      access_token: user.notion.secret_key,
+      IOS_USER: Decipher(user.ios_device.email),
+      IOS_PASSWORD: Decipher(user.ios_device.password),
+      priorities_dbid: user.notion.priorities_dbid,
+      todo_dbid: user.notion.todo_dbid,
+      schedule_dbid: user.notion.schedule_dbid,
+      jobs_dbid: user.notion.jobs_dbid,
+      courses_dbid: user.notion.courses_dbid,
+      recurring_dbid: user.notion.recurring_dbid,
+      personal_dbid: user.notion.personal_dbid,
+      routine_dbid: user.notion.routine_dbid,
+      sports_dbid: user.notion.sports_dbid,
+      lecture_notes_dbid: user.notion.lecture_notes_dbid,
+      job_tasks_dbid: user.notion.job_tasks_dbid,
+    },
+  };
+}
+
+
+async function publishScheduleMessage(scheduleData) {
+  const params = {
+    Message: JSON.stringify(scheduleData),
+    TopicArn: process.env.SNS_SCHEDULE_TOPIC_ARN,
+  };
+  await snsPublisher.publishMessage(params);
+}
+
+
+router.post("/ios_schedule", asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+  const deciphered_userId = Decipher(userId);
+  
+  if (!ObjectId.isValid(deciphered_userId)) {
+    return res.json({ success: false, message: "Invalid user id" });
+  }
+  
+  let user = await req.db.collection("users").findOne({ _id: new ObjectId(deciphered_userId) });
+  
+  if (!user) {
+    return res.json({ success: false, message: "User not found." });
+  }
+  
+  user = await ensureNotionDbIds(user, req);
+  const scheduleData = prepareScheduleData(user);
+  await publishScheduleMessage(scheduleData);
+  
+  res.json({
+    success: true,
+    message: "Request accepted. Processing in the background.",
+  });
+}));
 
 async function update_notion_dbids(req, userId, secret_key, template_id) {
   const response = await axios.post(
@@ -252,7 +201,6 @@ async function update_notion_dbids(req, userId, secret_key, template_id) {
       accumulator[key] = item.id;
       return accumulator;
     }, {});
-  console.log(filteredResults);
   const result = await req.db.collection("users").findOneAndUpdate(
     { _id: new ObjectId(userId) }, // Filter document by _id
     { $set: { ...filteredResults } }, // Update operation

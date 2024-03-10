@@ -156,7 +156,6 @@ import IOSBtnComponent from '@/components/user/onboarding/IOSBtnComponent.vue'
 import SchedulerComponent from '@/components/user/SchedulerBtnComponent.vue'
 import NotionBtnComponent from '@/components/user/onboarding/NotionBtnComponent.vue'
 import IOSFormComponent from '@/components/user/onboarding/IOSFormComponent.vue'
-import { useButtonStore } from '@/stores/buttonStore'
 import { useAuthStore } from '@/stores/common/authStore';
 
 export default {
@@ -173,7 +172,6 @@ export default {
       error: '',
       is_linked: false,
       authStore: useAuthStore(),
-      useButtonStore: useButtonStore(),
     }
   },
   computed: {

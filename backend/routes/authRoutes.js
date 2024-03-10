@@ -125,8 +125,8 @@ router.post(
           },
         }
       );
-    // const confirmationCode = await generateCode(email);
-    // await emailSender.sendEmail(email, confirmationCode);
+    const confirmationCode = await generateCode(email);
+    await emailSender.sendEmail(email, confirmationCode);
     if (newUser.insertedId) {
       res.json({
         success: true,

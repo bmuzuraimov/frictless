@@ -23,5 +23,8 @@ export default {
   async setReferral(ref: string) {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
     return await apiClient.post('/api/auth/referral', { ref, timezone })
+  },
+  async setWaitlist(email: string) {
+    return await apiClient.post('/api/user/waitlist', { email })
   }
 }
