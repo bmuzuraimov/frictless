@@ -1,3 +1,5 @@
+const util = require('util');
+
 class ValidationError extends Error {
     constructor(message) {
         super(message);
@@ -67,8 +69,7 @@ const asyncHandler = (fn) => (req, res, next) => {
         } else if (err instanceof InternalServerError) {
             res.status(err.statusCode).json({ success: err.success, message: err.message });
         } else {
-            // For unhandled errors
-            console.error(err);
+            console.error(util.inspect(err, { showHidden: false, depth: null }));
             res.status(500).json({ error: 'Internal Server Error' });
         }
     });

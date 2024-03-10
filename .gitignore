@@ -1,3 +1,4 @@
 .DS_Store
 *.sh
 .vercel
+/backend/expressjs_apigateway_template.json

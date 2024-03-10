@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import scheduleService from '@/services/scheduleService'
 
 export const useSchedulerStore = defineStore('schedulerStore', {
   state: () => ({
-    scheduleButton: {
+    button: {
       text: 'Schedule Plan',
       disabled: false,
       tw_class: [
@@ -17,35 +17,22 @@ export const useSchedulerStore = defineStore('schedulerStore', {
         'rounded-lg',
         'border',
         'hover:bg-gray-50',
-        'overflow-hidden',
+        'overflow-hidden'
       ]
-    },
+    }
   }),
   actions: {
     async schedule(userId: string) {
-      this.scheduleButton.disabled = true
-      this.scheduleButton.text = 'Scheduling...'
-      this.scheduleButton.tw_class.push('bg-grey-50')
-      try {
-        const token = localStorage.getItem('token');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        };
-        const response = await axios.post('/api/notion/schedule', { userId }, config)
-        if (response.data.success) {
-          this.scheduleButton.tw_class = this.scheduleButton.tw_class.filter(
-            (className) => className !== 'bg-grey-50'
-          )
-          this.scheduleButton.text = 'Plan Scheduled'
-          this.scheduleButton.tw_class.push('border-green-500')
-        }
-      } catch (error) {
-        this.scheduleButton.text = 'Schedule Plan'
-        this.scheduleButton.tw_class.push('border-red-500')
-        this.scheduleButton.disabled = false
-        alert('Error scheduling plan');
+      this.button.disabled = true
+      this.button.text = 'Scheduling...'
+      this.button.tw_class.push('bg-grey-50')
+      const response = await scheduleService.schedule(userId)
+      if (response.data.success) {
+        this.button.tw_class = this.button.tw_class.filter(
+          (className) => className !== 'bg-grey-50'
+        )
+        this.button.text = 'Plan Scheduled'
+        this.button.tw_class.push('border-green-500')
       }
     }
   }

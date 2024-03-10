@@ -1,15 +1,15 @@
 const EN_DB_NAMES = {
-    "Priorities": "priorities_dbid",
-    "To do": "todo_dbid",
-    "Schedule": "schedule_dbid",
-    "Jobs": "jobs_dbid",
-    "Courses": "courses_dbid",
-    "Recurring Activities": "recurring_dbid",
-    "Personal Projects": "personal_dbid",
-    "Routine": "routine_dbid",
-    "Sports": "sports_dbid",
-    "Lecture notes": "lecture_notes_dbid",
-    "Job tasks": "job_tasks_dbid",
+    "Priorities": "notion.priorities_dbid",
+    "To do": "notion.todo_dbid",
+    "Schedule": "notion.schedule_dbid",
+    "Jobs": "notion.jobs_dbid",
+    "Courses": "notion.courses_dbid",
+    "Recurring Activities": "notion.recurring_dbid",
+    "Personal Projects": "notion.personal_dbid",
+    "Routine": "notion.routine_dbid",
+    "Sports": "notion.sports_dbid",
+    "Lecture notes": "notion.lecture_notes_dbid",
+    "Job tasks": "notion.job_tasks_dbid",
 };
 
 const RU_DB_NAMES = {

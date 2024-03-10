@@ -1,62 +1,50 @@
 <template>
-  <ToastMessage
-    :visible="showToast"
-    :message="toastMessage"
-    :toastType="toastType"
-    @close="showToast = false"
-  />
   <div class="flex h-screen flex-row justify-center">
     <v-otp-input
-      @change="confirmCode"
       :model-value="code ? code.toString() : ''"
+      type="number"
+      :length="6"
       variant="filled"
     ></v-otp-input>
   </div>
 </template>
 
 <script lang="ts">
-import ToastMessage from '@/components/common/home/ToastMessage.vue'
-import axios from 'axios'
+import { computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/common/authStore';
+
 export default {
-  components: {
-    ToastMessage
-  },
-  data() {
-    return {
-      code: this.$route.query.code,
-      email: this.$route.query.email,
-      showToast: false,
-      toastMessage: '',
-      toastType: ''
-    }
-  },
-  mounted() {
-    this.confirmCode()
-  },
-  methods: {
-    async confirmCode() {
-      if (this.code && this.email && this.code.length === 6) {
-        try {
-          const response = await axios.post('/api/auth/confirm-code', {
-            confirm_code: this.code,
-            crypted_email: this.email
-          })
-          if (response.data.success) {
-            this.toastType = 'success';
-            this.toastMessage = "Your account has been verified successfully!";
-            this.showToast = true;
-            setTimeout(() => {
-              this.showToast = false;
-              this.$router.push('/login')
-            }, 3000)
-          } else {
-            alert(response.data.message)
-          }
-        } catch (error) {
-          alert(error)
-        }
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const authStore = useAuthStore();
+
+    const code = computed(() => route.query.code);
+    const email = computed(() => route.query.email);
+
+    watch(code, (newCode) => {
+      if (newCode && newCode.length === 6) {
+        confirmCode();
+      }
+    }, { immediate: true });
+
+    async function confirmCode() {
+      const data = await authStore.confirm_email({
+        confirm_code: code.value,
+        crypted_email: email.value,
+      });
+      if (data.success) {
+        alert('Email confirmed successfully');
+        router.push('/login');
+      } else {
+        alert(data.message);
       }
     }
+
+    return {
+      code
+    };
   }
 }
 </script>

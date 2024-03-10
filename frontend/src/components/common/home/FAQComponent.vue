@@ -51,34 +51,39 @@
   </div>
 </template>
 <script lang="ts">
-export default {
-  data(){
-    return{
-      selectedFaq: -1,
-      faqs: [
-        {
-          q: 'Why Frictless?',
-          a: "Amidst the noise of endless tasks and deadlines, the essence of your goals can get lost. Frictless is here to ensure they don't. By transforming your overwhelming schedules into a structured symphony of daily and tomorrow's tasks, Frictless lets you focus on what truly matters—achieving remarkable outcomes."
-        },
-        {
-          q: 'Who\'s It For?',
-          a: "Students, freelancers, professionals—anyone who's tired of feeling swamped by their schedule. If you're looking for a way to cut through the chaos and get your priorities straight, Frictless's here for you."
-        },
-        {
-          q: 'Why Choose Frictless?',
-          a: "No More Overwhelm, Focus on Today and Tomorrow, Tailored to You: Your day, your tasks. We fit them into your time, not the other way around."
-        },
-        {
-          q: 'Real Talk: Why Frictless Rocks',
-          a: 'No fluff, no fuss—just a straightforward way to get your tasks in order.'
-        },
-      ],
-    }
-  },
-  methods:{
-    toggleFaq(index: number) {
-      this.selectedFaq = this.selectedFaq === index ? -1 : index
-    }
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  setup() {
+    const selectedFaq = ref(-1);
+    const faqs = [
+      {
+        q: 'Why Frictless?',
+        a: "Amidst the noise of endless tasks and deadlines, the essence of your goals can get lost. Frictless is here to ensure they don't. By transforming your overwhelming schedules into a structured symphony of daily and tomorrow's tasks, Frictless lets you focus on what truly matters—achieving remarkable outcomes."
+      },
+      {
+        q: 'Who\'s It For?',
+        a: "Students, freelancers, professionals—anyone who's tired of feeling swamped by their schedule. If you're looking for a way to cut through the chaos and get your priorities straight, Frictless's here for you."
+      },
+      {
+        q: 'Why Choose Frictless?',
+        a: "No More Overwhelm, Focus on Today and Tomorrow, Tailored to You: Your day, your tasks. We fit them into your time, not the other way around."
+      },
+      {
+        q: 'Real Talk: Why Frictless Rocks',
+        a: 'No fluff, no fuss—just a straightforward way to get your tasks in order.'
+      },
+    ];
+
+    const toggleFaq = (index: number) => {
+      selectedFaq.value = selectedFaq.value === index ? -1 : index;
+    };
+
+    return {
+      selectedFaq,
+      faqs,
+      toggleFaq
+    };
   }
-}
+});
 </script>

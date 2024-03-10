@@ -1,9 +1,10 @@
 <template>
-  <div class="flex flex-col md:flex-row h-screen">
-    <SidebarComponent />
-    <main class="md:w-5/6 md:m-10 w-full overflow-y-scroll no-scrollbar">
-      <section class="bg-white antialiased">
-        <div class="max-w-screen-xl px-4 py-8 mx-auto lg:px-6 sm:py-16 lg:py-24">
+  <UserLayout>
+    <main>
+        <div class="p-4 sm:ml-64">
+          <div
+            class="p-4 border-2 border-gray-200 border-dashed rounded-lg  mt-14"
+          >
           <div class="max-w-3xl mx-auto text-center">
             <h2 class="text-4xl font-extrabold leading-tight tracking-tight text-gray-900">
               Agenda for 15 Februrary 2024
@@ -11,8 +12,8 @@
 
             <div class="mt-4">
               <a
-                v-if="$userDecoded.notion_page_url"
-                :href="$userDecoded.notion_page_url"
+                v-if="authStore.user.notion.template_url"
+                :href="authStore.user.notion.template_url"
                 title=""
                 class="inline-flex items-center text-lg font-medium text-primary-600 hover:underline"
               >
@@ -53,20 +54,21 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </main>
-  </div>
+  </UserLayout>
 </template>
 <script lang="ts">
-import SidebarComponent from '@/components/user/SidebarComponent.vue'
-
+import UserLayout from '@/views/layout/UserLayout.vue';
+import { useAuthStore } from '@/stores/common/authStore';
 export default {
   components: {
-    SidebarComponent
+    UserLayout
   },
   data() {
     return {
-      notion_href: this.$userDecoded.notion_page_url,
+      authStore: useAuthStore(),
+      notion_href: useAuthStore().user.notion.template_url,
       agenda: [
         {
           title: 'Bathroom',

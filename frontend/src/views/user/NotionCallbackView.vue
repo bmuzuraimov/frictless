@@ -8,47 +8,28 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
+import { onMounted, ref, defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/common/authStore'
+import { useNotionStore } from '@/stores/notion/useNotionStore'
 
-export default {
-  data() {
-    return {
-      overlay: true,
-      code: this.$route.query.code,
-    }
-  },
-  mounted() {
-    this.getAccessToken()
-  },
-  methods: {
-    async getAccessToken() {
-      try {
-        const token = localStorage.getItem('token');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        const response = await axios.post('/api/notion/callback', {
-          userId: this.$userDecoded.userId,
-          code: this.code,
+export default defineComponent({
+  setup() {
+    const route = useRoute()
+    const authStore = useAuthStore()
+    const notionStore = useNotionStore()
+
+    const code = ref(route.query.code as string | undefined)
+
+    onMounted(() => {
+      if (code.value) {
+        notionStore.getAccessToken({
+          userId: authStore.user._id,
+          code: code.value,
           redirect_uri: import.meta.env.VITE_NOTION_REDIRECT_URI
-        }, config)
-        const { success } = response.data;
-        localStorage.setItem('notionAuthStatus', success ? 'success' : 'failed');
-        localStorage.setItem('notionAuthTab', 'false');
-        window.close()
-      } catch (error:any) {
-        console.log(error)
-        alert(error.response.data.message)
-        localStorage.setItem('notionAuthStatus', 'failed');
-        localStorage.setItem('notionAuthTab', 'false');
-        window.close();
+        })
       }
-    }
+    })
   }
-}
+})
 </script>
-
-<style>
-</style>

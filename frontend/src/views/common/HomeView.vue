@@ -1,7 +1,5 @@
 <template>
   <div class="pattern-boxes pattern-blue-200 pattern-bg-white pattern-size-2 pattern-opacity-10">
-    <!-- Banner section -->
-    <BannerComponent />
     <!-- Navbar -->
     <NavbarComponent />
     <!-- Hero section -->
@@ -22,13 +20,14 @@
     <FAQComponent />
     <!-- Testimonials -->
     <TestimonialsComponent />
+    <!-- Join waitinglist -->
+    <WaitlistComponent />
     <!-- Footer -->
     <FooterComponent />
   </div>
 </template>
 
 <script lang="ts">
-import BannerComponent from '@/components/common/home/BannerComponent.vue'
 import NavbarComponent from '@/components/common/home/NavbarComponent.vue'
 import HeroComponent from '@/components/common/home/HeroComponent.vue'
 import FeatureComponent from '@/components/common/home/FeatureComponent.vue'
@@ -40,10 +39,10 @@ import TimeCalculatorComponent from '@/components/common/home/TimeCalculatorComp
 import FooterComponent from '@/components/common/home/FooterComponent.vue'
 import FAQComponent from '@/components/common/home/FAQComponent.vue'
 import TestimonialsComponent from '@/components/common/home/TestimonialsComponent.vue'
+import WaitlistComponent from '@/components/common/home/WaitlistComponent.vue'
 
 export default {
   components: {
-    BannerComponent,
     NavbarComponent,
     HeroComponent,
     FeatureComponent,
@@ -54,7 +53,8 @@ export default {
     TimeCalculatorComponent,
     FooterComponent,
     FAQComponent,
-    TestimonialsComponent
+    TestimonialsComponent,
+    WaitlistComponent,
   },
 }
 </script>

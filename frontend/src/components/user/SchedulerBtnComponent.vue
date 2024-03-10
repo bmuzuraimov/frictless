@@ -6,8 +6,8 @@
     elevation="2"
     :ripple="false"
     @click="schedule"
-    :disabled="useSchedulerStore.scheduleButton.disabled"
-    :class="useSchedulerStore.scheduleButton.tw_class"
+    :disabled="schedulerStore.button.disabled"
+    :class="schedulerStore.button.tw_class"
   >
     <img
       v-show="!schedule_animation_2"
@@ -21,20 +21,21 @@
       class="w-5 h-12 rotate-90"
       :style="schedule_animation_2 ? { animation: 'moveRight 2s ease-in-out forwards' } : {}"
     />
-    <span class="text-lg fonr-mont">{{ useSchedulerStore.scheduleButton.text }}</span>
+    <span class="text-lg fonr-mont">{{ schedulerStore.button.text }}</span>
   </v-btn>
 </template>
 
 <script lang="ts">
 import { useSchedulerStore } from '@/stores/user/schedulerStore'
-
+import { useAuthStore } from '@/stores/common/authStore'
 export default {
   name: 'SchedulerComponent',
   data() {
     return {
+      useAuthStore: useAuthStore(),
       schedule_animation_1: false,
       schedule_animation_2: false,
-      useSchedulerStore: useSchedulerStore(),
+      schedulerStore: useSchedulerStore(),
     }
   },
   methods: {
@@ -47,7 +48,7 @@ export default {
           this.schedule_animation_2 = false
         }, 1500)
       }, 2500)
-      this.useSchedulerStore.schedule(this.$userDecoded.userId)
+      this.schedulerStore.schedule(this.useAuthStore.user._id)
     }
   }
 }

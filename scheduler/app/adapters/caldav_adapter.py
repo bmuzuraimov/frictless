@@ -2,6 +2,8 @@ import caldav
 import logging
 from datetime import datetime, timedelta
 from icalendar import Event, Alarm
+from app.adapters.mongodb_adapter import mongodb_instance
+
 
 class CalDAVAdapter:
     _instance = None  # Class variable that holds the singleton instance
@@ -23,7 +25,7 @@ class CalDAVAdapter:
             else:
                 self.client = self._connect_to_caldav(url, username, password)
                 self.calendar = self.client.principal().calendars()[0]
-            self._initialized = True  # Mark the instance as initialized
+            self._initialized = True
 
     def _connect_to_caldav(self, url, username, password):
         try:
@@ -47,16 +49,15 @@ class CalDAVAdapter:
         return wrapper
 
     @ensure_client_connected
-    def phone_add_event(self, name, dtstart, dtend):
+    def phone_add_event(self, caldav_uid, name, dtstart, dtend):
         try:
-            print(f"Adding event: {name} from {dtstart} to {dtend}")
             event = Event()
-            event.add('prodid', '-//Frictless//1.0//EN')  # Add PRODID
+            event.add('prodid', '-//Frictless//1.0//EN')
             event.add('summary', name)
             event.add('dtstart', dtstart)
             event.add('dtend', dtend)
             event.add('dtstamp', datetime.now())
-            event.add('uid', 'frictless-uid'+name+str(dtstart)+str(dtend))
+            event.add('uid', caldav_uid)
 
             alarm = Alarm()
             alarm.add("action", "DISPLAY")
@@ -64,25 +65,38 @@ class CalDAVAdapter:
             alarm.add("trigger", timedelta(0))
             event.add_component(alarm)
 
-            self.calendar.save_event(event.to_ical())
+            cal_data = self.calendar.save_event(event.to_ical())
+            return str(cal_data.url)
 
         except Exception as e:
             logging.error(f"Failed to add event: {e}")
-            # Optionally: notify an administrator or monitoring system
+            return None
 
     @ensure_client_connected
-    def clear_phone_calendar(self):
+    def clear_phone_calendar(self, uid):
         try:
-            principal = self._connect_to_caldav()
-            calendar = principal.calendars()[0]
-
-            # Fetch all events from the calendar.
-            # Depending on the library you're using, you might need a different method to fetch all events.
-            events = calendar.events()
-            print(events)
+            events = mongodb_instance['caldav_uids'].find({'uid': uid, 'date': (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')})
+            results = mongodb_instance['caldav_uids'].delete_many({'uid': uid, 'date': (datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d')})
             for event in events:
-                print(f"Deleting event: {event}")
-                event.delete()
-
+                self.calendar.event_by_url(event['ical_url']).delete()
         except Exception as e:
-            logging.error(f"Failed to clear phone calendar: {e}")
+            print(f"Failed to clear phone calendar: {e}")
+
+    @ensure_client_connected
+    def add_events(self, uid, date, events):
+        self.clear_phone_calendar(uid)
+        print(date)
+        for event in events:
+            dt_start_str = datetime.strptime(
+            event['start'], '%Y-%m-%dT%H:%M:%S.000%z')
+            dt_end_str = datetime.strptime(
+                event['end'], '%Y-%m-%dT%H:%M:%S.000%z')
+            dtstart = datetime.combine(
+                date, dt_start_str.time())
+            adj_dtend = dt_end_str - timedelta(minutes=1)
+            dtend = datetime.combine(
+                date, adj_dtend.time())
+            
+            caldav_uid = 'frictless_uid-' + event['name'] + event['start'] + event['end']
+            ical_url = self.phone_add_event(caldav_uid, event['name'], dtstart, dtend)
+            mongodb_instance['caldav_uids'].insert_one({'uid': uid, 'date': dtstart.date().strftime('%Y-%m-%d'), 'caldav_uid': caldav_uid, 'ical_url': ical_url})

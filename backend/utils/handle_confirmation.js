@@ -35,7 +35,6 @@ async function verifyCode(email, code) {
         return false;
     } catch (error) {
         console.error('Error in verifyCode:', error);
-        throw error;
     } finally {
         await RedisSingleton.closeInstance();
     }

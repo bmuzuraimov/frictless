@@ -1,16 +1,16 @@
 import logging
 
-from app.repositories.todo_database import ToDoDatabase
-from app.repositories.routine_database import RoutineDatabase
-from app.repositories.schedule_database import ScheduleDatabase
-from app.repositories.courses_database import CoursesDatabase
-from app.repositories.recurring_database import RecurringDatabase
-from app.repositories.personal_database import PersonalDatabase
-from app.repositories.sports_database import SportsDatabase
-from app.repositories.priorities_database import PriorityDatabase
-from app.repositories.jobs_database import JobsDatabase
-from app.repositories.lecture_notes_database import LectureNotesDatabase
-from app.repositories.job_tasks_database import JobTasksDatabase
+from app.notion_dbs.todo_database import ToDoDatabase
+from app.notion_dbs.routine_database import RoutineDatabase
+from app.notion_dbs.schedule_database import ScheduleDatabase
+from app.notion_dbs.courses_database import CoursesDatabase
+from app.notion_dbs.recurring_database import RecurringDatabase
+from app.notion_dbs.personal_database import PersonalDatabase
+from app.notion_dbs.sports_database import SportsDatabase
+from app.notion_dbs.priorities_database import PriorityDatabase
+from app.notion_dbs.jobs_database import JobsDatabase
+from app.notion_dbs.lecture_notes_database import LectureNotesDatabase
+from app.notion_dbs.job_tasks_database import JobTasksDatabase
 
 class DatabaseFactory:
     def __init__(self) -> None:

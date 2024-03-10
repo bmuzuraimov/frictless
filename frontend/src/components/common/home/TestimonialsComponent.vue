@@ -6,8 +6,7 @@
           What Early Users Say
         </h3>
         <p class="mt-2 sm:mt-3 text-gray-600 text-base sm:text-lg">
-          Hear it straight from the folks who've made their days better with Frictless. Less anxiety,
-          more doing.
+          Hear it straight from the folks who've made their days better with Frictless.
         </p>
       </div>
       <div class="mt-8 sm:mt-12">
@@ -55,32 +54,34 @@
 </template>
 
 <script lang="ts">
+import { ref } from 'vue'
 export default {
   name: 'TestimonialsComponent',
-  data() {
+  setup(){
+    const testimonials = ref([
+      {
+        name: 'Destiny',
+        role: 'Freelance Writer',
+        image: './images/testimonial_user_1.jpg',
+        feedback:
+          "I've always struggled with planning my day efficiently, often feeling overwhelmed by the sheer volume of tasks. Frictless changed that for me. The way it seamlessly organizes my tasks and calendar has freed up so much of my time and mental space. Now, I spend more time creating and less time stressing. It's the simplest yet most effective tool I've used."
+      },
+      {
+        name: 'Bex',
+        role: 'Graphic Designer',
+        image: './images/testimonial_user_2.jpg',
+        feedback:
+        "After integrating Frictless into my daily workflow, I've noticed a significant shift in how I manage my time. It's like having a personal assistant that knows exactly what I need to focus on. My days are more structured, and I'm finally able to dedicate time to projects that matter most. It's a game-changer for anyone juggling multiple tasks and deadlines."
+      },
+      {
+        name: 'Sarar',
+        role: 'Startup Founder',
+        image: './images/testinomial_user_3.jpg',
+        feedback: "Running a startup means constant chaos and a never-ending to-do list. Frictless has been a revelation for managing my daily tasks and keeping me on track. The 'Revive' feature alone has saved my schedule multiple times. It's not just about doing more; it's about doing what's right for the business. I can't recommend Frictless enough to anyone in a fast-paced environment."
+      }
+    ])
     return {
-      testimonials: [
-        {
-          name: 'Sarar WIN',
-          role: 'BSc Student',
-          image: 'https://randomuser.me/api/portraits/men/91.jpg',
-          feedback:
-            'Pending...'
-        },
-        {
-          name: 'Nargiz Seisek',
-          role: 'MSc Student',
-          image: 'https://randomuser.me/api/portraits/women/79.jpg',
-          feedback:
-            'Pending...'
-        },
-        {
-          name: 'Baiastan Muzuraimov',
-          role: 'MSc Student',
-          image: 'https://randomuser.me/api/portraits/men/86.jpg',
-          feedback: 'Pending...'
-        }
-      ]
+      testimonials
     }
   }
 }

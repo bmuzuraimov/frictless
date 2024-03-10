@@ -2,8 +2,8 @@
   <!-- Modal for Apple Calendar -->
   <div
     :class="{
-      'hidden': !is_modal,
-      'fixed inset-0 z-50 flex items-center justify-center bg-grey opacity-90': is_modal
+      'hidden': !isModal,
+      'fixed inset-0 z-50 flex items-center justify-center bg-grey opacity-90': isModal
     }"
   >
     <div class="w-full max-w-md p-6 opacity-100 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -25,7 +25,7 @@
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
             <input
-              v-model="useAppleCalendar.formData.ios_email"
+              v-model="formData.ios_email"
               type="email"
               id="email"
               class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500"
@@ -35,7 +35,7 @@
           <div>
             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
             <input
-              v-model="useAppleCalendar.formData.ios_password"
+              v-model="formData.ios_password"
               type="password"
               id="password"
               class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500"
@@ -46,7 +46,7 @@
             type="submit"
             class="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            {{ useAppleCalendar.submitAppleCalendarButton.text }}
+            {{ ios_device_store.sbmt_btn.text }}
           </button>
         </form>
         <div class="mt-4">
@@ -56,6 +56,9 @@
             <li>Follow the steps on your screen to generate an app-specific password.</li>
             <li>Enter the app-specific password into the password field of the app.</li>
           </ol>
+          <a class="flex justify-end mt-2 text-blue-600 underline underline-offset-4" target="_blank" href="https://docs.google.com/presentation/d/e/2PACX-1vQS6XxQllC2luygeZAftjbQyisK5t0kuONB0owe6gnzgt25BUocq1RSXQeMuL3LlC_vKXaP0LObx0f4/pub?start=true&loop=false&delayms=3000">
+            Step by step guide
+          </a>
         </div>
       </div>
     </div>
@@ -63,34 +66,39 @@
   <!-- End of Modal for Apple Calendar -->
 </template>
 <script lang="ts">
+import { useAuthStore } from '@/stores/common/authStore';
 import { useAppleCalendar } from '@/stores/user/appleCalendar'
 import { useCalendarStore } from '@/stores/user/calendarStore';
+import { ref, computed } from 'vue';
+
 export default {
-  mounted() {
-    this.get_ios_email();
-  },
-  computed: {
-    is_modal() {
-      return useCalendarStore().is_modal;
-    }
-  },
-  data() {
+  setup() {
+    const ios_device_store = useAppleCalendar();
+    const useCalendarStoreInstance = useCalendarStore();
+    const authStore = useAuthStore();
+    const formData = ref({
+      userId: authStore.user._id,
+      ios_email: authStore.user.ios_device.email,
+      ios_password: authStore.user.ios_device.email
+    });
+
+    const isModal = computed(() => useCalendarStoreInstance.is_modal);
+
+    const closeModal = () => {
+      useCalendarStoreInstance.toggleModal();
+    };
+
+    const submitAppleCalendar = () => {
+      ios_device_store.submitAppleCalendar(formData.value);
+    };
+
     return {
-      useAppleCalendar: useAppleCalendar(),
-      useCalendarStore: useCalendarStore(),
-    }
-  },
-  methods: {
-    async get_ios_email() {
-      await this.useAppleCalendar.get_ios_email(this.$userDecoded.userId);
-    },
-    closeModal() {
-      this.useCalendarStore.toggleModal()
-    },
-    async submitAppleCalendar() {
-      this.useAppleCalendar.formData.userId = this.$userDecoded.userId;
-      this.useAppleCalendar.submitAppleCalendar();
-    },
+      isModal,
+      closeModal,
+      formData,
+      ios_device_store,
+      submitAppleCalendar
+    };
   }
 }
 </script>

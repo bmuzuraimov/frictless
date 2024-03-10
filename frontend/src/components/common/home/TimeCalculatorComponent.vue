@@ -80,10 +80,12 @@
   </section>
 </template>
 <script lang="ts">
+import { ref } from 'vue'
+
 export default {
-  data() {
+  setup(){
     return {
-      time: 2,
+      time: ref(2),
       warning_intensity: {
         1: 'text-red-400',
         1.5: 'text-red-400',
@@ -93,7 +95,7 @@ export default {
         3.5: 'text-red-700',
         4: 'text-red-800'
       } as { [key: number]: string },
-      renumeration: 50
+      renumeration: ref(50)
     }
   }
 }

@@ -36,6 +36,15 @@ const userRoutes = [
     }
   },
   {
+    path: '/settings',
+    name: 'settings',
+    component: () => import('@/views/user/SettingsView.vue'),
+    meta: { 
+      requiresAuth: true,
+      scope: 'user',
+    }
+  },
+  {
     path: '/notion_callback',
     name: 'notion_callback',
     component: () => import('@/views/user/NotionCallbackView.vue'),

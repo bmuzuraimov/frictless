@@ -9,10 +9,22 @@ const validateLogin = asyncHandler(async (req, res, next) => {
   });
   const { error } = loginSchema.validate(req.body);
   if (error) {
-    throw new ValidationError(error.details.message);
+    throw new ValidationError(error.details.map((i) => i.message).join(", "));
   } else {
     next();
   }
+});
+
+const validateRegister = asyncHandler(async (req, res, next) => {
+  const { error } = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required().min(8),
+    timezone: Joi.string().allow(),
+  }).validate(req.body);
+  if (error) {
+    throw new ValidationError(error.details.map((i) => i.message).join(", "));
+  }
+  next(); // No error, proceed to the next middleware
 });
 
 const validateIOS = asyncHandler(async (req, res, next) => {
@@ -23,23 +35,10 @@ const validateIOS = asyncHandler(async (req, res, next) => {
   });
   const { error } = iosSchema.validate(req.body);
   if (error) {
-    throw new ValidationError(error.details.message);
+    throw new ValidationError(error.details.map((i) => i.message).join(", "));
   } else {
     next();
   }
-});
-
-
-const validateSignup = asyncHandler(async (req, res, next) => {
-  const { error } = Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required().min(8),
-    timezone: Joi.string().allow(),
-  }).validate(req.body);
-  if (error) {
-    throw new ValidationError(error.details.message);
-  }
-  next(); // No error, proceed to the next middleware
 });
 
 const validateNotionCallback = asyncHandler(async (req, res, next) => {
@@ -49,14 +48,14 @@ const validateNotionCallback = asyncHandler(async (req, res, next) => {
     redirect_uri: Joi.string().required(),
   }).validate(req.body);
   if (error) {
-    throw new ValidationError(error.details.message);
+    throw new ValidationError(error.details.map((i) => i.message).join(", "));
   }
   next(); // No error, proceed to the next middleware
 });
 
 module.exports = {
   validateLogin,
-  validateSignup,
+  validateRegister,
   validateNotionCallback,
   validateIOS,
 };

@@ -52,7 +52,7 @@
           </li>
           <li class="md:hidden text-gray-600 text-ourfit hover:text-black">
             <router-link
-              to='/overview'
+              to="/overview"
               v-if="isAuthenticated"
               class="md:hidden text-gray-600 text-ourfit hover:text-black"
             >
@@ -66,7 +66,7 @@
       </div>
       <div class="hidden md:inline-block">
         <router-link
-          to='/overview'
+          to="/overview"
           v-if="isAuthenticated"
           class="animate-fade-in rounded-full border border-black bg-black px-4 py-1.5 text-sm text-ourfit text-white transition-all hover:bg-white hover:text-black"
         >
@@ -92,27 +92,25 @@
 </template>
 
 <script lang="ts">
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/common/authStore'
 export default {
-  data() {
-    return {
-      isAuthenticated: !!localStorage.getItem('token'),
-      navigation: [
-        { title: 'Story', router: '/story' },
-        { title: 'Mission', router: '/mission' },
-        { title: 'Guide', router: '/guide' }
-      ],
-      open: false
+  setup() {
+    const isAuthenticated = ref(!!localStorage.getItem('token'))
+    const navigation = ref([
+      { title: 'Story', router: '/story' },
+      { title: 'Mission', router: '/mission' },
+      { title: 'Guide', router: '/guide' }
+    ])
+    const open = ref(false)
+
+    const menuOpen = () => {
+      open.value = !open.value
     }
-  },
-  methods: {
-    menuOpen() {
-      this.open = !this.open
-    },
-    async logout() {
-      localStorage.removeItem('token')
-      this.isAuthenticated = false
-      this.$router.push('/')
+    const logout = () => {
+      useAuthStore().logout()
     }
+    return { navigation, open, menuOpen, isAuthenticated, logout }
   }
 }
 </script>
