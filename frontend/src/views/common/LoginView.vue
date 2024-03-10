@@ -49,7 +49,7 @@
             </button>
           </div>
         </form>
-        <div class="relative">
+        <!-- <div class="relative">
           <div class="absolute inset-0 flex items-center" aria-hidden="true">
             <div class="w-full border-t border-gray-300"></div>
           </div>
@@ -68,7 +68,7 @@
             />
             Continue with Google
           </button>
-        </div>
+        </div> -->
         <p class="text-sm text-center md:text-base">
           {{ authStore.isRegister ? 'Already have an account?' : "Don't have an account?" }}
           <a
