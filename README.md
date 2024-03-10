@@ -35,154 +35,156 @@ Frictless is a task automation tool designed to manage life with priorities.
 <details>
   <summary>Frontend structure</summary>
 
-  ```bash
-  ./frontend
-  ├── README.md
-  ├── index.html
-  ├── node_modules
-  ├── package-lock.json
-  ├── package.json
-  ├── postcss.config.js
-  ├── public
-  │   ├── ... (image files)
-  ├── src
-  │   ├── App.vue
-  │   ├── assets
-  │   │   └── ... (image files)
-  │   ├── components
-  │   │   ├── common
-  │   │   │   └── home
-  │   │   │       ├── BannerComponent.vue
-  │   │   │       ├── CTALeftComponent.vue
-  │   │   │       ├── CTARightComponent.vue
-  │   │   │       ├── FAQComponent.vue
-  │   │   │       ├── FeatureComponent.vue
-  │   │   │       ├── FooterComponent.vue
-  │   │   │       ├── HeroComponent.vue
-  │   │   │       ├── NavbarComponent.vue
-  │   │   │       ├── PricingComponent.vue
-  │   │   │       ├── StatsComponent.vue
-  │   │   │       ├── TestimonialsComponent.vue
-  │   │   │       ├── TimeCalculatorComponent.vue
-  │   │   │       └── WaitlistComponent.vue
-  │   │   ├── notion
-  │   │   │   └── SchedulerBtnComponent.vue
-  │   │   └── user
-  │   │       ├── NavbarComponent.vue
-  │   │       ├── SchedulerBtnComponent.vue
-  │   │       ├── SidebarComponent.vue
-  │   │       ├── agenda
-  │   │       ├── onboarding
-  │   │       │   ├── CalendarBtnComponent.vue
-  │   │       │   ├── IOSConnectComponent.vue
-  │   │       │   └── NotionBtnComponent.vue
-  │   │       └── overview
-  │   ├── index.css
-  │   ├── main.ts
-  │   ├── router
-  │   │   ├── common.ts
-  │   │   ├── index.ts
-  │   │   ├── notion.ts
-  │   │   └── user.ts
-  │   ├── services
-  │   │   ├── authService.ts
-  │   │   ├── commonService.ts
-  │   │   ├── notionService.ts
-  │   │   └── userService.ts
-  │   ├── stores
-  │   │   ├── buttonStore.ts
-  │   │   ├── common
-  │   │   │   └── authStore.ts
-  │   │   ├── notion
-  │   │   │   └── useNotionStore.ts
-  │   │   ├── user
-  │   │   │   ├── appleCalendar.ts
-  │   │   │   ├── calendarStore.ts
-  │   │   │   └── schedulerStore.ts
-  │   │   └── user.ts
-  │   ├── types
-  │   │   ├── env.d.ts
-  │   │   ├── shims-vue.d.ts
-  │   │   ├── tokenVerificationCache.d.ts
-  │   │   ├── userDecoded.d.ts
-  │   │   └── vue-jwt-decode.d.ts
-  │   ├── utils
-  │   │   └── api.ts
-  │   └── views
-  │       ├── common
-  │       │   ├── 404View.vue
-  │       │   ├── ConfirmCodeView.vue
-  │       │   ├── GuideView.vue
-  │       │   ├── HomeView.vue
-  │       │   ├── LoginView.vue
-  │       │   ├── MissionView.vue
-  │       │   ├── PrivacyView.vue
-  │       │   ├── StoryView.vue
-  │       │   ├── TermsView.vue
-  │       │   └── UnauthorizedView.vue
-  │       ├── layout
-  │       │   └── UserLayout.vue
-  │       ├── notion
-  │       │   └── NotionSchedulerView.vue
-  │       └── user
-  │           ├── AgendaView.vue
-  │           ├── NotionCallbackView.vue
-  │           ├── OnboardingView.vue
-  │           ├── OverviewView.vue
-  │           ├── ProfileView.vue
-  │           └── SettingsView.vue
-  ├── tailwind.config.js
-  └── tsconfig.json
-  ```
+```bash
+./frontend
+├── README.md
+├── index.html
+├── node_modules
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── public
+│   ├── ... (image files)
+├── src
+│   ├── App.vue
+│   ├── assets
+│   │   └── ... (image files)
+│   ├── components
+│   │   ├── common
+│   │   │   └── home
+│   │   │       ├── BannerComponent.vue
+│   │   │       ├── CTALeftComponent.vue
+│   │   │       ├── CTARightComponent.vue
+│   │   │       ├── FAQComponent.vue
+│   │   │       ├── FeatureComponent.vue
+│   │   │       ├── FooterComponent.vue
+│   │   │       ├── HeroComponent.vue
+│   │   │       ├── NavbarComponent.vue
+│   │   │       ├── PricingComponent.vue
+│   │   │       ├── StatsComponent.vue
+│   │   │       ├── TestimonialsComponent.vue
+│   │   │       ├── TimeCalculatorComponent.vue
+│   │   │       └── WaitlistComponent.vue
+│   │   ├── notion
+│   │   │   └── SchedulerBtnComponent.vue
+│   │   └── user
+│   │       ├── NavbarComponent.vue
+│   │       ├── SchedulerBtnComponent.vue
+│   │       ├── SidebarComponent.vue
+│   │       ├── agenda
+│   │       ├── onboarding
+│   │       │   ├── CalendarBtnComponent.vue
+│   │       │   ├── IOSConnectComponent.vue
+│   │       │   └── NotionBtnComponent.vue
+│   │       └── overview
+│   ├── index.css
+│   ├── main.ts
+│   ├── router
+│   │   ├── common.ts
+│   │   ├── index.ts
+│   │   ├── notion.ts
+│   │   └── user.ts
+│   ├── services
+│   │   ├── authService.ts
+│   │   ├── commonService.ts
+│   │   ├── notionService.ts
+│   │   └── userService.ts
+│   ├── stores
+│   │   ├── buttonStore.ts
+│   │   ├── common
+│   │   │   └── authStore.ts
+│   │   ├── notion
+│   │   │   └── useNotionStore.ts
+│   │   ├── user
+│   │   │   ├── appleCalendar.ts
+│   │   │   ├── calendarStore.ts
+│   │   │   └── schedulerStore.ts
+│   │   └── user.ts
+│   ├── types
+│   │   ├── env.d.ts
+│   │   ├── shims-vue.d.ts
+│   │   ├── tokenVerificationCache.d.ts
+│   │   ├── userDecoded.d.ts
+│   │   └── vue-jwt-decode.d.ts
+│   ├── utils
+│   │   └── api.ts
+│   └── views
+│       ├── common
+│       │   ├── 404View.vue
+│       │   ├── ConfirmCodeView.vue
+│       │   ├── GuideView.vue
+│       │   ├── HomeView.vue
+│       │   ├── LoginView.vue
+│       │   ├── MissionView.vue
+│       │   ├── PrivacyView.vue
+│       │   ├── StoryView.vue
+│       │   ├── TermsView.vue
+│       │   └── UnauthorizedView.vue
+│       ├── layout
+│       │   └── UserLayout.vue
+│       ├── notion
+│       │   └── NotionSchedulerView.vue
+│       └── user
+│           ├── AgendaView.vue
+│           ├── NotionCallbackView.vue
+│           ├── OnboardingView.vue
+│           ├── OverviewView.vue
+│           ├── ProfileView.vue
+│           └── SettingsView.vue
+├── tailwind.config.js
+└── tsconfig.json
+```
+
 </details>
 
 <details>
   <summary>Backend structure</summary>
 
-  ```bash
-  ./backend
-  ├── README.md
-  ├── __tests__
-  │   ├── ... (test files)
-  ├── app.js
-  ├── bin
-  │   └── www
-  ├── config
-  │   ├── awsclient.js
-  │   ├── emailclient.js
-  │   ├── mongodb.js
-  │   └── redisdb.js
-  ├── constants
-  │   └── notion_db_names.js
-  ├── index.js
-  ├── models
-  │   └── User.js
-  ├── node_modules (omitted)
-  ├── package-lock.json
-  ├── package.json
-  ├── routes
-  │   ├── authRoutes.js
-  │   ├── calendarRoutes.js
-  │   ├── index.js
-  │   ├── notionRoutes.js
-  │   └── userRoutes.js
-  ├── scripts
-  │   ├── deploy-apigateway.sh
-  │   ├── deploy-backend.sh
-  │   └── expressjs_apigateway_template.json
-  └── utils
-      ├── cipherman.js
-      ├── error_handler.js
-      ├── guard.js
-      ├── handle_confirmation.js
-      ├── mailman.js
-      └── validations
-          ├── authValidations.js
-          ├── calendarValidations.js
-          ├── index.js
-          ├── notionValidations.js
-          └── userValidations.js
-  ```
+```bash
+./backend
+├── README.md
+├── __tests__
+│   ├── ... (test files)
+├── app.js
+├── bin
+│   └── www
+├── config
+│   ├── awsclient.js
+│   ├── emailclient.js
+│   ├── mongodb.js
+│   └── redisdb.js
+├── constants
+│   └── notion_db_names.js
+├── index.js
+├── models
+│   └── User.js
+├── node_modules (omitted)
+├── package-lock.json
+├── package.json
+├── routes
+│   ├── authRoutes.js
+│   ├── calendarRoutes.js
+│   ├── index.js
+│   ├── notionRoutes.js
+│   └── userRoutes.js
+├── scripts
+│   ├── deploy-apigateway.sh
+│   ├── deploy-backend.sh
+│   └── expressjs_apigateway_template.json
+└── utils
+    ├── cipherman.js
+    ├── error_handler.js
+    ├── guard.js
+    ├── handle_confirmation.js
+    ├── mailman.js
+    └── validations
+        ├── authValidations.js
+        ├── calendarValidations.js
+        ├── index.js
+        ├── notionValidations.js
+        └── userValidations.js
+```
+
 </details>
 
 <details>
@@ -232,6 +234,314 @@ Frictless is a task automation tool designed to manage life with priorities.
   │   ├── __init__.py
   │   ├── ... (test files)
   └── venv (omitted)
+  ```
+</details>
+
+<details>
+  <summary>MongoDB 'user' collection schema</summary>
+  
+  ```json
+  {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: [
+        'email',
+        'password',
+        'verified',
+        'timezone',
+        'locale',
+        'scope',
+        'createdAt',
+        'updatedAt'
+      ],
+      properties: {
+        email: {
+          bsonType: 'string'
+        },
+        password: {
+          bsonType: 'string',
+          minLength: 8
+        },
+        verified: {
+          bsonType: 'bool'
+        },
+        timezone: {
+          bsonType: 'string'
+        },
+        ios_device: {
+          bsonType: 'object',
+          required: [
+            'email',
+            'password',
+            'shortcut_id',
+            'connected_on',
+            'shortcutInstalledAt'
+          ],
+          properties: {
+            email: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            password: {
+              oneOf: [
+                {
+                  bsonType: 'string',
+                  minLength: 8
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            shortcut_id: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            connected_on: {
+              oneOf: [
+                {
+                  bsonType: 'date'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            shortcutInstalledAt: {
+              oneOf: [
+                {
+                  bsonType: 'date'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            }
+          }
+        },
+        notion: {
+          bsonType: 'object',
+          required: [
+            'secret_key',
+            'template_url',
+            'connected_on'
+          ],
+          properties: {
+            secret_key: {
+              oneOf: [
+                {
+                  bsonType: 'string',
+                  minLength: 32
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            template_id: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            template_url: {
+              oneOf: [
+                {
+                  bsonType: 'string',
+                  pattern: '^https?://'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            connected_on: {
+              oneOf: [
+                {
+                  bsonType: 'date'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            courses_dbid: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            job_tasks_dbid: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            jobs_dbid: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            lecture_notes_dbid: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            personal_dbid: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            priorities_dbid: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            recurring_dbid: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            routine_dbid: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            schedule_dbid: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            sports_dbid: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            },
+            todo_dbid: {
+              oneOf: [
+                {
+                  bsonType: 'string'
+                },
+                {
+                  bsonType: 'null'
+                }
+              ]
+            }
+          }
+        },
+        locale: {
+          bsonType: 'string',
+          'enum': [
+            'en',
+            'ru',
+            'zh',
+            'kz',
+            'ky'
+          ]
+        },
+        name: {
+          oneOf: [
+            {
+              bsonType: 'string'
+            },
+            {
+              bsonType: 'null'
+            }
+          ]
+        },
+        picture: {
+          bsonType: 'string'
+        },
+        scope: {
+          bsonType: 'string',
+          'enum': [
+            'user',
+            'admin'
+          ]
+        },
+        createdAt: {
+          bsonType: 'date'
+        },
+        updatedAt: {
+          bsonType: 'date'
+        },
+        lastLogin: {
+          oneOf: [
+            {
+              bsonType: 'date'
+            },
+            {
+              bsonType: 'null'
+            }
+          ]
+        }
+      }
+    }
+  }
   ```
 </details>
 
