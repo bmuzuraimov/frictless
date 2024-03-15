@@ -2,9 +2,9 @@
   <nav class="bg-white w-full md:static">
     <div class="items-center justify-center px-4 py-2 max-w-screen-xl mx-auto md:flex md:px-8">
       <div class="flex items-center justify-between py-3 md:py-5 md:block">
-        <a href="javascript:void(0)">
+        <router-link to="/">
           <img src="@/assets/images/logo.png" width="120" height="50" alt="Float UI logo" />
-        </a>
+        </router-link>
         <div class="md:hidden">
           <button
             class="text-gray-700 outline-none p-2 rounded-md focus:border-gray-400 focus:border"
@@ -98,8 +98,9 @@ export default {
   setup() {
     const isAuthenticated = ref(!!localStorage.getItem('token'))
     const navigation = ref([
-      { title: 'Story', router: '/story' },
       { title: 'Mission', router: '/mission' },
+      { title: 'Team', router: '/team' },
+      { title: 'Story', router: '/story' },
       { title: 'Guide', router: '/guide' }
     ])
     const open = ref(false)

@@ -32,7 +32,7 @@ export default {
   name: 'SchedulerComponent',
   data() {
     return {
-      useAuthStore: useAuthStore(),
+      authStore: useAuthStore(),
       schedule_animation_1: false,
       schedule_animation_2: false,
       schedulerStore: useSchedulerStore(),
@@ -48,7 +48,7 @@ export default {
           this.schedule_animation_2 = false
         }, 1500)
       }, 2500)
-      this.schedulerStore.schedule(this.useAuthStore.user._id)
+      this.schedulerStore.schedule(this.authStore.user._id)
     }
   }
 }

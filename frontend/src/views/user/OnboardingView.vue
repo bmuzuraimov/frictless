@@ -151,7 +151,7 @@
 </template>
 
 <script lang="ts">
-import UserLayout from '@/views/layout/UserLayout.vue'
+import UserLayout from '@/views/layouts/UserLayout.vue'
 import IOSBtnComponent from '@/components/user/onboarding/IOSBtnComponent.vue'
 import SchedulerComponent from '@/components/user/SchedulerBtnComponent.vue'
 import NotionBtnComponent from '@/components/user/onboarding/NotionBtnComponent.vue'
