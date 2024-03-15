@@ -59,7 +59,7 @@
   </UserLayout>
 </template>
 <script lang="ts">
-import UserLayout from '@/views/layout/UserLayout.vue';
+import UserLayout from '@/views/layouts/UserLayout.vue';
 import { useAuthStore } from '@/stores/common/authStore';
 export default {
   components: {

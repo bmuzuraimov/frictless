@@ -6,10 +6,10 @@
       'fixed inset-0 z-50 flex items-center justify-center bg-grey opacity-90': isModal
     }"
   >
-    <div class="w-full max-w-md p-6 opacity-100 bg-white rounded-lg shadow-md dark:bg-gray-800">
+    <div class="w-full max-w-md p-6 opacity-100 bg-white rounded-lg shadow-md ">
       <!-- Modal header -->
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">App Specific Password</h3>
+        <h3 class="text-lg font-semibold text-gray-900 ">App Specific Password</h3>
         <button
           @click="closeModal"
           type="button"

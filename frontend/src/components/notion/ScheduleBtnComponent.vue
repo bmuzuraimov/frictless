@@ -53,6 +53,7 @@ export default {
           schedule_animation_2.value = false
         }, 1500)
       }, 2500)
+      alert(props.userId)
       schedulerStore.schedule(props.userId)
     }
 

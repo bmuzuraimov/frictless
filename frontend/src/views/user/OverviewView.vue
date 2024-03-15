@@ -269,7 +269,7 @@
 </template>
 
 <script lang="ts">
-import UserLayout from '@/views/layout/UserLayout.vue';
+import UserLayout from '@/views/layouts/UserLayout.vue';
 
 export default {
   components: {

@@ -1,6 +1,7 @@
 import './index.css'
 
 import { createApp } from 'vue';
+import { createI18n } from 'vue-i18n'
 import { createPinia } from 'pinia';
 import App from './App.vue'
 import router from './router'
@@ -17,6 +18,12 @@ const vuetify = createVuetify({
 });
 
 const app = createApp(App);
+
+app.use(createI18n({
+  legacy: false,
+  locale: 'en',
+  fallbackLocale: 'en',
+}));
 
 app.use(createPinia());
 app.use(vuetify);
