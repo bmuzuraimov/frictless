@@ -43,9 +43,9 @@
             :key="link.router"
             class="text-gray-600 text-ourfit hover:text-black"
           >
-            <a :href="link.router">
+            <router-link :to="link.router">
               {{ link?.title }}
-            </a>
+            </router-link>
           </li>
           <li v-if="!isAuthenticated" class="md:hidden text-gray-600 text-ourfit hover:text-black">
             <router-link to="/login">Login </router-link>
