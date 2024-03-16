@@ -1,138 +1,124 @@
 <template>
   <CommonLayout>
-    <div class="max-w-screen-xl mx-auto px-4 py-12 format format-sm sm:format-base sm:px-6 lg:px-8 lg:format-lg">
+    <div
+      class="max-w-screen-xl mx-auto px-4 py-12 format format-sm sm:format-base sm:px-6 lg:px-8 lg:format-lg"
+    >
       <v-breadcrumbs :items="items">
         <template v-slot:title="{ item }">
           {{ item.title }}
         </template>
       </v-breadcrumbs>
-      <div
+      <article
         class="space-y-4 pt-4 text-lg leading-relaxed text-gray-700 letter-spacing md:letter-spacing-normal"
       >
         <h2 class="text-4xl font-ourfit text-primary-600">Hi, I am Baiel Muzuraimov</h2>
         <div class="flex flex-col md:flex-row gap-x-16">
           <div class="text-lg text-gray-600">
-            <p class="my-4">
-              I've always been driven, aiming for success in every aspect of my life.
+            <p>Like most students, I craved success.</p>
+            <p>
+              Scholarships, awards, the whole package. But somewhere along the way, I started losing
+              ground.
             </p>
-            <p class="my-4">
-              But it wasn't until I faced a significant setback that I truly understood the
-              importance of precise planning and prioritization.
-            </p>
-            <p class="my-4">
-              After years of hard work and dedication, my dream was to earn a scholarship at one of
-              the top universities.
+            <p>
+              Despite national olympiad wins and international representation, securing a full
+              scholarship felt like a distant dream.
             </p>
 
-            <p class="my-4">
-              Despite my achievements, including winning national olympiads and representing my
-              country in global events, I faced disappointment.
-            </p>
-            <p class="my-4">
-              I didn't get the full-admission scholarship I aimed for, and among all the
-              international students in Hong Kong, I was the only one self-funded.
-            </p>
-            <p class="my-4">This experience was a turning point for me.</p>
+            <p>The disappointment wasn't just mine – it echoed in my sister's eyes too.</p>
+            <p>This wasn't failure, it was a turning point.</p>
+            <p>Frustration ignited a fire within me.</p>
 
-            <p class="my-4">
-              My sister's disappointment echoed my own feelings of not meeting the expectations set
-              for me.
+            <p>
+              "How can I excel?" I asked, not out of envy, but a deep desire to reach my full
+              potential.
             </p>
 
-            <p class="my-4">
-              It was a harsh reality check, but it also ignited a fire within me. It was a catalyst
-              for transformation.
+            <p>
+              Next, I decided to come to Hong Kong during Covid-19 pandemic to pursue computer
+              science degree.
             </p>
           </div>
           <img class="w-[500px] object-cover" src="@/assets/images/common/story-main.png" alt="" />
         </div>
         <div class="text-lg text-gray-600">
-          <p class="my-4">
-            I started asking myself, "HOW DO I SURPASS MY PEERS?" Not out of envy, but from a desire
-            to excel and make the most of my capabilities.
+          <p>The education system felt like a one-size-fits-all mold.</p>
+
+          <p>Everyone learned the same things, aimed for the same generic degree.</p>
+
+          <p>Then, in 2022, generative AI hit the scene.</p>
+
+          <p>It was a wake-up call.</p>
+
+          <p>I realized that the future of work was changing, and I needed to adapt.</p>
+
+          <p>We all get 24 hours, that's a fact.</p>
+
+          <p>
+            But conventional wisdom said it was fleeting - used or lost forever.
+            <strong>I disagreed.</strong>
           </p>
 
-          <p class="my-4">
-            In our education system, we were all expected to acquire the same knowledge and obtain
-            identical bachelor's degrees. However, in 2022, the introduction of generative AI
-            through its first public release fundamentally changed our perspective on the education
-            system.
+          <p>Time's value, I believed, could be captured and maximized.</p>
+
+          <p>Reliance of squeezing all tasks into a day worked no more.</p>
+
+          <p>It was time to priorotize, to create lasting value from every choice.</p>
+
+          <p>
+            My journey began with paper planners, evolved into digital calendars, and ultimately
+            culminated in Frictionless.
           </p>
 
-          <p class="my-4">
-            It made me realize that while we all have the same 24 hours in a day, it's how we use
-            those hours that sets us apart.
+          <p>
+            Imagine an auto-scheduler seamlessly integrated with your Notion, iPhone, and
+            smartwatch.
           </p>
 
-          <p class="my-4">
-            Conventional wisdom suggests that time, unlike currency, cannot be stored or saved; it
-            is either used or lost forever. However, my intention was to challenge this notion and
-            demonstrate that the value derived from time can indeed be stored and optimized. The
-            traditional approach to time management revolves around maximizing productivity within
-            the limited 24 hours we have each day. However, this perspective often overlooks the
-            crucial aspect of storing value over time, extending beyond immediate tasks. I strongly
-            belive value can be stored in the actions and choices we make throughout the day.
+          <p>
+            It wasn't about rigid schedules; it was about crafting a life where each moment aligns
+            with what truly matters.
           </p>
 
-          <p class="my-4">
-            My journey into productivity began modestly with paper planning, gradually evolving into
-            digital scheduling, culminating in the creation of Frictless.
+          <p>
+            From that moment on the phrase: "Success is not attached to time but to the value we
+            create within it" became a mantra.
           </p>
 
-          <p class="my-4">
-            This sophisticated auto-scheduler, integrated into the fabric of Notion and synced with
-            my iPhone calendar and smart watch, was my answer to transcending the limitations
-            imposed by time. It wasn’t merely about adhering to a schedule; it was about crafting a
-            lifestyle where each moment is intentionally aligned with what truly matters, thereby
-            storing the value of time effectively.
+          <p>Some might call it structured, but this approach was my key to accumulating value.</p>
+
+          <p>It's about what we create today adding to what we build tomorrow.</p>
+
+          <p>
+            This is the heart of Frictionless - a new way to interact with time in a fast-paced
+            world.
           </p>
 
-          <p class="my-4">
-            Critics might view my life as robotic, yet this structured approach has been my holy
-            grail for achieving and surpassing my goals.
+          <p>
+            It's a tool, a philosophy, a way to live each day to its fullest, ensuring our actions
+            align with our aspirations.
           </p>
 
-          <p class="my-4">
-            It’s a testament to the principle that the value we create today can be preserved,
-            allowing us to build upon it tomorrow. This philosophy underpins Frictless: it's a new
-            way in how we perceive and interact with time in the fast paced world of AI.
+          <p>With the right tools and mindset, we can achieve amazing things.</p>
+
+          <p>
+            As the founder of Frictionless, I'm here to share the system that transformed my life.
           </p>
 
-          <p class="my-4">
-            As Baiel, the founder of Frictless, my narrative is not solely about overcoming a
-            setback.
+          <p>
+            This is true productivity; transcending traditional time management to view time as a
+            currency with stored value.
           </p>
-
-          <p class="my-4">
-            It embodies the relentless pursuit of excellence through strategic planning and
-            prioritization, based on the innovative premise that time's value can be stored and
-            maximized. Frictless is the embodiment of this vision—a tool, a philosophy, a new way of
-            living each day to its fullest potential, ensuring our tasks and priorities resonate
-            with our ultimate aspirations.
+          <p>Frictionless invites you to experience this shift.</p>
+          <p>
+            Live a life where every second counts, not just now, but as a building block for your
+            future.
           </p>
-
-          <p class="my-4">
-            It's a testament to the fact that with the right tools and mindset, we can achieve our
-            goals and surpass even our own expectations.
-          </p>
-
-          <p class="my-4">
-            As Baiel, founder of this productivity app, I'm here to share the system that
-            transformed my life.
-          </p>
-
-          <p class="my-4">
-            This is the essence of true productivity. It's about transcending the traditional
-            confines of time management to embrace a methodology where time becomes a currency of
-            stored value.
-          </p>
-
-          <p class="my-4">
-            With Frictless, I invite you to experience this paradigm shift, to live a life where
-            every second counts, not just in the present, but as a building block for the future.
-          </p>
+          <p>Remember looking back from five years in the future, that our current actions will have explained who we have become.</p>
+          <p>At least, it’s mine.</p>
+          <p>Much love ♥️</p>
+          <p>Baiel MUZURAIMOV</p>
         </div>
-      </div>
+      </article>
     </div>
   </CommonLayout>
 </template>
@@ -159,3 +145,9 @@ export default {
   })
 }
 </script>
+
+<style scoped>
+article p {
+  margin: 1rem 0;
+}
+</style>

@@ -7,59 +7,67 @@
         </template>
       </v-breadcrumbs>
       <article
-        class="space-y-4 pt-4 text-lg leading-relaxed text-gray-700 letter-spacing md:letter-spacing-normal"
+        class="space-y-4 mb-12 pt-4 text-lg leading-relaxed text-gray-700 letter-spacing md:letter-spacing-normal"
       >
         <h2 class="text-4xl font-ourfit text-primary-600">Mission</h2>
-        <h3 class="text-2xl font-ourfit text-primary-500">Values</h3>
-        <p class="lead">Our Values</p>
-        <h3 class="text-2xl font-ourfit text-primary-500">Purpose</h3>
-        <p class="lead">Our Purpose</p>
-        <h3 class="text-2xl font-ourfit text-primary-500">Goals</h3>
         <p class="lead">
-          Our first goal is simple: We want to help you tackle the real cause of stress.
+          To empower individuals to thrive in the age of AI by maximizing their productivity and
+          fostering a strategic mindset.
         </p>
-        <figure>
-          <img
-            src="https://flowbite.s3.amazonaws.com/typography-plugin/typography-image-1.png"
-            alt=""
-          />
-          <figcaption>Digital art by Anonymous</figcaption>
-        </figure>
+        <h3 class="text-2xl font-ourfit text-primary-500">Values</h3>
+        <ol>
+          <li>
+            <strong>Meritocracy:</strong> We believe hard work and dedication should be rewarded.
+          </li>
+          <li>
+            <strong>Time:</strong> Time is your most valuable resource. Frictionless helps you use
+            it wisely.
+          </li>
+          <li>
+            <strong>Strategic Mindset:</strong> We go beyond to-do lists, fostering strategic
+            prioritization for long-term success.
+          </li>
+          <li>
+            <strong>Management Mindset:</strong> We understand life is unpredictable. Frictionless
+            adapts with you.
+          </li>
+          <li>
+            <strong>Winners' Mentality:</strong> Frictionless is for those who actively seek to be
+            the best version of themselves.
+          </li>
+        </ol>
+        <h3 class="text-2xl font-ourfit text-primary-500">Purpose</h3>
+        <p class="lead">
+          We believe the rise of AI isn't a threat, but an opportunity. Frictionless equips
+          individuals to navigate this changing landscape by prioritizing strategic tasks and
+          optimizing their daily schedules.
+        </p>
+        <h3 class="text-2xl font-ourfit text-primary-500">Goals</h3>
+        <ol>
+          <li>
+            <strong>Elevate your productivity:</strong> Frictionless streamlines your workflow,
+            minimizing manual intervention.
+          </li>
+          <li>
+            <strong>Build strategic habits:</strong> Focus on high-impact tasks that propel you
+            towards your goals.
+          </li>
+          <li>
+            <strong>Embrace adaptability:</strong> Frictionless adjusts to unforeseen circumstances,
+            ensuring you stay on track.
+          </li>
+          <li>
+            <strong>Sleep soundly:</strong> Develop a sense of accomplishment with clear priorities
+            for tomorrow.
+          </li>
+        </ol>
+        <h3 class="text-2xl font-ourfit text-primary-500">Join the Movement:</h3>
         <p>
-          Stress doesn't just come from hard work; it often comes from not dealing with things we
-          should be handling.
+          We are a team of passionate individuals building a community of empowered go-getters. Even
+          as a bootstrapped project, we are committed to helping you become "superhuman" in the face
+          of AI advancement.
         </p>
-        <p>When we ignore tasks or decisions we have control over, that's when stress builds up.</p>
-        <p>
-          Our app is here to change that. We'll help you focus on what's important, making sure
-          you're taking action on the things you shouldn't ignore.
-        </p>
-        <p>
-          This way, you can spend less time feeling stressed and more time working towards your big
-          goals.
-        </p>
-        <p>
-          Our second vision is to enhance your ability to think quickly and make smart decisions.
-        </p>
-        <p>
-          In today's fast-paced world, moving towards an era of rapid technological advancements,
-          it's crucial to learn how to prioritize and think on your feet.
-        </p>
-        <p>
-          Our app helps you by setting specific time limits for each task. This encourages your
-          brain to focus on the essential aspects, following the 80/20 rule—focusing on the 20% of
-          efforts that yield 80% of results.
-        </p>
-        <p>
-          If tasks aren't finished within the allotted time, they're moved to the next day. This
-          approach not only helps in prioritizing but also trains you to identify what truly
-          matters.
-        </p>
-        <p>
-          For instance, it's about concentrating on the key points in your university lecture notes
-          instead of trying to cover everything. By practicing this daily, you'll improve at
-          choosing what's significant, streamlining your work and learning process.
-        </p>
+        <p>This is your chance to redefine productivity. <strong>Are you ready to thrive?</strong></p>
       </article>
     </div>
   </CommonLayout>
