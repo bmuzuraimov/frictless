@@ -1,0 +1,46 @@
+graph TD
+    lambda_function[lambda_function.py] --> priority_strategy[priority_strategy.py]
+    priority_strategy -->|inherits| strategy[strategy.py]
+    strategy -->|connection to| notion_dbs[notion_dbs]
+    notion_dbs -->|parent class| database[database.py]
+    
+    subgraph adapters
+        caldav_adapter[caldav_adapter.py]
+        mongodb_adapter[mongodb_adapter.py]
+    end
+    
+    subgraph notion_dbs
+        courses_database[courses_database.py]
+        job_tasks_database[job_tasks_database.py]
+        jobs_database[jobs_database.py]
+        lecture_notes_database[lecture_notes_database.py]
+        personal_database[personal_database.py]
+        priorities_database[priorities_database.py]
+        recurring_database[recurring_database.py]
+        routine_database[routine_database.py]
+        schedule_database[schedule_database.py]
+        sports_database[sports_database.py]
+        todo_database[todo_database.py]
+    end
+    
+    subgraph strategies
+        priority_strategy
+        cp_strategy[cp_strategy.py]
+        cpm_strategy[cpm_strategy.py]
+        edf_strategy[edf_strategy.py]
+        fcfs_strategy[fcfs_strategy.py]
+        ga_strategy[ga_strategy.py]
+        hybrid_strategy[hybrid_strategy.py]
+        lst_strategy[lst_strategy.py]
+        pso_strategy[pso_strategy.py]
+        rcs_strategy[rcs_strategy.py]
+        revive_strategy[revive_strategy.py]
+        rr_strategy[rr_strategy.py]
+        sa_strategy[sa_strategy.py]
+        sjf_strategy[sjf_strategy.py]
+    end
+    
+    priority_strategy --> caldav_adapter
+    strategy --> mongodb_adapter
+    
+    class adapters singleton;

@@ -1,9 +1,9 @@
 <template>
-  <nav class="bg-white w-full md:static">
+  <nav class="flex-no-wrap sticky top-0 z-20 w-full bg-opacity-90 backdrop-filter backdrop-blur-md">
     <div class="items-center justify-center px-4 py-2 max-w-screen-xl mx-auto md:flex md:px-8">
       <div class="flex items-center justify-between py-3 md:py-5 md:block">
         <router-link to="/">
-          <img src="@/assets/images/logo.png" width="120" height="50" alt="Float UI logo" />
+          <img src="@/assets/images/logo.png" width="140" height="60" alt="Float UI logo" />
         </router-link>
         <div class="md:hidden">
           <button

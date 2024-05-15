@@ -3,10 +3,9 @@
     data-aos="fade-in"
     data-aos-easing="ease-in-sine"
     data-aos-duration="1000"
-    class="relative max-w-screen-xl mx-auto py-6 px-4 sm:px-8"
+    class="flex item-center max-w-screen-xl h-screen mx-auto py-6 px-4 sm:px-8"
   >
-    <!-- <div class="absolute top-0 left-0 w-full h-full bg-white opacity-40"></div> -->
-    <div class="relative z-10 gap-5 items-center lg:flex">
+    <div class="z-10 gap-5 flex items-center">
       <div class="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-xl lg:text-left">
         <h3 class="text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">
           Integrate & Prioritize with Ease
@@ -16,6 +15,14 @@
           today's top priorities and allocate your time where it impacts most. Start seeing results
           as early as today.
         </p>
+        <v-expansion-panels class="my-4">
+          <v-expansion-panel
+            v-for="i in 3"
+            :key="i"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            title="Item"
+          ></v-expansion-panel>
+        </v-expansion-panels>
         <router-link
           class="mt-4 sm:mt-5 px-4 py-2 text-ourfit hover:text-primary-400 font-medium bg-primary-50 bg-opacity-50 rounded-full inline-flex items-center"
           to="/login"

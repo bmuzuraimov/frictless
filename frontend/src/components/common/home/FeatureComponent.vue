@@ -1,11 +1,11 @@
 <template>
   <section
-    class="py-8 sm:py-14"
+    class="flex items-center py-8 h-screen sm:py-14"
     data-aos="fade-in"
     data-aos-easing="ease-in-sine"
     data-aos-duration="1000"
   >
-    <div class="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-6 lg:px-8">
+    <div class="max-w-screen-xl mx-auto text-gray-600">
       <div class="relative max-w-xl mx-auto text-center">
         <div class="relative z-10">
           <h3 class="text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">
@@ -28,15 +28,22 @@
         ></div>
       </div>
       <div class="relative mt-8 sm:mt-12">
-        <ul class="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <ul class="flex flex-nowrap flex-row overflow-x-auto gap-6">
           <li
             v-for="feature in features"
             :key="feature.title"
-            class="bg-white space-y-3 p-4 font-ourfit leading-normal border rounded-lg shadow hover:shadow-lg transition duration-150 ease-in-out"
+            class="shrink-0 p-8 rounded-[40px] bg-white/40 border-grey/60 border-[1px] w-[340px] h-[540px] relative flex flex-col gap-4"
           >
-            <div class="flex items-center mb-4 text-purple-600" v-html="feature.icon"></div>
-            <h5 class="text-md sm:text-lg font-semibold text-gray-800">{{ feature.title }}</h5>
+            <div class="flex flex-row gap-x-2 justify-center">
+              <span class="flex items-center mb-4 text-purple-600" v-html="feature.icon"></span>
+              <h5 class="text-md sm:text-lg font-semibold text-gray-800">{{ feature.title }}</h5>
+            </div>
             <p class="text-sm sm:text-base">{{ feature.desc }}</p>
+            <img
+              src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fpicryl.com%2Fmedia%2Fcoming-soon-soon-coming-bff331&psig=AOvVaw1fTSXuyBSZkG2A6_sBBxNv&ust=1715685640068000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCODTk5vBioYDFQAAAAAdAAAAABAE"
+              alt=""
+              class=""
+            />
           </li>
         </ul>
       </div>
@@ -100,3 +107,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+::-webkit-scrollbar {
+  display: none;
+}
+</style>
