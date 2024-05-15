@@ -3,12 +3,12 @@
     class="max-w-screen-xl mx-auto px-4 py-12 sm:py-28 gap-8 sm:gap-12 text-gray-600 md:px-8"
   >
     <div class="space-y-4 sm:space-y-5 max-w-xl md:max-w-3xl lg:max-w-4xl mx-auto text-center">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-ourfit text-gray-800 font-semibold mx-auto">
-        Make Every
+      <h2 class="text-3xl sm:text-4xl md:text-6xl font-ourfit text-gray-800 font-semibold mx-auto">
+        A Day Now
         <span
           class="text-transparent bg-clip-text bg-gradient-to-b from-primary-700 to-primary-300"
         >
-          Day Productive Without the Effort
+          Has 36 Hours
         </span>
       </h2>
       <p class="text-sm sm:text-md font-ourfit leading-normal text-gray-600 mx-auto">
@@ -64,15 +64,25 @@
           </svg>
         </div>
       </div>
-      <div class="relative w-full h-[300px] md:h-[600px] overflow-hidden">
+      <div class="relative w-full aspect-w-16 aspect-h-9">
+        <!-- Phone mockup section -->
+        <div class="absolute bottom-0 right-12 z-50 w-[250px] aspect-w-1 aspect-h-2">
+            <img
+              id="hero-phone"
+              src="@/assets/images/hero-demo_iphone.gif"
+              class="w-full object-cover object-center"
+              alt="A demo showing Frictless app interface"
+            />
+        </div>
+        <!-- End of phone mocup section -->
         <img
           id="hero-image"
-          src="@/assets/images/hero-demo.png"
+          src="@/assets/images/hero-demo.gif"
           class="w-full w-full object-cover object-center transform ease-in-out transition-transform duration-400"
           alt="A demo showing Frictless app interface"
         />
         <div
-          class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 to-transparent h-1/2"
+          class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 to-transparent h-1/3"
         ></div>
       </div>
     </div>
@@ -80,41 +90,41 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+// import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-export default {
-  setup() {
-    const yScroll = ref(0)
-    let heroImageElement: HTMLElement | null = null
+// export default {
+//   setup() {
+//     const yScroll = ref(0)
+//     let heroImageElement: HTMLElement | null = null
 
-    const handleScroll = () => {
-      const start = window.innerWidth > 768 ? 100 : 0
-      const scale = window.innerWidth > 768 ? 3 : 2
-      yScroll.value = window.scrollY
-      if (heroImageElement && yScroll.value > start) {
-        const imageHeight = heroImageElement.clientHeight - (window.innerWidth > 768 ? 600 : 300)
-        let transform = Math.min((yScroll.value - start) * scale, imageHeight)
-        transform = Math.max(transform, 0)
-        heroImageElement.style.transform = `translateY(-${transform}px)`
-      } else {
-        if (heroImageElement) {
-          heroImageElement.style.transform = `translateY(0px)`
-        }
-      }
-    }
+//     const handleScroll = () => {
+//       const start = window.innerWidth > 768 ? 100 : 0
+//       const scale = window.innerWidth > 768 ? 3 : 2
+//       yScroll.value = window.scrollY
+//       if (heroImageElement && yScroll.value > start) {
+//         const imageHeight = heroImageElement.clientHeight - (window.innerWidth > 768 ? 600 : 300)
+//         let transform = Math.min((yScroll.value - start) * scale, imageHeight)
+//         transform = Math.max(transform, 0)
+//         heroImageElement.style.transform = `translateY(-${transform}px)`
+//       } else {
+//         if (heroImageElement) {
+//           heroImageElement.style.transform = `translateY(0px)`
+//         }
+//       }
+//     }
 
-    onMounted(() => {
-      heroImageElement = document.getElementById('hero-image') as HTMLElement
-      window.addEventListener('scroll', handleScroll)
-    })
+//     onMounted(() => {
+//       heroImageElement = document.getElementById('hero-image') as HTMLElement
+//       window.addEventListener('scroll', handleScroll)
+//     })
 
-    onBeforeUnmount(() => {
-      window.removeEventListener('scroll', handleScroll)
-    })
+//     onBeforeUnmount(() => {
+//       window.removeEventListener('scroll', handleScroll)
+//     })
 
-    return {
-      yScroll
-    }
-  }
-}
+//     return {
+//       yScroll
+//     }
+//   }
+// }
 </script>

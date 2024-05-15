@@ -19,7 +19,7 @@
     <!-- FAQ section -->
     <FAQComponent />
     <!-- Testimonials -->
-    <TestimonialsComponent />
+    <!-- <TestimonialsComponent /> -->
     <!-- Join waitinglist -->
     <WaitlistComponent />
     <!-- Footer -->
@@ -38,7 +38,7 @@ import PricingComponent from '@/components/common/home/PricingComponent.vue'
 import TimeCalculatorComponent from '@/components/common/home/TimeCalculatorComponent.vue'
 import FooterComponent from '@/components/common/home/FooterComponent.vue'
 import FAQComponent from '@/components/common/home/FAQComponent.vue'
-import TestimonialsComponent from '@/components/common/home/TestimonialsComponent.vue'
+// import TestimonialsComponent from '@/components/common/home/TestimonialsComponent.vue'
 import WaitlistComponent from '@/components/common/home/WaitlistComponent.vue'
 
 export default {
@@ -53,7 +53,7 @@ export default {
     TimeCalculatorComponent,
     FooterComponent,
     FAQComponent,
-    TestimonialsComponent,
+    // TestimonialsComponent,
     WaitlistComponent,
   },
 }
