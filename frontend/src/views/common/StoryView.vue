@@ -114,7 +114,6 @@
             future.
           </p>
           <p>Remember looking back from five years in the future, that our current actions will have explained who we have become.</p>
-          <p>At least, it’s mine.</p>
           <p>Much love ♥️</p>
           <p>Baiel MUZURAIMOV</p>
         </div>

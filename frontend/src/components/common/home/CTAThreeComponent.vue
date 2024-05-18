@@ -1,17 +1,15 @@
 <template>
   <section
-    data-aos="fade-in"
-    data-aos-easing="ease-in-sine"
-    data-aos-duration="1000"
-    class="flex item-center max-w-screen-xl h-screen mx-auto py-6 px-4 sm:px-8"
+
+    class="flex item-center max-w-screen-xl md:h-screen mx-auto py-6 px-4 sm:px-8"
   >
-    <div class="z-10 gap-5 flex items-center">
+    <div class="z-10 gap-5 flex flex-col md:flex-row items-center">
       <div class="flex-1 rounded-xl mt-4 sm:mt-5 mx-auto sm:w-9/12 lg:mt-0 lg:w-auto">
         <img src="@/assets/images/cta-right.png" class="w-full rounded-xl" alt="" />
       </div>
       <div class="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-xl lg:text-left">
         <h3 class="text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">
-          Plan Today, Achieve More Tomorrow
+          Insights
         </h3>
         <p class="mt-2 sm:mt-3 text-lg sm:text-xl font-ourfit leading-normal text-gray-600">
           Discover Frictless's one-click planning solution. Visualize and adjust your priorities for

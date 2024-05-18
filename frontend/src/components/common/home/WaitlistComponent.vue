@@ -21,13 +21,13 @@
               autocomplete="email"
               placeholder="Enter your email..."
               required
-              class="block w-full text-sm text-ourfit shadow-sm px-4 py-1.5 placeholder-gray-400 focus:ring-2 focus:ring-grey-500 focus:border-grey-500 border-gray-300 rounded-lg transition duration-150 ease-in-out"
+              class="block w-full text-xl text-ourfit shadow-sm px-4 py-1.5 placeholder-gray-400 focus:ring-2 focus:ring-grey-500 focus:border-grey-500 border-gray-300 rounded-lg transition duration-150 ease-in-out"
             />
           </div>
           <div>
             <button
               type="submit"
-              class="animate-fade-in rounded-sm border border-black bg-black px-4 py-1.5 text-sm text-ourfit text-white transition-all hover:bg-white hover:text-black"
+              class="animate-fade-in rounded-sm border border-black bg-black px-4 py-1.5 text-xl text-ourfit text-white transition-all hover:bg-white hover:text-black"
             >
               Join the waitlist
             </button>
