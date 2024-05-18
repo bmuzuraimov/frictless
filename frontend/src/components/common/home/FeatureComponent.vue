@@ -40,7 +40,7 @@
             <p class="text-lg sm:text-md" v-html="feature.desc"></p>
             <img
               :src="feature.image"
-              alt=""
+              alt="Feature Image"
               class="w-full drop-shadow-lg max-h-full object-cover object-center"
             />
           </li>
@@ -52,6 +52,12 @@
 
 <script lang="ts">
 import { ref } from 'vue'
+import Feature01 from '@/assets/images/feature_01.png'
+import Feature02 from '@/assets/images/feature_02.png'
+import Feature03 from '@/assets/images/feature_03.png'
+import Feature04 from '@/assets/images/feature_04.png'
+import Feature05 from '@/assets/images/feature_05.png'
+import Feature06 from '@/assets/images/feature_06.png'
 
 export default {
   setup() {
@@ -62,7 +68,7 @@ export default {
               </svg>`,
         title: 'Laser Focus',
         desc: 'Focus on <span class="font-bold text-red-600">one day at a time</span>, while considering future activities to prevent overloading your schedule.',
-        image: './src/assets/images/feature_01.png'
+        image: Feature01
       },
       {
         icon: `<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='1.5' stroke='currentColor' class='w-6 h-6'>
@@ -70,7 +76,7 @@ export default {
               </svg>`,
         title: 'Need <span class="line-through">Want</span>',
         desc: 'Frictless prioritizes your needs over wants, ensuring you complete essential tasks before moving on to secondary activities.',
-        image: './src/assets/images/feature_02.png'
+        image: Feature02
       },
       {
         icon: `<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='1.5' stroke='currentColor' class='w-6 h-6'>
@@ -78,7 +84,7 @@ export default {
               </svg>`,
         title: 'NLP Assistant',
         desc: 'Interact through natural language processing, allowing for task management through voice commands.',
-        image: './src/assets/images/feature_03.png'
+        image: Feature03
       },
       {
         icon: `<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='1.5' stroke='currentColor' class='w-6 h-6'>
@@ -86,7 +92,7 @@ export default {
               </svg>`,
         title: '<span class="">Revive Feature</span>',
         desc: 'Unexpected changes? Hit "Revive" to reorganize your day instantly, ensuring productivity remains uninterrupted.',
-        image: './src/assets/images/feature_04.png'
+        image: Feature04
       },
       {
         icon: `<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth='1.5' stroke='currentColor' class='w-6 h-6'>
@@ -94,7 +100,7 @@ export default {
               </svg>`,
         title: 'Direct Reminders',
         desc: 'Integrates seamlessly with your existing calendar and syncs with your wearables. Receive discreet notifications directly on wearable.',
-        image: './src/assets/images/feature_05.png'
+        image: Feature05
       },
       {
         icon: `<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' class='w-6 h-6'>
@@ -102,12 +108,12 @@ export default {
           </svg>`,
         title: 'Minimal Interactions',
         desc: 'Minimized interactions, so you can spend less time managing tasks and more time completing them. Notion template is provided.',
-        image: './src/assets/images/feature_06.png'
+        image: Feature06
       },
     ])
 
     return {
-      features
+      features,
     }
   }
 }
