@@ -68,7 +68,7 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="text-base font-ourfit leading-normal text-gray-600">{{ feature }}</span>
+              <span class="text-lg font-ourfit leading-normal text-gray-600">{{ feature }}</span>
             </li>
           </ul>
         </div>
@@ -100,7 +100,7 @@ export default {
         {
           name: 'Premium',
           desc: '0 Strees + Strategic Mindset',
-          price: 49.99,
+          price: 8.99,
           isMostPop: true,
           features: [
             'Scheduler',

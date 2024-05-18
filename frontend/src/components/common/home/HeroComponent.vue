@@ -1,6 +1,6 @@
 <template>
   <section
-    class="max-w-screen-xl mx-auto px-4 py-12 sm:py-28 gap-8 sm:gap-12 text-gray-600 md:px-8"
+    class="max-w-screen-xl mx-auto px-2 md:px-4 py-12 sm:py-28 gap-8 sm:gap-12 text-gray-600 md:px-8"
   >
     <div class="space-y-4 sm:space-y-5 max-w-xl md:max-w-3xl lg:max-w-4xl mx-auto text-center">
       <h2 class="text-3xl sm:text-4xl md:text-6xl font-ourfit text-gray-800 font-semibold mx-auto">
@@ -11,7 +11,7 @@
           Has 36 Hours
         </span>
       </h2>
-      <p class="text-sm sm:text-md font-ourfit leading-normal text-gray-600 mx-auto">
+      <p class="text-md sm:text-lg font-ourfit leading-normal text-gray-600 mx-auto">
         Frictless transforms your Notion workspace into an intelligent daily planner, prioritizing
         your tasks and optimizing your schedule with just a whisper to Siri or a click.
       </p>
@@ -66,7 +66,7 @@
       </div>
       <div class="relative w-full aspect-w-16 aspect-h-9">
         <!-- Phone mockup section -->
-        <div class="absolute bottom-0 right-12 z-50 w-[250px] aspect-w-1 aspect-h-2">
+        <div class="absolute bottom-0 right-4 md:right-12 z-50 w-[100px] sm:w-[150px] md:w-[200px] lg:w-[250px] aspect-w-1 aspect-h-2">
             <img
               id="hero-phone"
               src="@/assets/images/hero-demo_iphone.gif"
@@ -75,6 +75,15 @@
             />
         </div>
         <!-- End of phone mocup section -->
+        <!-- Siri section -->
+        <div class="absolute bottom-0 right-0 left-0 z-50">
+          <img
+              src="@/assets/images/hero_siri.gif"
+              class="w-[200px] mx-auto"
+              alt="A demo showing Frictless app interface"
+            />
+        </div>
+        <!-- End of Siri section -->
         <img
           id="hero-image"
           src="@/assets/images/hero-demo.gif"

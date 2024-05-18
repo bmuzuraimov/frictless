@@ -5,13 +5,15 @@
     <!-- Hero section -->
     <HeroComponent />
     <!-- CTARight section -->
-    <CTARightComponent />
+    <CTAOneComponent />
     <!-- CTALeft section -->
-    <CTALeftComponent />
+    <CTATwoComponent />
+    <!-- CTARight section -->
+    <CTAThreeComponent />
     <!-- Features section -->
     <FeatureComponent />
     <!-- Stats section -->
-    <StatsComponent />
+    <!-- <StatsComponent /> -->
     <!-- TimeCalculator section -->
     <TimeCalculatorComponent />
     <!-- Pricing section -->
@@ -31,8 +33,9 @@
 import NavbarComponent from '@/components/common/home/NavbarComponent.vue'
 import HeroComponent from '@/components/common/home/HeroComponent.vue'
 import FeatureComponent from '@/components/common/home/FeatureComponent.vue'
-import CTARightComponent from '@/components/common/home/CTARightComponent.vue'
-import CTALeftComponent from '@/components/common/home/CTALeftComponent.vue'
+import CTAOneComponent from '@/components/common/home/CTAOneComponent.vue'
+import CTATwoComponent from '@/components/common/home/CTATwoComponent.vue'
+import CTAThreeComponent from '@/components/common/home/CTAThreeComponent.vue'
 import StatsComponent from '@/components/common/home/StatsComponent.vue'
 import PricingComponent from '@/components/common/home/PricingComponent.vue'
 import TimeCalculatorComponent from '@/components/common/home/TimeCalculatorComponent.vue'
@@ -46,8 +49,9 @@ export default {
     NavbarComponent,
     HeroComponent,
     FeatureComponent,
-    CTARightComponent,
-    CTALeftComponent,
+    CTAOneComponent,
+    CTATwoComponent,
+    CTAThreeComponent,
     StatsComponent,
     PricingComponent,
     TimeCalculatorComponent,

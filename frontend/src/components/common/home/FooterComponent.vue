@@ -1,7 +1,7 @@
 <template>
   <footer class="text-gray-500 bg-white/30 backdrop-blur-md px-4 py-5 max-w-screen-xl mx-auto">
     <div class="max-w-lg mx-auto text-center">
-      <h2 class="text-gray-800 text-2xl sm:text-3xl lg:text-3xl">Life 2.0. Available soon.</h2>
+      <h2 class="text-gray-800 text-center text-2xl sm:text-3xl lg:text-3xl">Life 2.0. Available soon.</h2>
       <p class="leading-relaxed mt-2 text-[15px]">
         Life is defined by our actions. Everything counts. Books you've read, kilometers you've run,
         every cup of coffee, every takeoff and every landing, every workout, every headspace

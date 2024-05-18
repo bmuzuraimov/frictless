@@ -1,14 +1,12 @@
 <template>
   <section
-    data-aos="fade-in"
-    data-aos-easing="ease-in-sine"
-    data-aos-duration="1000"
-    class="flex item-center max-w-screen-xl h-screen mx-auto py-6 px-4 sm:px-8"
+
+    class="flex item-center max-w-screen-xl md:h-screen mx-auto py-6 px-4 sm:px-8"
   >
-    <div class="z-10 gap-5 flex items-center">
+    <div class="z-10 gap-5 flex flex-col md:flex-row items-center">
       <div class="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-xl lg:text-left">
         <h3 class="text-3xl sm:text-4xl font-ourfit text-secondary-800 font-semibold">
-          Integrate & Prioritize with Ease
+          Got Stuck?
         </h3>
         <p class="mt-2 sm:mt-3 text-lg sm:text-xl font-ourfit leading-normal text-gray-600">
           Integrate your tasks and calendar in one click with Frictless. Gain instant clarity on
